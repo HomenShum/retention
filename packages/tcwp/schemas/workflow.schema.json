@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/workflow.schema.json",
+  "title": "TCWP Workflow",
+  "description": "Stable identity of a business process or test workflow",
+  "type": "object",
+  "required": ["workflow_id", "workflow_family", "name", "goal", "surface", "success_criteria"],
+  "properties": {
+    "workflow_id": {
+      "type": "string",
+      "description": "Stable identifier across all runs of this workflow"
+    },
+    "workflow_family": {
+      "type": "string",
+      "enum": ["mobile_app", "browser", "desktop", "hybrid", "ehr", "kyb_aml", "api", "cli", "custom"],
+      "description": "Category of workflow surface"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable workflow name"
+    },
+    "goal": {
+      "type": "string",
+      "description": "What this workflow verifies or accomplishes"
+    },
+    "surface": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["android_emulator", "ios_simulator", "browser_chromium", "browser_firefox", "browser_webkit", "desktop_macos", "desktop_windows", "desktop_linux", "api_http", "cli", "custom"]
+      },
+      "description": "Execution surfaces this workflow targets"
+    },
+    "success_criteria": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Ordered list of conditions that define success"
+    },
+    "risk_class": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"],
+      "description": "Risk classification for compliance and prioritization"
+    },
+    "compliance_tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Compliance-relevant tags (audit, pii, hipaa, sox, etc.)"
+    },
+    "owner": {
+      "type": "string",
+      "description": "Team or individual responsible for this workflow"
+    },
+    "sla_ms": {
+      "type": "integer",
+      "description": "Maximum acceptable duration in milliseconds"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

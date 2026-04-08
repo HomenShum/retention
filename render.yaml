@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: retention-backend
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: backend/Dockerfile
+    dockerContext: backend
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.8"
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: RETENTION_MCP_TOKEN
+        sync: false
+      - key: SLACK_BOT_TOKEN
+        sync: false
+      - key: CONVEX_SITE_URL
+        sync: false
+      - key: ALLOWED_ORIGINS
+        value: "https://test-studio-xi.vercel.app,http://localhost:5173,http://localhost:3000"
+      - key: DEVICE_PROVIDER
+        value: "auto"
+      - key: GENYMOTION_API_TOKEN
+        sync: false
+      - key: CRON_AUTH_TOKEN
+        sync: false
+    healthCheckPath: /api/health
+    autoDeploy: false

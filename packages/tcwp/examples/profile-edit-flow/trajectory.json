@@ -1,0 +1,166 @@
+{
+  "trajectory_id": "traj_profile_v3",
+  "workflow_id": "wf_profile_edit",
+  "source_run_id": "run_00040",
+  "strategy": "saved_path_with_checkpoint_validation",
+  "steps": [
+    {
+      "step_id": "s1",
+      "label": "Open app from home screen",
+      "action_ref": "evt_00001",
+      "checkpoint_ref": "evt_00002",
+      "state_before": "st_000",
+      "state_after": "st_001",
+      "skippable": false,
+      "cost_tokens": 800,
+      "cost_ms": 2100
+    },
+    {
+      "step_id": "s2",
+      "label": "Wait for feed to load",
+      "action_ref": "evt_00003",
+      "checkpoint_ref": "evt_00004",
+      "state_before": "st_001",
+      "state_after": "st_002",
+      "skippable": true,
+      "cost_tokens": 600,
+      "cost_ms": 3200
+    },
+    {
+      "step_id": "s3",
+      "label": "Navigate to profile tab",
+      "action_ref": "evt_00005",
+      "checkpoint_ref": "evt_00006",
+      "state_before": "st_002",
+      "state_after": "st_003",
+      "skippable": false,
+      "cost_tokens": 1400,
+      "cost_ms": 850
+    },
+    {
+      "step_id": "s4",
+      "label": "Tap Edit Profile button",
+      "action_ref": "evt_00007",
+      "checkpoint_ref": "evt_00008",
+      "state_before": "st_003",
+      "state_after": "st_004",
+      "skippable": false,
+      "cost_tokens": 1200,
+      "cost_ms": 1100
+    },
+    {
+      "step_id": "s5",
+      "label": "Clear display name field",
+      "action_ref": "evt_00009",
+      "state_before": "st_004",
+      "state_after": "st_005",
+      "skippable": false,
+      "cost_tokens": 900,
+      "cost_ms": 600
+    },
+    {
+      "step_id": "s6",
+      "label": "Type new display name",
+      "action_ref": "evt_00010",
+      "state_before": "st_005",
+      "state_after": "st_006",
+      "skippable": false,
+      "cost_tokens": 800,
+      "cost_ms": 500
+    },
+    {
+      "step_id": "s7",
+      "label": "Tap save/submit",
+      "action_ref": "evt_00011",
+      "checkpoint_ref": "evt_00012",
+      "state_before": "st_006",
+      "state_after": "st_007",
+      "skippable": false,
+      "cost_tokens": 1100,
+      "cost_ms": 2000
+    },
+    {
+      "step_id": "s8",
+      "label": "Verify save confirmation",
+      "action_ref": "evt_00013",
+      "checkpoint_ref": "evt_00014",
+      "state_before": "st_007",
+      "state_after": "st_008",
+      "skippable": false,
+      "cost_tokens": 1500,
+      "cost_ms": 1200
+    },
+    {
+      "step_id": "s9",
+      "label": "Navigate away to feed",
+      "action_ref": "evt_00015",
+      "state_before": "st_008",
+      "state_after": "st_009",
+      "skippable": false,
+      "cost_tokens": 800,
+      "cost_ms": 900
+    },
+    {
+      "step_id": "s10",
+      "label": "Navigate back to profile",
+      "action_ref": "evt_00016",
+      "state_before": "st_009",
+      "state_after": "st_010",
+      "skippable": false,
+      "cost_tokens": 1400,
+      "cost_ms": 850
+    },
+    {
+      "step_id": "s11",
+      "label": "Verify persisted display name",
+      "action_ref": "evt_00017",
+      "checkpoint_ref": "evt_00018",
+      "state_before": "st_010",
+      "state_after": "st_011",
+      "skippable": false,
+      "cost_tokens": 2000,
+      "cost_ms": 1500
+    },
+    {
+      "step_id": "s12",
+      "label": "Capture final verification screenshot",
+      "action_ref": "evt_00019",
+      "state_before": "st_011",
+      "state_after": "st_012",
+      "skippable": false,
+      "cost_tokens": 500,
+      "cost_ms": 400
+    }
+  ],
+  "replay_stats": {
+    "replay_count": 8,
+    "avg_token_savings_pct": 78.5,
+    "avg_time_savings_pct": 50.0,
+    "avg_request_savings_pct": 40.0,
+    "drift_incidents": 2,
+    "last_successful_replay": "2026-03-29T22:04:05Z",
+    "durability_score": 0.875
+  },
+  "compression_history": [
+    {
+      "version": 1,
+      "steps_before": 18,
+      "steps_after": 14,
+      "tokens_before": 1443029,
+      "tokens_after": 520000,
+      "audit_run_id": "run_00042",
+      "compressed_at": "2026-03-15T10:00:00Z"
+    },
+    {
+      "version": 2,
+      "steps_before": 14,
+      "steps_after": 12,
+      "tokens_before": 520000,
+      "tokens_after": 310434,
+      "audit_run_id": "run_00044",
+      "compressed_at": "2026-03-28T08:00:00Z"
+    }
+  ],
+  "created_at": "2026-03-10T10:00:00Z",
+  "updated_at": "2026-03-29T22:04:05Z"
+}

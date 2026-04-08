@@ -1,0 +1,40 @@
+# Device Testing Skill - Progressive Disclosure Metadata
+# This is loaded at startup (Level 1) - minimal context only
+
+name: device_testing
+version: "1.0"
+description: >
+  Execute mobile device testing tasks including navigation, 
+  interaction, screenshot analysis, and verification.
+
+triggers:
+  - device
+  - mobile
+  - android
+  - emulator
+  - adb
+  - screenshot
+  - tap
+  - swipe
+  - app launch
+
+capabilities:
+  - mobile_navigation
+  - screen_analysis
+  - element_interaction
+  - state_verification
+  - screenshot_capture
+
+dependencies:
+  - mobile_mcp_client
+  - appium
+
+model_requirements:
+  primary: gpt-5-mini       # Vision analysis, element detection
+  orchestration: gpt-5.4    # Complex multi-step navigation
+  distillation: gpt-5-nano  # ONLY for MCP tool call extraction
+
+files:
+  skill_doc: SKILL.md
+  templates: templates/
+

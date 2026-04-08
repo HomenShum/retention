@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/handoff.schema.json",
+  "title": "TCWP Handoff",
+  "description": "Operational handoff to agent, teammate, or customer engineer",
+  "type": "object",
+  "required": ["handoff_id", "workflow_id", "summary", "next_best_action"],
+  "properties": {
+    "handoff_id": { "type": "string" },
+    "workflow_id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "summary": {
+      "type": "string",
+      "description": "Brief description of current state and what happened"
+    },
+    "next_best_action": {
+      "type": "string",
+      "enum": [
+        "rerun_failed_only",
+        "full_rerun",
+        "manual_investigation",
+        "deploy_fix_and_rerun",
+        "escalate",
+        "close_as_passing",
+        "archive"
+      ]
+    },
+    "required_inputs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "What the next actor needs to proceed"
+    },
+    "risks": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Known risks or blockers"
+    },
+    "artifacts_to_review": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Paths to critical artifacts"
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Additional context for the handoff recipient"
+    },
+    "urgency": {
+      "type": "string",
+      "enum": ["low", "normal", "high", "critical"]
+    },
+    "assignee": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" }
+  }
+}

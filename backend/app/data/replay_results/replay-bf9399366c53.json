@@ -1,0 +1,35 @@
+{
+  "trajectory_id": "traj_yt_alice_001",
+  "replay_run_id": "replay-bf9399366c53",
+  "workflow": "youtube_search_claude_updates",
+  "success": true,
+  "total_steps": 8,
+  "steps_executed": 8,
+  "steps_matched": 8,
+  "steps_drifted": 0,
+  "drift_point": null,
+  "drift_score": 0.0,
+  "fallback_to_exploration": false,
+  "token_usage": {
+    "estimated_replay_tokens": 5100,
+    "full_run_baseline_tokens": 34200
+  },
+  "time_seconds": 65.0,
+  "comparison_with_full": {
+    "token_savings_pct": 85.1,
+    "time_savings_pct": 74.5,
+    "tokens_full": 34200,
+    "tokens_replay": 5100,
+    "time_full_s": 255.0,
+    "time_replay_s": 65.0,
+    "baseline_source": "recorded"
+  },
+  "per_step_results": [],
+  "timestamp": "2026-03-30T15:42:00+00:00",
+  "metadata": {
+    "created_by": null,
+    "replayed_by": "bob@tastudios.com",
+    "run_number": 6,
+    "is_replay": true
+  }
+}

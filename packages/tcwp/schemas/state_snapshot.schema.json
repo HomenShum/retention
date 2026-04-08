@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/state_snapshot.schema.json",
+  "title": "TCWP State Snapshot (JSONL line)",
+  "description": "Before/after UI, DOM, or application state captured at a point in time",
+  "type": "object",
+  "required": ["state_id", "kind", "ts", "fingerprint"],
+  "properties": {
+    "state_id": { "type": "string" },
+    "kind": {
+      "type": "string",
+      "enum": ["ui", "dom", "api_response", "db_snapshot", "file_state", "composite"]
+    },
+    "ts": { "type": "string", "format": "date-time" },
+    "fingerprint": {
+      "type": "string",
+      "description": "Content-addressed hash (sha256:...) for diffing and deduplication"
+    },
+    "artifact_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Paths to artifacts (screenshots, HTML dumps, accessibility trees)"
+    },
+    "semantic_tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Human-readable tags for this state (home_screen, profile_tab, etc.)"
+    },
+    "structured_data": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Machine-readable extracted state (field values, element counts, etc.)"
+    },
+    "diff_from": {
+      "type": "string",
+      "description": "state_id this is a diff against (for incremental storage)"
+    }
+  }
+}

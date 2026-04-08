@@ -1,0 +1,25 @@
+{
+  "name": "retention-mcp",
+  "version": "1.5.0",
+  "description": "retention.sh MCP server for Claude Code — AI-powered QA automation",
+  "bin": {
+    "retention-mcp": "bin/cli.js"
+  },
+  "keywords": [
+    "mcp",
+    "testing",
+    "qa",
+    "android",
+    "emulator",
+    "claude-code"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "bin/",
+    "*.py",
+    "README.md"
+  ]
+}

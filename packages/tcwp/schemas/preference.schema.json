@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/preference.schema.json",
+  "title": "TCWP Preference (JSONL line)",
+  "description": "Pairwise or listwise preference comparison for reward modeling, RLHF, and shortcut-selection policy training.",
+  "type": "object",
+  "required": ["preference_id", "workflow_id", "preferred", "reason"],
+  "properties": {
+    "preference_id": { "type": "string" },
+    "workflow_id": { "type": "string" },
+    "comparison_type": {
+      "type": "string",
+      "enum": ["pairwise", "listwise", "pointwise"],
+      "default": "pairwise"
+    },
+    "candidate_a_ref": {
+      "type": "string",
+      "description": "Reference to first candidate (run_id, trajectory_id, or event range)"
+    },
+    "candidate_b_ref": {
+      "type": "string",
+      "description": "Reference to second candidate"
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ref": { "type": "string" },
+          "rank": { "type": "integer" },
+          "score": { "type": "number" }
+        }
+      },
+      "description": "For listwise comparisons: ordered list of candidates"
+    },
+    "preferred": {
+      "type": "string",
+      "description": "Reference to the preferred candidate"
+    },
+    "reason": {
+      "type": "string",
+      "description": "Why this candidate was preferred (structured for reward signal)"
+    },
+    "preference_dimensions": {
+      "type": "object",
+      "properties": {
+        "efficiency": { "type": "number", "minimum": -1, "maximum": 1, "description": "Preference on token/time efficiency" },
+        "correctness": { "type": "number", "minimum": -1, "maximum": 1, "description": "Preference on outcome correctness" },
+        "safety": { "type": "number", "minimum": -1, "maximum": 1, "description": "Preference on safety/risk" },
+        "robustness": { "type": "number", "minimum": -1, "maximum": 1, "description": "Preference on drift resilience" },
+        "interpretability": { "type": "number", "minimum": -1, "maximum": 1, "description": "Preference on artifact quality/readability" }
+      },
+      "description": "Multi-dimensional preference signal for richer reward modeling"
+    },
+    "annotator": { "type": "string" },
+    "annotator_type": {
+      "type": "string",
+      "enum": ["human", "llm", "system", "consensus"]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "allowed_for_training": { "type": "boolean", "default": false },
+    "allowed_for_external_sharing": { "type": "boolean", "default": false }
+  }
+}

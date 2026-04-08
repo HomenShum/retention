@@ -1,0 +1,22 @@
+{
+  "name": "create-retention-app",
+  "version": "0.4.0",
+  "description": "Scaffold a retention.sh-powered app with QA dashboard, site map, and team memory",
+  "bin": {
+    "create-retention-app": "index.js"
+  },
+  "keywords": [
+    "retention.sh",
+    "qa",
+    "mcp",
+    "claude-code",
+    "testing",
+    "agent-memory"
+  ],
+  "author": "retention.sh <info@retention.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HomenShum/retention.git"
+  }
+}

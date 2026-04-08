@@ -1,0 +1,58 @@
+{
+  "candidates": [
+    {
+      "workflow_id": "wf_profile_edit",
+      "baseline_run_id": "run_00040",
+      "candidate_id": "opt_01",
+      "proposal": "Skip home feed traversal and jump directly to profile tab using deep link intent",
+      "optimization_type": "step_elimination",
+      "steps_removed": ["s2"],
+      "steps_substituted": [
+        {
+          "original_step_id": "s1",
+          "replacement_action": "launch_app_with_intent(com.instagram.android, profile_tab)"
+        }
+      ],
+      "expected_savings": {
+        "tokens_pct": 82.0,
+        "time_pct": 55.0,
+        "requests_pct": 45.0,
+        "cost_usd_pct": 82.0
+      },
+      "audit_status": "verified",
+      "audit_run_id": "run_00045",
+      "audit_notes": "Deep link intent works reliably on API 35; saves feed loading wait time entirely",
+      "risk_assessment": "low_risk",
+      "created_at": "2026-03-28T08:00:00Z",
+      "audited_at": "2026-03-29T22:04:05Z"
+    },
+    {
+      "workflow_id": "wf_profile_edit",
+      "baseline_run_id": "run_00040",
+      "candidate_id": "opt_02",
+      "proposal": "Replace triple-click-then-type with direct setText ADB command for display name field",
+      "optimization_type": "action_substitution",
+      "steps_removed": [],
+      "steps_substituted": [
+        {
+          "original_step_id": "s5",
+          "replacement_action": "adb_set_text(display_name_field, '')"
+        },
+        {
+          "original_step_id": "s6",
+          "replacement_action": "adb_set_text(display_name_field, 'NewDisplayName_v45')"
+        }
+      ],
+      "expected_savings": {
+        "tokens_pct": 5.0,
+        "time_pct": 8.0,
+        "requests_pct": 2.0,
+        "cost_usd_pct": 5.0
+      },
+      "audit_status": "needs_review",
+      "audit_notes": "ADB setText bypasses IME — need to verify app still detects change and enables save button",
+      "risk_assessment": "medium_risk",
+      "created_at": "2026-03-29T10:00:00Z"
+    }
+  ]
+}

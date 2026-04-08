@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/reward_signal.schema.json",
+  "title": "TCWP Reward Signal (JSONL line)",
+  "description": "Online learning signal from production interactions. Supports real-time RL, replay-vs-explore optimization, and continuous model improvement.",
+  "type": "object",
+  "required": ["reward_id", "run_id", "signal_type", "signal", "value"],
+  "properties": {
+    "reward_id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "step_ref": {
+      "type": "string",
+      "description": "Optional reference to specific step that generated this signal"
+    },
+    "signal_type": {
+      "type": "string",
+      "enum": ["implicit", "explicit", "computed", "environmental"],
+      "description": "How this signal was generated"
+    },
+    "signal": {
+      "type": "string",
+      "description": "What happened (user_accepted_shortcut, checkpoint_passed, drift_detected, rerun_succeeded, etc.)"
+    },
+    "value": {
+      "type": "number",
+      "description": "Reward value. Positive = good outcome, negative = bad outcome, 0 = neutral."
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "rerun_succeeded": { "type": "boolean" },
+        "human_override": { "type": "boolean" },
+        "token_savings_pct": { "type": "number" },
+        "time_savings_pct": { "type": "number" },
+        "drift_detected": { "type": "boolean" },
+        "checkpoint_pass_rate": { "type": "number" },
+        "shortcut_used": { "type": "boolean" },
+        "fallback_to_exploration": { "type": "boolean" }
+      },
+      "description": "Contextual features for the reward signal"
+    },
+    "counterfactual": {
+      "type": "object",
+      "properties": {
+        "alternative_action": { "type": "string" },
+        "estimated_alternative_value": { "type": "number" }
+      },
+      "description": "What would have happened under a different policy (for off-policy learning)"
+    },
+    "temporal_discount": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Discount factor for delayed rewards (1.0 = immediate, 0.0 = fully discounted)"
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "allowed_for_training": { "type": "boolean", "default": false }
+  }
+}

@@ -1,0 +1,13 @@
+{"state_id":"st_000","kind":"ui","ts":"2026-03-29T22:00:01Z","fingerprint":"sha256:aaa111","artifact_refs":["artifacts/screenshots/000_home_screen.png"],"semantic_tags":["android_home"]}
+{"state_id":"st_001","kind":"ui","ts":"2026-03-29T22:00:03Z","fingerprint":"sha256:bbb222","artifact_refs":["artifacts/screenshots/001_app_launched.png"],"semantic_tags":["instagram_splash","loading"]}
+{"state_id":"st_002","kind":"ui","ts":"2026-03-29T22:00:08Z","fingerprint":"sha256:ccc333","artifact_refs":[],"semantic_tags":["instagram_feed","home_tab"]}
+{"state_id":"st_003","kind":"ui","ts":"2026-03-29T22:00:11Z","fingerprint":"sha256:ddd444","artifact_refs":["artifacts/screenshots/002_profile_tab.png"],"semantic_tags":["profile_tab","user_profile"]}
+{"state_id":"st_004","kind":"ui","ts":"2026-03-29T22:00:14Z","fingerprint":"sha256:eee555","artifact_refs":["artifacts/screenshots/003_edit_profile.png"],"semantic_tags":["edit_profile","form"]}
+{"state_id":"st_005","kind":"ui","ts":"2026-03-29T22:00:16Z","fingerprint":"sha256:fff666","artifact_refs":[],"semantic_tags":["edit_profile","name_selected"]}
+{"state_id":"st_006","kind":"ui","ts":"2026-03-29T22:00:17Z","fingerprint":"sha256:ggg777","artifact_refs":[],"semantic_tags":["edit_profile","name_typed"]}
+{"state_id":"st_007","kind":"ui","ts":"2026-03-29T22:00:20Z","fingerprint":"sha256:hhh888","artifact_refs":["artifacts/screenshots/004_save_tapped.png"],"semantic_tags":["profile_saving","toast_visible"]}
+{"state_id":"st_008","kind":"ui","ts":"2026-03-29T22:00:23Z","fingerprint":"sha256:iii999","artifact_refs":[],"semantic_tags":["profile_saved","confirmation"]}
+{"state_id":"st_009","kind":"ui","ts":"2026-03-29T22:00:26Z","fingerprint":"sha256:jjj000","artifact_refs":[],"semantic_tags":["instagram_feed","home_tab"]}
+{"state_id":"st_010","kind":"ui","ts":"2026-03-29T22:00:28Z","fingerprint":"sha256:kkk111","artifact_refs":["artifacts/screenshots/005_profile_return.png"],"semantic_tags":["profile_tab","user_profile"]}
+{"state_id":"st_011","kind":"ui","ts":"2026-03-29T22:00:31Z","fingerprint":"sha256:lll222","artifact_refs":["artifacts/screenshots/006_verified.png"],"semantic_tags":["profile_tab","name_verified"]}
+{"state_id":"st_012","kind":"ui","ts":"2026-03-29T22:00:33Z","fingerprint":"sha256:mmm333","artifact_refs":["artifacts/screenshots/007_final.png"],"semantic_tags":["profile_tab","final_state"]}

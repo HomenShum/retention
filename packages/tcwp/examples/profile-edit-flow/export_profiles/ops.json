@@ -1,0 +1,31 @@
+{
+  "profile_name": "ops",
+  "description": "Operational export for replay, rerun, re-ingest, and dashboard rendering. No training data, no sales materials.",
+  "includes": [
+    "manifest.json",
+    "workflow.json",
+    "run.json",
+    "trajectory.json",
+    "checkpoints.json",
+    "events.jsonl",
+    "state_snapshots.jsonl",
+    "tool_calls.jsonl",
+    "evals.jsonl",
+    "replay_plan.json",
+    "handoff.json",
+    "provenance.json",
+    "permissions.json"
+  ],
+  "excludes": [
+    "training_examples.jsonl",
+    "preferences.jsonl",
+    "policy_labels.jsonl",
+    "reward_signals.jsonl",
+    "dataset_card.json",
+    "sales_brief.json",
+    "sales_brief.md"
+  ],
+  "redaction_required": false,
+  "training_consent_required": false,
+  "external_sharing_consent_required": false
+}

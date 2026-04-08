@@ -1,0 +1,60 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Virtual environments
+.venv/
+venv*/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Tests
+tests/
+test_*.py
+conftest.py
+pytest.ini
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Build artifacts
+*.egg-info/
+dist/
+build/
+
+# Logs and temp files
+*.log
+agent_error_log.txt
+regression_results.log
+regression_gpt5.log
+agent_sessions.json
+
+# Screenshots and clips (large files)
+screenshots/
+bug_screenshots/
+clips/
+
+# Benchmarks data (optional — remove if needed at runtime)
+# benchmarks/
+
+# Slides (not needed for API)
+slides/
+
+# Scripts not needed in container
+scripts/notify-imessage.sh

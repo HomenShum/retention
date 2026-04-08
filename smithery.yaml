@@ -1,0 +1,38 @@
+name: retention
+displayName: "retention.sh — AI Agent Memory for QA"
+description: |
+  QA your app in 60 seconds. retention.sh gives your AI coding agent memory —
+  crawl any URL, get instant findings (JS errors, a11y gaps, rendering issues),
+  save trajectories, replay at 95% fewer tokens, share across your team.
+
+  Tools: ta.qa_check, ta.sitemap, ta.ux_audit, ta.crawl.url, ta.diff_crawl,
+  ta.suggest_tests, ta.savings.compare, ta.team.invite, ta.qa.redesign
+
+  Install: curl -sL retention.sh/install.sh | bash
+  Demo: https://retention.sh/demo
+
+category: developer-tools
+tags:
+  - qa
+  - testing
+  - mcp
+  - claude-code
+  - playwright
+  - memory
+  - trajectory-replay
+  - accessibility
+  - web-crawl
+homepage: https://retention.sh
+repository: https://github.com/HomenShum/retention
+license: MIT
+author:
+  name: retention.sh
+  email: info@retention.com
+  url: https://retention.com
+server:
+  type: proxy
+  command: python3
+  args:
+    - "$HOME/.retention/proxy.py"
+  env:
+    TA_STUDIO_URL: https://retention-backend.onrender.com

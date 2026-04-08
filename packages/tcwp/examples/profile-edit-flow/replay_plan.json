@@ -1,0 +1,16 @@
+{
+  "run_id": "run_00045",
+  "replay_strategy": "partial_replay",
+  "replay_source_trajectory_id": "traj_profile_v3",
+  "steps_to_replay": ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s9", "s10", "s12"],
+  "steps_to_re_explore": ["s8", "s11"],
+  "steps_to_skip": [],
+  "reason": "Checkpoint cp_06 (toast verification) had 2 drift incidents in prior replays — re-explore toast detection and final name verification to ensure current UI still matches",
+  "trigger": "scheduled",
+  "expected_savings": {
+    "tokens_pct": 78.5,
+    "time_pct": 50.0,
+    "requests_pct": 40.0
+  },
+  "created_at": "2026-03-29T21:59:00Z"
+}

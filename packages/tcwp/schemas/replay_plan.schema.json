@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/replay_plan.schema.json",
+  "title": "TCWP Replay Plan",
+  "description": "Instructions for what to rerun and why",
+  "type": "object",
+  "required": ["run_id", "replay_strategy", "replay_source_trajectory_id"],
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "description": "The run this plan is for"
+    },
+    "replay_strategy": {
+      "type": "string",
+      "enum": ["full_replay", "partial_replay", "checkpoint_only", "failed_branch_only", "optimized_shortcut"]
+    },
+    "replay_source_trajectory_id": {
+      "type": "string",
+      "description": "Trajectory to replay from"
+    },
+    "steps_to_replay": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Step IDs from trajectory to replay as-is"
+    },
+    "steps_to_re_explore": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Step IDs where the agent should re-explore from scratch"
+    },
+    "steps_to_skip": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Step IDs to skip entirely (identified as redundant)"
+    },
+    "reason": {
+      "type": "string",
+      "description": "Why this replay plan was generated"
+    },
+    "trigger": {
+      "type": "string",
+      "enum": ["manual", "drift_detected", "checkpoint_failure", "scheduled", "optimization", "audit"],
+      "description": "What triggered this replay plan"
+    },
+    "expected_savings": {
+      "type": "object",
+      "properties": {
+        "tokens_pct": { "type": "number" },
+        "time_pct": { "type": "number" },
+        "requests_pct": { "type": "number" }
+      }
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

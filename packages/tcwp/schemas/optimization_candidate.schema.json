@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/optimization_candidate.schema.json",
+  "title": "TCWP Optimization Candidate",
+  "description": "Proposed workflow shortcut with audit status — the core moat object",
+  "type": "object",
+  "required": ["workflow_id", "baseline_run_id", "candidate_id", "proposal", "expected_savings", "audit_status"],
+  "properties": {
+    "workflow_id": { "type": "string" },
+    "baseline_run_id": {
+      "type": "string",
+      "description": "The full-crawl run this optimization is compared against"
+    },
+    "candidate_id": { "type": "string" },
+    "proposal": {
+      "type": "string",
+      "description": "Human-readable description of the proposed optimization"
+    },
+    "optimization_type": {
+      "type": "string",
+      "enum": [
+        "step_elimination",
+        "step_reordering",
+        "parallel_execution",
+        "state_jump",
+        "checkpoint_skip",
+        "action_substitution",
+        "composite"
+      ]
+    },
+    "steps_removed": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Step IDs proposed for removal"
+    },
+    "steps_substituted": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "original_step_id": { "type": "string" },
+          "replacement_action": { "type": "string" }
+        }
+      }
+    },
+    "expected_savings": {
+      "type": "object",
+      "required": ["tokens_pct", "time_pct"],
+      "properties": {
+        "tokens_pct": { "type": "number" },
+        "time_pct": { "type": "number" },
+        "requests_pct": { "type": "number" },
+        "cost_usd_pct": { "type": "number" }
+      }
+    },
+    "audit_status": {
+      "type": "string",
+      "enum": ["pending", "in_progress", "verified", "rejected", "needs_review"]
+    },
+    "audit_run_id": {
+      "type": "string",
+      "description": "Run ID of the audit that verified/rejected this candidate"
+    },
+    "audit_notes": { "type": "string" },
+    "risk_assessment": {
+      "type": "string",
+      "enum": ["safe", "low_risk", "medium_risk", "high_risk"],
+      "description": "Risk of the shortcut producing incorrect results"
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "audited_at": { "type": "string", "format": "date-time" }
+  }
+}

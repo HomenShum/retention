@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/permissions.schema.json",
+  "title": "TCWP Permissions",
+  "description": "Access control and sharing rules for the package",
+  "type": "object",
+  "required": ["package_id", "owner"],
+  "properties": {
+    "package_id": { "type": "string" },
+    "owner": {
+      "type": "string",
+      "description": "Org or user ID that owns this package"
+    },
+    "visibility": {
+      "type": "string",
+      "enum": ["private", "team", "org", "partner", "public"],
+      "default": "private"
+    },
+    "access_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["principal", "level"],
+        "properties": {
+          "principal": {
+            "type": "string",
+            "description": "User, team, or org identifier"
+          },
+          "principal_type": {
+            "type": "string",
+            "enum": ["user", "team", "org", "role", "api_key"]
+          },
+          "level": {
+            "type": "string",
+            "enum": ["read", "write", "admin", "export", "annotate"]
+          },
+          "expires_at": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "redaction_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field_pattern": { "type": "string", "description": "JSONPath or glob pattern for fields to redact" },
+          "strategy": { "type": "string", "enum": ["remove", "hash", "mask", "synthetic"] }
+        }
+      },
+      "description": "Rules for redacting PII/sensitive data before export"
+    },
+    "export_allowed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this package can be exported to external systems"
+    },
+    "training_allowed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this data can be used for model training"
+    }
+  }
+}

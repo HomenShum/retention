@@ -1,0 +1,155 @@
+{
+  "android": {
+    "platformName": "Android",
+    "automationName": "UiAutomator2",
+    "deviceName": "Android Emulator",
+    "platformVersion": "14.0",
+    "appPackage": "com.instagram.android",
+    "appActivity": "com.instagram.android.activity.MainTabActivity",
+    "noReset": false,
+    "fullReset": false,
+    "autoGrantPermissions": true,
+    "autoWebview": false,
+    "newCommandTimeout": 300,
+    "connectHardwareKeyboard": false,
+    "skipLogcatLines": 5000,
+    "systemPort": 8200,
+    "adbPort": 5037,
+    "mjpegServerPort": 7810,
+    "webviewDevtoolsPort": 10900,
+    "chromeOptions": {
+      "w3c": false
+    },
+    "appium:chromeDriverPort": 9515,
+    "appium:systemPort": 8200,
+    "appium:udid": "emulator-5554",
+    "appium:noReset": true,
+    "appium:skipServerInstallation": false
+  },
+  "ios": {
+    "platformName": "iOS",
+    "automationName": "XCUITest",
+    "deviceName": "iPhone 15 Pro",
+    "platformVersion": "17.0",
+    "bundleId": "com.instagram.ios",
+    "noReset": false,
+    "fullReset": false,
+    "autoAcceptAlerts": true,
+    "autoGrantPermissions": true,
+    "newCommandTimeout": 300,
+    "connectHardwareKeyboard": false,
+    "usePrebuiltWDA": false,
+    "derivedDataPath": "/tmp/wda",
+    "xcodeOrgId": "YOUR_TEAM_ID",
+    "xcodeSigningId": "iPhone Developer",
+    "showXcodeLog": false,
+    "waitForQuiescence": true,
+    "mjpegServerPort": 7810,
+    "webviewDevtoolsPort": 10900
+  },
+  "instagram_test_scenarios": {
+    "feed_scrolling": {
+      "description": "Test scrolling through Instagram feed",
+      "steps": [
+        "Open Instagram app",
+        "Wait for feed to load",
+        "Scroll down through 5 posts",
+        "Verify posts are displayed correctly"
+      ]
+    },
+    "like_post": {
+      "description": "Test liking a post",
+      "steps": [
+        "Open Instagram app",
+        "Navigate to feed",
+        "Find a post",
+        "Click like button",
+        "Verify like count increases"
+      ]
+    },
+    "comment_on_post": {
+      "description": "Test commenting on a post",
+      "steps": [
+        "Open Instagram app",
+        "Navigate to feed",
+        "Find a post",
+        "Click comment button",
+        "Type comment: 'Great content!'",
+        "Submit comment",
+        "Verify comment appears"
+      ]
+    },
+    "follow_user": {
+      "description": "Test following a user",
+      "steps": [
+        "Open Instagram app",
+        "Navigate to a user profile",
+        "Click follow button",
+        "Verify follow status changes"
+      ]
+    },
+    "search_user": {
+      "description": "Test searching for a user",
+      "steps": [
+        "Open Instagram app",
+        "Click search icon",
+        "Type username in search box",
+        "Select user from results",
+        "Verify user profile loads"
+      ]
+    },
+    "create_story": {
+      "description": "Test creating a story",
+      "steps": [
+        "Open Instagram app",
+        "Click camera icon",
+        "Take photo or select from gallery",
+        "Add text or sticker",
+        "Share to story",
+        "Verify story appears"
+      ]
+    },
+    "direct_message": {
+      "description": "Test sending a direct message",
+      "steps": [
+        "Open Instagram app",
+        "Navigate to messages",
+        "Select or create conversation",
+        "Type message",
+        "Send message",
+        "Verify message appears"
+      ]
+    },
+    "profile_edit": {
+      "description": "Test editing user profile",
+      "steps": [
+        "Open Instagram app",
+        "Navigate to profile",
+        "Click edit profile",
+        "Update bio",
+        "Save changes",
+        "Verify changes are saved"
+      ]
+    }
+  },
+  "test_data": {
+    "test_username": "testuser123",
+    "test_password": "TestPassword123!",
+    "test_email": "testuser@example.com",
+    "test_bio": "Test bio for automation",
+    "test_comment": "Great content!",
+    "test_message": "Hello from automation test"
+  },
+  "timeouts": {
+    "implicit_wait": 10,
+    "explicit_wait": 20,
+    "page_load_timeout": 30,
+    "script_timeout": 30
+  },
+  "retry_policy": {
+    "max_retries": 3,
+    "retry_delay_ms": 1000,
+    "backoff_multiplier": 1.5
+  }
+}
+

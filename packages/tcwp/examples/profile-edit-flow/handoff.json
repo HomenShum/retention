@@ -1,0 +1,26 @@
+{
+  "handoff_id": "ho_profile_edit_045",
+  "workflow_id": "wf_profile_edit",
+  "run_id": "run_00045",
+  "summary": "Trajectory replay succeeded with 78.5% token savings. All 7 checkpoints passed. One optimization candidate (deep link intent) verified; one (ADB setText) needs review. Save confirmation toast timing remains variable (800-2200ms) but within tolerance.",
+  "next_best_action": "close_as_passing",
+  "required_inputs": [],
+  "risks": [
+    "Toast selector drift: confirmation toast has shown timing variability in 2 of 8 replays",
+    "ADB setText optimization needs manual review before promotion"
+  ],
+  "artifacts_to_review": [
+    "artifacts/screenshots/006_verified.png",
+    "artifacts/screenshots/007_final.png",
+    "optimization_candidates.json"
+  ],
+  "context": {
+    "golden_bug_id": "GB-003",
+    "replay_generation": 3,
+    "total_savings_since_baseline": "78.5% tokens, 50% time, 40% requests"
+  },
+  "urgency": "low",
+  "assignee": "retention_qa",
+  "created_at": "2026-03-29T22:04:30Z",
+  "expires_at": "2026-04-05T22:04:30Z"
+}

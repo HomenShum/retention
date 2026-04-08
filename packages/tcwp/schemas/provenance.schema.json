@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/provenance.schema.json",
+  "title": "TCWP Provenance",
+  "description": "Data lineage and chain-of-custody for the package",
+  "type": "object",
+  "required": ["package_id", "origin", "chain"],
+  "properties": {
+    "package_id": { "type": "string" },
+    "origin": {
+      "type": "object",
+      "required": ["source", "created_by", "created_at"],
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["ta_cloud", "local_mcp", "claude_code", "openclaw", "ci_pipeline", "manual", "import"],
+          "description": "Where this package was originally created"
+        },
+        "created_by": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "git_sha": { "type": "string" },
+        "git_branch": { "type": "string" },
+        "ci_run_id": { "type": "string" }
+      }
+    },
+    "chain": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["action", "actor", "ts"],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": ["created", "replayed", "optimized", "audited", "annotated", "exported", "imported", "redacted", "archived"]
+          },
+          "actor": { "type": "string" },
+          "ts": { "type": "string", "format": "date-time" },
+          "notes": { "type": "string" },
+          "hash_before": { "type": "string" },
+          "hash_after": { "type": "string" }
+        }
+      },
+      "description": "Ordered chain of custody actions"
+    },
+    "data_classification": {
+      "type": "string",
+      "enum": ["public", "internal", "confidential", "restricted"],
+      "description": "Data sensitivity classification"
+    },
+    "retention_policy": {
+      "type": "object",
+      "properties": {
+        "retain_until": { "type": "string", "format": "date-time" },
+        "auto_archive_after_days": { "type": "integer" },
+        "auto_delete_after_days": { "type": "integer" }
+      }
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/trajectory.schema.json",
+  "title": "TCWP Trajectory",
+  "description": "Reusable path through a workflow, derived from one or more runs",
+  "type": "object",
+  "required": ["trajectory_id", "workflow_id", "source_run_id", "strategy", "steps"],
+  "properties": {
+    "trajectory_id": { "type": "string" },
+    "workflow_id": { "type": "string" },
+    "source_run_id": {
+      "type": "string",
+      "description": "The run from which this trajectory was first captured"
+    },
+    "strategy": {
+      "type": "string",
+      "enum": [
+        "saved_path_with_checkpoint_validation",
+        "optimized_shortcut",
+        "merged_from_multiple_runs",
+        "manually_curated",
+        "ai_generated"
+      ]
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["step_id", "label", "action_ref"],
+        "properties": {
+          "step_id": { "type": "string" },
+          "label": { "type": "string", "description": "Human-readable step description" },
+          "action_ref": { "type": "string", "description": "Reference to event in events.jsonl" },
+          "checkpoint_ref": { "type": ["string", "null"], "description": "Reference to checkpoint event" },
+          "state_before": { "type": "string", "description": "Reference to state snapshot" },
+          "state_after": { "type": "string", "description": "Reference to state snapshot" },
+          "skippable": { "type": "boolean", "default": false },
+          "cost_tokens": { "type": "integer" },
+          "cost_ms": { "type": "integer" },
+          "alternatives": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Alternative action_refs that achieve the same state transition"
+          }
+        }
+      }
+    },
+    "replay_stats": {
+      "type": "object",
+      "properties": {
+        "replay_count": { "type": "integer", "minimum": 0 },
+        "avg_token_savings_pct": { "type": "number" },
+        "avg_time_savings_pct": { "type": "number" },
+        "avg_request_savings_pct": { "type": "number" },
+        "drift_incidents": { "type": "integer", "minimum": 0 },
+        "last_successful_replay": { "type": "string", "format": "date-time" },
+        "durability_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Fraction of replays that succeeded without drift"
+        }
+      }
+    },
+    "compression_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "version": { "type": "integer" },
+          "steps_before": { "type": "integer" },
+          "steps_after": { "type": "integer" },
+          "tokens_before": { "type": "integer" },
+          "tokens_after": { "type": "integer" },
+          "audit_run_id": { "type": "string" },
+          "compressed_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "description": "History of trajectory compression/optimization iterations"
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  }
+}

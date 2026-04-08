@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/dataset_card.schema.json",
+  "title": "TCWP Dataset Card",
+  "description": "Package-level metadata for research, training, and partnership use. Follows HuggingFace/Google dataset card conventions.",
+  "type": "object",
+  "required": ["dataset_name", "domain", "collection_process", "pii_status", "intended_uses"],
+  "properties": {
+    "dataset_name": {
+      "type": "string",
+      "description": "Human-readable dataset name"
+    },
+    "dataset_version": { "type": "string" },
+    "domain": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["mobile_qa", "browser_qa", "ehr_ops", "kyb_aml", "legacy_portal", "desktop_ops", "api_testing", "general"]
+      },
+      "description": "Vertical domain(s) this data covers"
+    },
+    "workflow_families": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Workflow families represented (profile_edit, login, search, checkout, etc.)"
+    },
+    "collection_process": {
+      "type": "object",
+      "required": ["method", "source"],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["agent_exploration", "human_demonstration", "synthetic_generation", "hybrid", "replay_capture"]
+        },
+        "source": {
+          "type": "string",
+          "enum": ["production", "staging", "synthetic", "benchmark", "mixed"]
+        },
+        "agent_runtime": { "type": "string" },
+        "model_used": { "type": "string" },
+        "collection_period": {
+          "type": "object",
+          "properties": {
+            "start": { "type": "string", "format": "date" },
+            "end": { "type": "string", "format": "date" }
+          }
+        },
+        "total_runs": { "type": "integer" },
+        "total_trajectories": { "type": "integer" },
+        "total_steps": { "type": "integer" },
+        "total_tokens": { "type": "integer" }
+      }
+    },
+    "review_process": {
+      "type": "object",
+      "properties": {
+        "human_reviewed": { "type": "boolean" },
+        "machine_reviewed": { "type": "boolean" },
+        "review_coverage_pct": { "type": "number" },
+        "inter_annotator_agreement": { "type": "number" },
+        "review_methodology": { "type": "string" }
+      }
+    },
+    "pii_status": {
+      "type": "string",
+      "enum": ["none", "redacted", "masked", "synthetic_replaced", "contains_pii"],
+      "description": "PII handling status"
+    },
+    "pii_types_present": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Types of PII that were present before redaction (names, emails, etc.)"
+    },
+    "data_type": {
+      "type": "string",
+      "enum": ["real", "synthetic", "mixed"],
+      "description": "Whether data is from real usage, synthetic generation, or both"
+    },
+    "licensing": {
+      "type": "object",
+      "properties": {
+        "license": { "type": "string", "description": "License identifier (proprietary, cc-by-4.0, etc.)" },
+        "attribution_required": { "type": "boolean" },
+        "commercial_use_allowed": { "type": "boolean" },
+        "modification_allowed": { "type": "boolean" }
+      }
+    },
+    "intended_uses": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "What this dataset is intended for"
+    },
+    "prohibited_uses": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "What this dataset must NOT be used for"
+    },
+    "known_limitations": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Known biases, gaps, or limitations"
+    },
+    "risks": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Known risks of using this data"
+    },
+    "contact": {
+      "type": "string",
+      "description": "Contact for questions about this dataset"
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  }
+}

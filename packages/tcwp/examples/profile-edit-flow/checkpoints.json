@@ -1,0 +1,19 @@
+{
+  "run_id": "run_00045",
+  "checkpoints": [
+    {"checkpoint_id": "cp_01", "label": "App launched successfully", "event_ref": "evt_00002", "result": "passed"},
+    {"checkpoint_id": "cp_02", "label": "Feed loaded", "event_ref": "evt_00004", "result": "passed"},
+    {"checkpoint_id": "cp_03", "label": "Profile tab visible", "event_ref": "evt_00006", "result": "passed"},
+    {"checkpoint_id": "cp_04", "label": "Edit profile screen loaded", "event_ref": "evt_00008", "result": "passed"},
+    {"checkpoint_id": "cp_05", "label": "Save confirmation received", "event_ref": "evt_00012", "result": "passed"},
+    {"checkpoint_id": "cp_06", "label": "Toast verified", "event_ref": "evt_00014", "result": "passed"},
+    {"checkpoint_id": "cp_07", "label": "Display name persisted after navigation", "event_ref": "evt_00018", "result": "passed"}
+  ],
+  "summary": {
+    "total": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "pass_rate": 1.0
+  }
+}

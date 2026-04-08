@@ -1,0 +1,44 @@
+# Fly.io configuration for retention.sh Backend
+#
+# Deploy from repo root:
+#   fly launch --config fly.toml --dockerfile backend/Dockerfile --no-deploy
+#   fly secrets set OPENAI_API_KEY=sk-...
+#   fly deploy --dockerfile backend/Dockerfile --build-arg PORT=8080
+#
+# Or deploy from backend/ directory:
+#   cd backend && fly launch
+
+app = "retention-backend"
+primary_region = "sjc"
+
+[build]
+  dockerfile = "backend/Dockerfile"
+  ignorefile = "backend/.dockerignore"
+
+[env]
+  PORT = "8080"
+  PYTHONUNBUFFERED = "1"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [http_service.concurrency]
+    type = "requests"
+    hard_limit = 250
+    soft_limit = 200
+
+[[http_service.checks]]
+  grace_period = "10s"
+  interval = "30s"
+  method = "GET"
+  timeout = "5s"
+  path = "/api/health"
+
+[[vm]]
+  memory = "256mb"
+  cpu_kind = "shared"
+  cpus = 1

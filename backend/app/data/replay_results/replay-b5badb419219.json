@@ -1,0 +1,35 @@
+{
+  "trajectory_id": "traj_gov_alice_001",
+  "replay_run_id": "replay-b5badb419219",
+  "workflow": "gov_data_retrieval",
+  "success": true,
+  "total_steps": 10,
+  "steps_executed": 10,
+  "steps_matched": 10,
+  "steps_drifted": 0,
+  "drift_point": null,
+  "drift_score": 0.0,
+  "fallback_to_exploration": false,
+  "token_usage": {
+    "estimated_replay_tokens": 5100,
+    "full_run_baseline_tokens": 28500
+  },
+  "time_seconds": 74.0,
+  "comparison_with_full": {
+    "token_savings_pct": 82.1,
+    "time_savings_pct": 76.3,
+    "tokens_full": 28500,
+    "tokens_replay": 5100,
+    "time_full_s": 312.0,
+    "time_replay_s": 74.0,
+    "baseline_source": "recorded"
+  },
+  "per_step_results": [],
+  "timestamp": "2026-03-29T14:35:00+00:00",
+  "metadata": {
+    "created_by": null,
+    "replayed_by": "bob@tastudios.com",
+    "run_number": 5,
+    "is_replay": true
+  }
+}

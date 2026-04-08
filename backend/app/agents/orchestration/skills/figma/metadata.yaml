@@ -1,0 +1,23 @@
+name: figma
+version: "1.0"
+description: "Figma design ingestion and analysis (progressive disclosure across file JSON, components/styles, variables, comments, dev resources, images)."
+capabilities:
+  - "Parse Figma URLs to extract file keys and node IDs"
+  - "Fetch file JSON (pages/nodes)"
+  - "Fetch images and image fills"
+  - "Fetch published components, component sets, and styles"
+  - "Fetch variables (local/published), comments, and dev resources"
+  - "Return compact summaries + ref_id handles for large payloads"
+triggers:
+  - "figma"
+  - "design"
+  - "design token"
+  - "variables"
+  - "component"
+  - "styles"
+  - "dev resources"
+  - "comments"
+model_requirements:
+  primary: "gpt-5.4"
+files:
+  skill_doc: "SKILL.md"

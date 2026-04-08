@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/annotation.schema.json",
+  "title": "TCWP Annotation (JSONL line)",
+  "description": "Human review, labeling, and adjudication (Figure Eight-style)",
+  "type": "object",
+  "required": ["annotation_id", "target_ref", "label_type", "label", "annotator"],
+  "properties": {
+    "annotation_id": { "type": "string" },
+    "target_ref": {
+      "type": "string",
+      "description": "Reference to event, run, step, or artifact being annotated"
+    },
+    "label_type": {
+      "type": "string",
+      "enum": [
+        "failure_mode",
+        "quality_flag",
+        "sales_signal",
+        "compliance_flag",
+        "accuracy_check",
+        "ux_issue",
+        "performance_issue",
+        "security_issue",
+        "custom"
+      ]
+    },
+    "label": { "type": "string" },
+    "annotator": {
+      "type": "string",
+      "description": "Identifier of human reviewer, LLM judge, or system"
+    },
+    "annotator_type": {
+      "type": "string",
+      "enum": ["human", "llm", "system", "consensus"]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "agreement": {
+      "type": "object",
+      "properties": {
+        "annotator_count": { "type": "integer" },
+        "agreement_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "method": { "type": "string", "enum": ["majority_vote", "fleiss_kappa", "dawid_skene", "custom"] }
+      },
+      "description": "Inter-annotator agreement metadata for multi-reviewer workflows"
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["info", "low", "medium", "high", "critical"]
+    },
+    "notes": { "type": "string" },
+    "annotated_at": { "type": "string", "format": "date-time" }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "package_id": "pkg_2026_03_29_profile_edit_001",
+  "origin": {
+    "source": "claude_code",
+    "created_by": "agent_coordinator_001",
+    "created_at": "2026-03-29T22:00:00Z",
+    "git_sha": "58ca774",
+    "git_branch": "main"
+  },
+  "chain": [
+    {
+      "action": "created",
+      "actor": "agent_coordinator_001",
+      "ts": "2026-03-10T10:00:00Z",
+      "notes": "Initial full crawl baseline run_00040"
+    },
+    {
+      "action": "optimized",
+      "actor": "agent_coordinator_001",
+      "ts": "2026-03-15T10:00:00Z",
+      "notes": "First compression: 18 steps to 14, verified by run_00042",
+      "hash_before": "abc123",
+      "hash_after": "def456"
+    },
+    {
+      "action": "optimized",
+      "actor": "agent_coordinator_001",
+      "ts": "2026-03-28T08:00:00Z",
+      "notes": "Second compression: 14 steps to 12, verified by run_00044",
+      "hash_before": "def456",
+      "hash_after": "ghi789"
+    },
+    {
+      "action": "replayed",
+      "actor": "agent_coordinator_001",
+      "ts": "2026-03-29T22:00:00Z",
+      "notes": "Scheduled replay run_00045, all checkpoints passed"
+    },
+    {
+      "action": "audited",
+      "actor": "agent_coordinator_001",
+      "ts": "2026-03-29T22:04:10Z",
+      "notes": "Automated eval: 3 rubrics passed (checkpoint_pass_rate, artifact_completeness, savings_threshold)"
+    }
+  ],
+  "data_classification": "internal",
+  "retention_policy": {
+    "retain_until": "2026-09-29T22:00:00Z",
+    "auto_archive_after_days": 90,
+    "auto_delete_after_days": 365
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "provider": "anthropic",
+  "model_id": "claude-opus-4-6",
+  "context_window": 1000000,
+  "mcp_servers_used": ["mobile-mcp", "retention"],
+  "subagent_ids": ["device_tester_001"],
+  "hooks_triggered": ["pre_tool_call_screenshot", "post_checkpoint_eval"],
+  "claude_code_session_id": "session_abc123",
+  "memory_hints": {
+    "trajectory_saved": true,
+    "exploration_memory_key": "wf_profile_edit_v3"
+  },
+  "sdk_version": "0.1.0",
+  "permission_mode": "allowlist"
+}

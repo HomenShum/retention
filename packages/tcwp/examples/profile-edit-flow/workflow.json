@@ -1,0 +1,21 @@
+{
+  "workflow_id": "wf_profile_edit",
+  "workflow_family": "mobile_app",
+  "name": "Profile Edit Flow",
+  "goal": "Update display name on Instagram profile and verify persistence across navigation",
+  "surface": ["android_emulator"],
+  "success_criteria": [
+    "Navigate to profile tab",
+    "Open edit profile screen",
+    "Modify display name field",
+    "Submit update successfully",
+    "Navigate away and return",
+    "Verify persisted display name matches submitted value"
+  ],
+  "risk_class": "medium",
+  "compliance_tags": ["qa", "regression", "golden_bug"],
+  "owner": "retention_qa",
+  "sla_ms": 300000,
+  "created_at": "2026-03-01T10:00:00Z",
+  "updated_at": "2026-03-29T22:00:00Z"
+}

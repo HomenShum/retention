@@ -1,0 +1,27 @@
+{
+  "profile_name": "training",
+  "description": "Learning export for fine-tuning, evals, reward modeling, and vertical model training. Requires training consent and PII redaction.",
+  "includes": [
+    "manifest.json",
+    "workflow.json",
+    "trajectory.json",
+    "events.jsonl",
+    "evals.jsonl",
+    "annotations.jsonl",
+    "training_examples.jsonl",
+    "preferences.jsonl",
+    "policy_labels.jsonl",
+    "reward_signals.jsonl",
+    "dataset_card.json",
+    "provenance.json"
+  ],
+  "excludes": [
+    "sales_brief.json",
+    "sales_brief.md",
+    "handoff.json",
+    "permissions.json"
+  ],
+  "redaction_required": true,
+  "training_consent_required": true,
+  "external_sharing_consent_required": false
+}

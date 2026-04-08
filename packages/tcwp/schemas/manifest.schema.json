@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/manifest.schema.json",
+  "title": "TCWP Manifest",
+  "description": "Envelope and compatibility contract for a TA Canonical Workflow Package",
+  "type": "object",
+  "required": [
+    "package_type",
+    "schema_version",
+    "package_id",
+    "created_at",
+    "created_by",
+    "workflow_id",
+    "run_id",
+    "hashes"
+  ],
+  "properties": {
+    "package_type": {
+      "const": "tcwp",
+      "description": "Always 'tcwp' for TA Canonical Workflow Package"
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "SemVer of the TCWP schema"
+    },
+    "package_id": {
+      "type": "string",
+      "description": "Globally unique identifier for this package"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_by": {
+      "$ref": "#/$defs/actor"
+    },
+    "workflow_id": {
+      "type": "string",
+      "description": "Stable identifier for the workflow this package belongs to"
+    },
+    "run_id": {
+      "type": "string",
+      "description": "Identifier for this specific execution"
+    },
+    "parent_run_id": {
+      "type": ["string", "null"],
+      "description": "The run this one was derived from (if any)"
+    },
+    "rerun_of_run_id": {
+      "type": ["string", "null"],
+      "description": "Original run this is a rerun/replay of"
+    },
+    "lineage_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Ordered chain of run IDs from first to current"
+    },
+    "hashes": {
+      "type": "object",
+      "description": "Content-addressed integrity hashes for key files",
+      "additionalProperties": { "type": "string" }
+    },
+    "extensions_present": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["anthropic", "openai", "google", "xai", "ta", "custom"]
+      },
+      "description": "Which vendor extension files are included"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Free-form tags for filtering and discovery"
+    }
+  },
+  "$defs": {
+    "actor": {
+      "type": "object",
+      "required": ["actor_id", "actor_type"],
+      "properties": {
+        "org_id": { "type": "string" },
+        "actor_id": { "type": "string" },
+        "actor_type": {
+          "type": "string",
+          "enum": ["agent", "user", "system", "pipeline"]
+        }
+      }
+    }
+  }
+}

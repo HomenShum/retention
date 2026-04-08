@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/export_profile.schema.json",
+  "title": "TCWP Export Profile",
+  "description": "Defines which files to include when exporting a TCWP bundle in a specific mode (ops, training, sales).",
+  "type": "object",
+  "required": ["profile_name", "description", "includes"],
+  "properties": {
+    "profile_name": {
+      "type": "string",
+      "enum": ["ops", "training", "sales"]
+    },
+    "description": { "type": "string" },
+    "includes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "File names to include in this export profile"
+    },
+    "excludes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "File names to explicitly exclude"
+    },
+    "redaction_required": {
+      "type": "boolean",
+      "description": "Whether PII redaction must be applied before export"
+    },
+    "training_consent_required": {
+      "type": "boolean",
+      "description": "Whether allowed_for_training must be true on each record"
+    },
+    "external_sharing_consent_required": {
+      "type": "boolean",
+      "description": "Whether allowed_for_external_sharing must be true on each record"
+    }
+  }
+}

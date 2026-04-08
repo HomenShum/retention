@@ -1,0 +1,31 @@
+{
+  "profile_name": "sales",
+  "description": "Customer proof and GTM export. Contains only buyer-facing materials and benchmark evidence. No raw traces or training data.",
+  "includes": [
+    "manifest.json",
+    "workflow.json",
+    "run.json",
+    "sales_brief.json",
+    "sales_brief.md",
+    "evals.jsonl",
+    "optimization_candidates.json"
+  ],
+  "excludes": [
+    "events.jsonl",
+    "state_snapshots.jsonl",
+    "tool_calls.jsonl",
+    "annotations.jsonl",
+    "training_examples.jsonl",
+    "preferences.jsonl",
+    "policy_labels.jsonl",
+    "reward_signals.jsonl",
+    "dataset_card.json",
+    "provenance.json",
+    "permissions.json",
+    "replay_plan.json",
+    "handoff.json"
+  ],
+  "redaction_required": true,
+  "training_consent_required": false,
+  "external_sharing_consent_required": true
+}

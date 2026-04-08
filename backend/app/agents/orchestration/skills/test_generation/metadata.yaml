@@ -1,0 +1,39 @@
+# Test Generation Skill - Progressive Disclosure Metadata
+# This is loaded at startup (Level 1) - minimal context only
+
+name: test_generation
+version: "1.0"
+description: >
+  Generate test cases from PRDs, feature requirements, and bug reports.
+  Creates golden bugs with expected outcomes and verification criteria.
+
+triggers:
+  - test
+  - generate
+  - prd
+  - feature
+  - requirement
+  - bug
+  - golden bug
+  - test case
+
+capabilities:
+  - prd_parsing
+  - test_case_generation
+  - golden_bug_creation
+  - criteria_extraction
+  - priority_assignment
+
+dependencies:
+  - prd_parser
+  - test_registry
+
+model_requirements:
+  primary: gpt-5.4          # Complex reasoning for test generation
+  evaluation: gpt-5-mini    # Quality evaluation of generated tests
+  distillation: gpt-5-nano  # ONLY for PRD extraction from large docs
+
+files:
+  skill_doc: SKILL.md
+  templates: templates/
+

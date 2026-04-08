@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/sales_brief.schema.json",
+  "title": "TCWP Sales Brief",
+  "description": "Strategic selling subset — the buyer-facing package",
+  "type": "object",
+  "required": ["account_theme", "workflow_name", "baseline", "improved", "savings", "buyer_message"],
+  "properties": {
+    "account_theme": {
+      "type": "string",
+      "description": "High-level theme for the buyer conversation"
+    },
+    "workflow_name": { "type": "string" },
+    "workflow_family": { "type": "string" },
+    "baseline": {
+      "$ref": "#/$defs/metrics_snapshot",
+      "description": "Full-crawl baseline numbers"
+    },
+    "improved": {
+      "$ref": "#/$defs/metrics_snapshot",
+      "description": "Replay/optimized numbers"
+    },
+    "savings": {
+      "type": "object",
+      "required": ["tokens_pct", "time_pct"],
+      "properties": {
+        "tokens_pct": { "type": "number" },
+        "requests_pct": { "type": "number" },
+        "time_pct": { "type": "number" },
+        "cost_usd_pct": { "type": "number" },
+        "steps_eliminated": { "type": "integer" }
+      }
+    },
+    "durability": {
+      "type": "object",
+      "properties": {
+        "n1_pass": { "type": "boolean" },
+        "n5_pass_rate": { "type": "number" },
+        "n10_pass_rate": { "type": "number" },
+        "drift_rate": { "type": "number" }
+      },
+      "description": "N=1/N=5/N=10 repeatability proof"
+    },
+    "buyer_message": {
+      "type": "string",
+      "description": "One-sentence value proposition for the buyer"
+    },
+    "proof_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Paths to supporting evidence"
+    },
+    "competitive_context": {
+      "type": "string",
+      "description": "How this compares to alternatives (BrowserStack, manual QA, etc.)"
+    },
+    "next_steps": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "metrics_snapshot": {
+      "type": "object",
+      "properties": {
+        "tokens": { "type": "integer" },
+        "requests": { "type": "integer" },
+        "duration_ms": { "type": "integer" },
+        "cost_usd": { "type": "number" },
+        "steps": { "type": "integer" }
+      }
+    }
+  }
+}

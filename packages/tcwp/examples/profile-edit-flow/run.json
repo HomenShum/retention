@@ -1,0 +1,31 @@
+{
+  "run_id": "run_00045",
+  "workflow_id": "wf_profile_edit",
+  "mode": "trajectory_replay",
+  "runtime": "claude_code",
+  "model": "claude-opus-4-6",
+  "environment": {
+    "surface": "android_emulator",
+    "device_config": "pixel_8_api_35",
+    "app_version": "Instagram 345.0.0.42.109",
+    "os_version": "Android 15",
+    "locale": "en_US",
+    "timezone": "America/Los_Angeles"
+  },
+  "status": "success",
+  "started_at": "2026-03-29T22:00:00Z",
+  "ended_at": "2026-03-29T22:04:05Z",
+  "metrics": {
+    "requests": 30,
+    "tokens_in": 210000,
+    "tokens_out": 100434,
+    "estimated_cost_usd": 0.013,
+    "duration_ms": 245000,
+    "steps_total": 12,
+    "steps_replayed": 10,
+    "steps_re_explored": 2,
+    "checkpoints_passed": 6,
+    "checkpoints_failed": 0,
+    "artifacts_captured": 14
+  }
+}

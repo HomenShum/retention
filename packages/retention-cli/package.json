@@ -1,0 +1,32 @@
+{
+  "name": "retention",
+  "version": "0.1.0",
+  "description": "See your agent spend in 30 seconds. Reads Claude Code logs, detects waste, estimates savings.",
+  "bin": {
+    "retention": "./dist/cli.js"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "keywords": [
+    "retention.sh",
+    "claude-code",
+    "agent-spend",
+    "cost-analysis",
+    "mcp",
+    "ai-agent",
+    "observability"
+  ],
+  "author": "retention.sh <info@retention.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HomenShum/retention-cli.git"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.4"
+  }
+}

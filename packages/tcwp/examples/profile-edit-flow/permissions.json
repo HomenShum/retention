@@ -1,0 +1,35 @@
+{
+  "package_id": "pkg_2026_03_29_profile_edit_001",
+  "owner": "org_retention",
+  "visibility": "team",
+  "access_rules": [
+    {
+      "principal": "team_qa",
+      "principal_type": "team",
+      "level": "write"
+    },
+    {
+      "principal": "team_engineering",
+      "principal_type": "team",
+      "level": "read"
+    },
+    {
+      "principal": "pilot_partner_acme",
+      "principal_type": "org",
+      "level": "read",
+      "expires_at": "2026-06-29T00:00:00Z"
+    }
+  ],
+  "redaction_rules": [
+    {
+      "field_pattern": "$.events[*].input.text",
+      "strategy": "mask"
+    },
+    {
+      "field_pattern": "$.artifacts.screenshots/*",
+      "strategy": "hash"
+    }
+  ],
+  "export_allowed": true,
+  "training_allowed": false
+}

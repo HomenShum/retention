@@ -1,0 +1,47 @@
+{
+  "account_theme": "Mobile workflow verification — Instagram profile operations",
+  "workflow_name": "Profile Edit Flow",
+  "workflow_family": "mobile_app",
+  "baseline": {
+    "tokens": 1443029,
+    "requests": 50,
+    "duration_ms": 497000,
+    "cost_usd": 0.058,
+    "steps": 18
+  },
+  "improved": {
+    "tokens": 310434,
+    "requests": 30,
+    "duration_ms": 245000,
+    "cost_usd": 0.013,
+    "steps": 12
+  },
+  "savings": {
+    "tokens_pct": 78.5,
+    "requests_pct": 40.0,
+    "time_pct": 50.7,
+    "cost_usd_pct": 77.6,
+    "steps_eliminated": 6
+  },
+  "durability": {
+    "n1_pass": true,
+    "n5_pass_rate": 1.0,
+    "n10_pass_rate": 0.875,
+    "drift_rate": 0.125
+  },
+  "buyer_message": "retention.sh replays the cheapest valid path and audits shortcut validity before reuse — 78.5% token savings on this workflow after 8 replays",
+  "proof_refs": [
+    "trajectory.json",
+    "evals.jsonl",
+    "optimization_candidates.json",
+    "artifacts/screenshots/006_verified.png",
+    "artifacts/screenshots/007_final.png"
+  ],
+  "competitive_context": "Unlike full-crawl-every-time approaches (BrowserStack, Momentic, manual QA), TA captures the trajectory once and replays the cheapest valid path. Each rerun gets cheaper as the trajectory stabilizes.",
+  "next_steps": [
+    "Schedule 4-week paid pilot around 2-3 high-friction workflows",
+    "Prove rerun economics on customer's own app",
+    "Deliver weekly savings report via dashboard"
+  ],
+  "generated_at": "2026-03-29T22:05:00Z"
+}

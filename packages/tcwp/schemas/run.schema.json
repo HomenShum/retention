@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/run.schema.json",
+  "title": "TCWP Run",
+  "description": "One execution attempt of a workflow",
+  "type": "object",
+  "required": ["run_id", "workflow_id", "mode", "runtime", "model", "environment", "status", "started_at", "ended_at", "metrics"],
+  "properties": {
+    "run_id": { "type": "string" },
+    "workflow_id": { "type": "string" },
+    "mode": {
+      "type": "string",
+      "enum": ["full_crawl", "trajectory_replay", "partial_replay", "rerun_failed_only", "checkpoint_validation", "audit"],
+      "description": "Execution strategy for this run"
+    },
+    "runtime": {
+      "type": "string",
+      "enum": ["claude_code", "custom_sdk", "openclaw", "openai_agents", "gemini_agent", "xai_agent", "ta_cloud", "custom"],
+      "description": "Agent runtime that executed this run"
+    },
+    "model": {
+      "type": "string",
+      "description": "Model identifier (e.g. claude-opus-4-6, gpt-5.4-mini, gemini-2.5-pro)"
+    },
+    "environment": {
+      "type": "object",
+      "required": ["surface"],
+      "properties": {
+        "surface": { "type": "string" },
+        "device_config": { "type": "string" },
+        "app_version": { "type": "string" },
+        "os_version": { "type": "string" },
+        "browser_version": { "type": "string" },
+        "viewport": {
+          "type": "object",
+          "properties": {
+            "width": { "type": "integer" },
+            "height": { "type": "integer" }
+          }
+        },
+        "locale": { "type": "string" },
+        "timezone": { "type": "string" },
+        "network_profile": {
+          "type": "string",
+          "enum": ["fast", "3g", "slow_3g", "offline", "custom"]
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["success", "partial", "failed", "blocked", "timeout", "cancelled"]
+    },
+    "started_at": { "type": "string", "format": "date-time" },
+    "ended_at": { "type": "string", "format": "date-time" },
+    "metrics": {
+      "type": "object",
+      "required": ["requests", "tokens_in", "tokens_out", "estimated_cost_usd", "duration_ms"],
+      "properties": {
+        "requests": { "type": "integer", "minimum": 0 },
+        "tokens_in": { "type": "integer", "minimum": 0 },
+        "tokens_out": { "type": "integer", "minimum": 0 },
+        "estimated_cost_usd": { "type": "number", "minimum": 0 },
+        "duration_ms": { "type": "integer", "minimum": 0 },
+        "steps_total": { "type": "integer", "minimum": 0 },
+        "steps_replayed": { "type": "integer", "minimum": 0 },
+        "steps_re_explored": { "type": "integer", "minimum": 0 },
+        "checkpoints_passed": { "type": "integer", "minimum": 0 },
+        "checkpoints_failed": { "type": "integer", "minimum": 0 },
+        "artifacts_captured": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "failure_reason": {
+      "type": "string",
+      "description": "Human-readable failure explanation when status is not success"
+    },
+    "no_eval_reason": {
+      "type": "string",
+      "description": "Why no eval was performed on this run (required if evals.jsonl is empty)"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "trajectory_id": "pipeline_mcp-8095e2ba",
+  "replay_run_id": "mcp-8095e2ba",
+  "workflow": "retention.sh Site",
+  "success": true,
+  "total_steps": 160,
+  "steps_executed": 160,
+  "steps_matched": 0,
+  "steps_drifted": 0,
+  "drift_score": 0.0,
+  "fallback_to_exploration": true,
+  "token_usage": {
+    "estimated_replay_tokens": 0,
+    "full_run_baseline_tokens": 31000
+  },
+  "time_seconds": 278.62,
+  "comparison_with_full": {
+    "token_savings_pct": 0.0,
+    "time_savings_pct": 0.0,
+    "tokens_full": 0,
+    "tokens_replay": 0,
+    "time_full_s": 278.62,
+    "time_replay_s": 278.62,
+    "baseline_source": "self"
+  },
+  "per_step_results": [],
+  "timestamp": "2026-03-30T21:26:01.927407+00:00",
+  "metadata": {
+    "created_by": "homen@retention.com",
+    "replayed_by": null,
+    "is_replay": false,
+    "run_number": 1,
+    "flow_type": "",
+    "app_name": "retention.sh Site"
+  }
+}

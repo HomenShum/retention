@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/policy_label.schema.json",
+  "title": "TCWP Policy Label (JSONL line)",
+  "description": "Control-policy and audit label. Captures whether an action or optimization is safe, valid, reusable, or needs escalation.",
+  "type": "object",
+  "required": ["policy_label_id", "target_ref", "label"],
+  "properties": {
+    "policy_label_id": { "type": "string" },
+    "target_ref": {
+      "type": "string",
+      "description": "Reference to the action, optimization candidate, or step being labeled"
+    },
+    "target_type": {
+      "type": "string",
+      "enum": ["action", "optimization_candidate", "trajectory_step", "shortcut", "workflow", "run"],
+      "description": "What kind of object is being labeled"
+    },
+    "label": {
+      "type": "string",
+      "enum": [
+        "verified_shortcut",
+        "rejected_shortcut",
+        "safe_for_automation",
+        "needs_human_review",
+        "never_automate",
+        "drift_prone",
+        "stable",
+        "escalate",
+        "deprecated",
+        "experimental"
+      ]
+    },
+    "risk": {
+      "type": "string",
+      "enum": ["none", "low", "medium", "high", "critical"]
+    },
+    "approved_for_reuse": {
+      "type": "boolean",
+      "description": "Whether this action/shortcut is approved for automated replay"
+    },
+    "approved_for_training": {
+      "type": "boolean",
+      "description": "Whether this can be used as training data"
+    },
+    "reviewer": {
+      "type": "string",
+      "description": "Who made this policy decision"
+    },
+    "reviewer_type": {
+      "type": "string",
+      "enum": ["human", "system", "llm", "consensus"]
+    },
+    "rationale": {
+      "type": "string",
+      "description": "Why this policy label was assigned"
+    },
+    "conditions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Conditions under which this label applies (e.g., 'only on API 35+', 'only for US locale')"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this policy label should be re-evaluated"
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

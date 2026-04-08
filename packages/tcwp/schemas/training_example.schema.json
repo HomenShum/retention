@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/training_example.schema.json",
+  "title": "TCWP Training Example (JSONL line)",
+  "description": "Distilled supervised fine-tuning view. Each record is a complete (task, context, target behavior, validated outcome) tuple for vertical model training.",
+  "type": "object",
+  "required": ["example_id", "workflow_id", "task", "target_behavior", "quality"],
+  "properties": {
+    "example_id": {
+      "type": "string",
+      "description": "Globally unique training example identifier"
+    },
+    "workflow_id": { "type": "string" },
+    "task": {
+      "type": "string",
+      "description": "Natural language task description the model should learn to execute"
+    },
+    "input_context_ref": {
+      "type": "string",
+      "description": "Reference to context snapshot (state_snapshots.jsonl#ID or events.jsonl#range)"
+    },
+    "input_context_inline": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Inline context snapshot (for self-contained export). Use ref OR inline, not both."
+    },
+    "available_tools": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Tool names available to the model during this task"
+    },
+    "system_prompt_ref": {
+      "type": "string",
+      "description": "Reference to the system prompt used (for prompt-faithful distillation)"
+    },
+    "intermediate_plan": {
+      "type": "string",
+      "description": "Expected reasoning/planning trace before action (chain-of-thought target)"
+    },
+    "target_behavior": {
+      "type": "object",
+      "required": ["critical_steps"],
+      "properties": {
+        "strategy": {
+          "type": "string",
+          "enum": ["replay_saved_path_then_validate", "direct_execution", "explore_then_verify", "shortcut_with_audit"],
+          "description": "High-level execution strategy"
+        },
+        "critical_steps": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Ordered list of essential actions the model must take"
+        },
+        "optional_steps": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Steps that are acceptable but not required"
+        },
+        "prohibited_steps": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Steps the model must never take (safety/correctness)"
+        },
+        "compressed_action_sequence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "tool": { "type": "string" },
+              "args": { "type": "object", "additionalProperties": true },
+              "expected_result": { "type": "string" }
+            }
+          },
+          "description": "Concrete tool call sequence (for behavior cloning)"
+        }
+      }
+    },
+    "validated_outcome_ref": {
+      "type": "string",
+      "description": "Reference to eval that validated this outcome (evals.jsonl#ID)"
+    },
+    "validated_outcome_inline": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Inline validation result"
+    },
+    "quality": {
+      "type": "string",
+      "enum": ["gold", "silver", "bronze", "synthetic", "unreviewed"],
+      "description": "Quality tier: gold=human-verified, silver=machine-verified, bronze=heuristic, synthetic=generated"
+    },
+    "domain_tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Vertical/domain tags (kyb_aml, ehr_ops, mobile_qa, legacy_portal, etc.)"
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": ["trivial", "easy", "medium", "hard", "expert"],
+      "description": "Estimated task difficulty for curriculum design"
+    },
+    "token_budget": {
+      "type": "integer",
+      "description": "Expected token budget for this task (for efficiency-aware training)"
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "source_run_id": { "type": "string" },
+    "is_synthetic": { "type": "boolean", "default": false },
+    "allowed_for_training": { "type": "boolean", "default": false },
+    "allowed_for_external_sharing": { "type": "boolean", "default": false }
+  }
+}

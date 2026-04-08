@@ -1,0 +1,37 @@
+{
+  "trajectory_id": "rerun_mcp-8095e2ba",
+  "replay_run_id": "rerun-8b645d67",
+  "workflow": "retention.sh Site",
+  "success": true,
+  "total_steps": 0,
+  "steps_executed": 0,
+  "steps_matched": 0,
+  "steps_drifted": 0,
+  "drift_score": 0.0,
+  "fallback_to_exploration": false,
+  "token_usage": {
+    "estimated_replay_tokens": 6820,
+    "full_run_baseline_tokens": 31000
+  },
+  "time_seconds": 41.0,
+  "comparison_with_full": {
+    "token_savings_pct": 78.0,
+    "time_savings_pct": 85.3,
+    "tokens_full": 31000,
+    "tokens_replay": 6820,
+    "time_full_s": 278.6,
+    "time_replay_s": 41.0,
+    "baseline_source": "recorded"
+  },
+  "per_step_results": [],
+  "timestamp": "2026-03-30T21:40:44.944200+00:00",
+  "metadata": {
+    "created_by": null,
+    "replayed_by": "homen@retention.com",
+    "is_replay": true,
+    "run_number": 2,
+    "flow_type": "",
+    "app_name": "retention.sh Site",
+    "baseline_run_id": "mcp-8095e2ba"
+  }
+}

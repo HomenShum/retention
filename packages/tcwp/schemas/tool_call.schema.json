@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/tool_call.schema.json",
+  "title": "TCWP Tool Call (JSONL line)",
+  "description": "Normalized tool/function call I/O across vendors",
+  "type": "object",
+  "required": ["tool_call_id", "provider", "tool_name", "request", "started_at"],
+  "properties": {
+    "tool_call_id": { "type": "string" },
+    "provider": {
+      "type": "string",
+      "enum": ["anthropic", "openai", "google", "xai", "ta", "mcp", "custom"]
+    },
+    "tool_name": {
+      "type": "string",
+      "description": "Canonical tool name (e.g. ta.verify.checkpoint, computer.click)"
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Tool input parameters"
+    },
+    "response": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Tool output"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["success", "error", "timeout", "cancelled"]
+    },
+    "started_at": { "type": "string", "format": "date-time" },
+    "ended_at": { "type": "string", "format": "date-time" },
+    "duration_ms": { "type": "integer", "minimum": 0 },
+    "tokens_used": { "type": "integer", "minimum": 0 },
+    "error_message": { "type": "string" },
+    "mcp_server": {
+      "type": "string",
+      "description": "MCP server name if this was an MCP tool call"
+    }
+  }
+}

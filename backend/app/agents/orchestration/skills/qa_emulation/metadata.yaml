@@ -1,0 +1,40 @@
+# QA Emulation Skill - Progressive Disclosure Metadata
+# This is loaded at startup (Level 1) - minimal context only
+
+name: qa_emulation
+version: "1.0"
+description: >
+  Reproduce mobile app bugs across multiple builds (OG, RB1, RB2, RB3)
+  using parallel subagent analysis and structured verdict assembly.
+
+triggers:
+  - reproduce bug
+  - bug reproduction
+  - qa emulation
+  - regression build
+  - repro steps
+  - verdict
+  - anomaly detection
+  - build sequence
+  - OG build
+  - regression test
+
+capabilities:
+  - bug_reproduction
+  - anomaly_detection
+  - verdict_assembly
+  - parallel_analysis
+  - build_sequence_testing
+  - evidence_collection
+
+dependencies:
+  - mobile_mcp_client
+  - agents_sdk
+
+model_requirements:
+  primary: gpt-5-mini       # Vision analysis, anomaly detection
+  orchestration: gpt-5.4    # Bug detection, verdict assembly reasoning (Mar 2026)
+
+files:
+  skill_doc: SKILL.md
+

@@ -1,0 +1,59 @@
+{
+  "name": "retention-mcp",
+  "version": "1.3.0",
+  "description": "retention.sh MCP — Domain knowledge, patterns, bug fixes, and workflows for AI agents working on the retention.sh mobile test automation platform.",
+  "type": "module",
+  "bin": {
+    "retention-mcp": "dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HomenShum/retention.git",
+    "directory": "packages/retention-mcp"
+  },
+  "homepage": "https://github.com/HomenShum/retention/tree/main/packages/retention-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/HomenShum/retention/issues"
+  },
+  "author": "retention.sh",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "mobile-testing",
+    "android",
+    "test-automation",
+    "ai-agents",
+    "retention",
+    "claude",
+    "openai",
+    "agentic",
+    "oavr",
+    "som-annotation",
+    "device-testing",
+    "screenshot-annotation"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.21.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

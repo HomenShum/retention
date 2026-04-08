@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/eval.schema.json",
+  "title": "TCWP Eval (JSONL line)",
+  "description": "Machine or human evaluation of a run, step, or artifact",
+  "type": "object",
+  "required": ["eval_id", "run_id", "judge_type", "rubric", "verdict"],
+  "properties": {
+    "eval_id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "step_ref": {
+      "type": "string",
+      "description": "Optional reference to a specific step or event being evaluated"
+    },
+    "judge_type": {
+      "type": "string",
+      "enum": ["llm", "human", "rule", "hybrid", "consensus"]
+    },
+    "judge_model": {
+      "type": "string",
+      "description": "Model identifier if judge_type is llm"
+    },
+    "rubric": {
+      "type": "string",
+      "description": "Identifier of the evaluation rubric used"
+    },
+    "score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Normalized score (0 = worst, 1 = best)"
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["pass", "fail", "partial", "inconclusive"]
+    },
+    "notes": { "type": "string" },
+    "dimensions": {
+      "type": "object",
+      "additionalProperties": { "type": "number" },
+      "description": "Multi-dimensional scores (completeness, accuracy, efficiency, etc.)"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "evaluated_at": { "type": "string", "format": "date-time" }
+  }
+}

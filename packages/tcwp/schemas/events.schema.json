@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retention.dev/tcwp/v1/events.schema.json",
+  "title": "TCWP Event (JSONL line)",
+  "description": "One event in the append-only event log. Each line in events.jsonl conforms to this schema.",
+  "type": "object",
+  "required": ["event_id", "ts", "type"],
+  "properties": {
+    "event_id": { "type": "string" },
+    "ts": { "type": "string", "format": "date-time" },
+    "type": {
+      "type": "string",
+      "enum": [
+        "action",
+        "checkpoint",
+        "tool_call",
+        "observation",
+        "decision",
+        "handoff",
+        "error",
+        "state_change",
+        "annotation",
+        "system"
+      ]
+    },
+    "action": {
+      "type": "string",
+      "description": "Action verb (tap, type, scroll, navigate, click, assert, wait, etc.)"
+    },
+    "target": {
+      "type": "string",
+      "description": "Identifier or selector for the target element/resource"
+    },
+    "actor": {
+      "type": "string",
+      "enum": ["agent", "user", "system", "pipeline"]
+    },
+    "input": {
+      "type": "object",
+      "description": "Action input parameters (coordinates, text, selector, etc.)",
+      "additionalProperties": true
+    },
+    "output": {
+      "type": "object",
+      "description": "Action result",
+      "additionalProperties": true
+    },
+    "state_before": {
+      "type": "string",
+      "description": "Reference to state_id in state_snapshots.jsonl"
+    },
+    "state_after": {
+      "type": "string",
+      "description": "Reference to state_id in state_snapshots.jsonl"
+    },
+    "cost": {
+      "type": "object",
+      "properties": {
+        "tokens": { "type": "integer", "minimum": 0 },
+        "ms": { "type": "integer", "minimum": 0 },
+        "usd": { "type": "number", "minimum": 0 }
+      }
+    },
+    "checkpoint_id": {
+      "type": "string",
+      "description": "For checkpoint events, the checkpoint identifier"
+    },
+    "checkpoint_result": {
+      "type": "string",
+      "enum": ["passed", "failed", "skipped", "degraded"]
+    },
+    "tool_call_id": {
+      "type": "string",
+      "description": "For tool_call events, reference to tool_calls.jsonl"
+    },
+    "error_code": { "type": "string" },
+    "error_message": { "type": "string" },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Arbitrary key-value metadata"
+    },
+    "artifact_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Paths to related artifacts (screenshots, traces, etc.)"
+    }
+  }
+}

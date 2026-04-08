@@ -1,0 +1,37 @@
+{
+  "trajectory_id": "rerun_android-35acb114",
+  "replay_run_id": "rerun-7eeee8e6",
+  "workflow": "com.google.android.youtube",
+  "success": true,
+  "total_steps": 0,
+  "steps_executed": 0,
+  "steps_matched": 0,
+  "steps_drifted": 0,
+  "drift_score": 0.0,
+  "fallback_to_exploration": false,
+  "token_usage": {
+    "estimated_replay_tokens": 6820,
+    "full_run_baseline_tokens": 31000
+  },
+  "time_seconds": 60.9,
+  "comparison_with_full": {
+    "token_savings_pct": 78.0,
+    "time_savings_pct": 78.3,
+    "tokens_full": 31000,
+    "tokens_replay": 6820,
+    "time_full_s": 280.1,
+    "time_replay_s": 60.9,
+    "baseline_source": "recorded"
+  },
+  "per_step_results": [],
+  "timestamp": "2026-03-30T21:40:54.075850+00:00",
+  "metadata": {
+    "created_by": null,
+    "replayed_by": "homen@retention.com",
+    "is_replay": true,
+    "run_number": 2,
+    "flow_type": "android",
+    "app_name": "com.google.android.youtube",
+    "baseline_run_id": "android-35acb114"
+  }
+}
