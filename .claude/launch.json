@@ -2,26 +2,12 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "frontend-dev",
-      "runtimeExecutable": "/opt/homebrew/bin/node",
-      "runtimeArgs": ["/opt/homebrew/bin/npm", "run", "dev"],
+      "name": "frontend",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["vite", "--port", "5173"],
       "port": 5173,
       "autoPort": true,
-      "cwd": "frontend/test-studio",
-      "env": {"PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"}
-    },
-    {
-      "name": "backend-api",
-      "runtimeExecutable": "/Users/Shared/vscode_ta/project_countdown/my-fullstack-app/backend/.venv/bin/python",
-      "runtimeArgs": ["-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"],
-      "port": 8000,
-      "cwd": "backend"
-    },
-    {
-      "name": "slides",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8765", "--directory", "tmp"],
-      "port": 8765
+      "cwd": "frontend"
     }
   ]
 }
