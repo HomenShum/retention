@@ -1,8 +1,16 @@
 import { Link } from 'react-router-dom'
-import { Terminal, ArrowRight, Shield, Zap, GitBranch, Users, ChevronRight } from 'lucide-react'
+import { Terminal, ArrowRight, ChevronRight, Eye, ShieldCheck, RotateCcw, Activity, Code2, Puzzle } from 'lucide-react'
 import { useState } from 'react'
 
 const INSTALL_CMD = 'curl -sL retention.sh/install.sh | bash'
+
+const PAIN_QUOTES = [
+  "You didn't run the tests.",
+  "Where's the search step? You skipped the research.",
+  "You didn't check the console for errors.",
+  "I asked you to QA all 5 surfaces, not just the landing page.",
+  "The deploy is broken. The agent said it was done.",
+]
 
 function CopyButton({ text }: { text: string }) {
   const [copied, setCopied] = useState(false)
@@ -13,6 +21,16 @@ function CopyButton({ text }: { text: string }) {
     >
       {copied ? 'Copied!' : 'Copy'}
     </button>
+  )
+}
+
+function InstallBlock() {
+  return (
+    <div className="inline-flex items-center gap-3 px-5 py-3 rounded-xl bg-bg-card border border-border-muted font-mono text-sm">
+      <span className="text-accent">$</span>
+      <code className="text-text-primary">{INSTALL_CMD}</code>
+      <CopyButton text={INSTALL_CMD} />
+    </div>
   )
 }
 
@@ -27,9 +45,9 @@ export function Landing() {
             retention.sh
           </div>
           <nav className="hidden sm:flex items-center gap-6 text-sm text-text-secondary">
+            <a href="#pain" className="hover:text-text-primary transition-colors no-underline">The problem</a>
             <a href="#how" className="hover:text-text-primary transition-colors no-underline">How it works</a>
-            <a href="#proof" className="hover:text-text-primary transition-colors no-underline">Benchmarks</a>
-            <a href="#tools" className="hover:text-text-primary transition-colors no-underline">Tools</a>
+            <a href="#sdk" className="hover:text-text-primary transition-colors no-underline">SDK</a>
             <Link to="/dashboard" className="px-3 py-1.5 rounded-lg bg-accent text-black font-medium hover:bg-accent-muted transition-colors no-underline text-sm">
               Dashboard
             </Link>
@@ -37,29 +55,22 @@ export function Landing() {
         </div>
       </header>
 
-      {/* Hero */}
+      {/* Hero — pain first */}
       <section className="pt-28 pb-14 px-6">
         <div className="max-w-3xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-accent/30 bg-accent/5 text-accent text-xs font-medium mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-            Always-on workflow judge
-          </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] mb-6">
-            AI agents forget.
+            Your AI agent says{' '}
+            <span className="text-text-muted line-through decoration-danger/60">"Done!"</span>
             <br />
-            <span className="text-accent">retention.sh remembers.</span>
+            <span className="text-danger">It isn't.</span>
           </h1>
           <p className="text-lg text-text-secondary max-w-xl mx-auto mb-10 leading-relaxed">
-            Your AI coding agent re-crawls your app from scratch every QA run.
-            retention.sh gives it memory -- replay saved workflows at 60-70% fewer tokens.
+            You're correcting the same mistakes every session.
+            Skipped tests. Missing steps. Forgotten context.
+            retention.sh watches every tool call and blocks incomplete work.
           </p>
 
-          {/* Install command */}
-          <div className="inline-flex items-center gap-3 px-5 py-3 rounded-xl bg-bg-card border border-border-muted font-mono text-sm mb-6">
-            <span className="text-accent">$</span>
-            <code className="text-text-primary">{INSTALL_CMD}</code>
-            <CopyButton text={INSTALL_CMD} />
-          </div>
+          <InstallBlock />
 
           <div className="flex items-center justify-center gap-4 mt-6">
             <Link
@@ -80,44 +91,95 @@ export function Landing() {
         </div>
       </section>
 
-      {/* How it works */}
-      <section id="how" className="py-14 px-6 border-t border-border-subtle">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-12">How it works</h2>
-          <div className="grid sm:grid-cols-3 gap-6">
-            {[
-              { step: '1', title: 'Agent writes code', desc: 'Your AI coding agent (Claude, Cursor, Windsurf) patches your app.' },
-              { step: '2', title: 'retention.sh verifies', desc: 'Crawls the real app, captures evidence, produces a structured QA report.' },
-              { step: '3', title: 'Memory saves tokens', desc: 'Workflow saved as trajectory. Next run replays at 60-70% fewer tokens.' },
-            ].map(({ step, title, desc }) => (
-              <div key={step} className="p-6 rounded-xl bg-bg-card border border-border-subtle">
-                <div className="w-8 h-8 rounded-lg bg-accent/10 text-accent font-bold text-sm flex items-center justify-center mb-4">
-                  {step}
-                </div>
-                <h3 className="font-semibold text-sm mb-2">{title}</h3>
-                <p className="text-text-secondary text-sm leading-relaxed">{desc}</p>
+      {/* Pain quotes — things you've actually said */}
+      <section id="pain" className="py-14 px-6 border-t border-border-subtle">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-xl font-bold text-center mb-2">Sound familiar?</h2>
+          <p className="text-text-muted text-center text-sm mb-8">Things you've said to your AI agent this week.</p>
+          <div className="space-y-3">
+            {PAIN_QUOTES.map((q, i) => (
+              <div key={i} className="flex items-start gap-3 p-4 rounded-xl bg-bg-card border border-danger/10">
+                <span className="text-danger text-lg leading-none mt-0.5">"</span>
+                <p className="text-text-secondary text-sm italic">{q}</p>
               </div>
             ))}
+          </div>
+          <p className="text-center text-text-muted text-sm mt-8">
+            Every correction costs tokens, time, and trust.{' '}
+            <span className="text-text-primary font-medium">retention.sh makes these impossible.</span>
+          </p>
+        </div>
+      </section>
+
+      {/* How it works — before/after */}
+      <section id="how" className="py-14 px-6 border-t border-border-subtle">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-2xl font-bold text-center mb-10">Without vs. with retention.sh</h2>
+          <div className="grid sm:grid-cols-2 gap-6">
+            {/* Without */}
+            <div className="p-6 rounded-xl bg-bg-card border border-danger/20">
+              <h3 className="text-sm font-semibold text-danger mb-4">Without retention.sh</h3>
+              <div className="space-y-2.5 text-sm">
+                {[
+                  { text: 'Agent receives task', dim: false },
+                  { text: 'Implements the code', dim: false },
+                  { text: 'Skips tests', dim: true, strike: true },
+                  { text: 'Skips search', dim: true, strike: true },
+                  { text: 'Agent says "Done!"', dim: false },
+                  { text: 'You: "You forgot the tests..."', dim: true },
+                  { text: '2000 tokens wasted on correction', dim: true },
+                  { text: 'You: "Also the search..."', dim: true },
+                  { text: '1500 more tokens wasted', dim: true },
+                ].map(({ text, dim, strike }, i) => (
+                  <div key={i} className={`${dim ? 'text-text-muted' : 'text-text-secondary'} ${strike ? 'line-through' : ''}`}>
+                    {text}
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* With */}
+            <div className="p-6 rounded-xl bg-bg-card border border-accent/20">
+              <h3 className="text-sm font-semibold text-accent mb-4">With retention.sh</h3>
+              <div className="space-y-2.5 text-sm">
+                {[
+                  { text: 'Agent receives task', accent: false },
+                  { text: 'on-prompt: injects 5 required steps', accent: true },
+                  { text: 'Implements the code', accent: false },
+                  { text: 'on-tool-use: tracks evidence (3/5 done)', accent: true },
+                  { text: 'Agent tries to stop', accent: false },
+                  { text: 'on-stop: BLOCKED — missing: tests, search', accent: true },
+                  { text: 'Agent runs tests + search', accent: false },
+                  { text: 'on-stop: PASSED — all 5 steps complete', accent: true },
+                  { text: 'Saved: 3500 tokens + 0 corrections', accent: true },
+                ].map(({ text, accent }, i) => (
+                  <div key={i} className={accent ? 'text-accent font-mono text-xs' : 'text-text-secondary'}>
+                    {text}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Tools */}
-      <section id="tools" className="py-14 px-6 border-t border-border-subtle">
+      {/* 4 hooks */}
+      <section className="py-14 px-6 border-t border-border-subtle">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-4">Key tools</h2>
-          <p className="text-text-secondary text-center mb-12 text-sm">All available via MCP -- call directly from your AI agent.</p>
+          <h2 className="text-2xl font-bold text-center mb-4">4 hooks. Always on.</h2>
+          <p className="text-text-muted text-center text-sm mb-10">
+            Fires on every prompt, tool call, and session. No opt-out.
+          </p>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
-              { icon: Shield, name: 'ta.qa_check(url)', desc: 'Instant QA scan -- JS errors, a11y, rendering issues' },
-              { icon: GitBranch, name: 'ta.diff_crawl(url)', desc: 'Before/after comparison across code changes' },
-              { icon: Zap, name: 'ta.start_workflow(url)', desc: 'Smart start -- auto-replays saved trajectory if available' },
-              { icon: Users, name: 'ta.team.invite', desc: 'Share trajectory memory across your team' },
-            ].map(({ icon: Icon, name, desc }) => (
-              <div key={name} className="flex gap-4 p-5 rounded-xl bg-bg-card border border-border-subtle">
+              { icon: Eye, hook: 'on-session-start', desc: 'Resumes prior incomplete work. Remembers what was left undone.' },
+              { icon: Code2, hook: 'on-prompt', desc: 'Detects workflow type. Injects required steps before the agent starts.' },
+              { icon: Activity, hook: 'on-tool-use', desc: 'Every tool call is tracked as evidence. Nudges if steps are missing.' },
+              { icon: ShieldCheck, hook: 'on-stop', desc: 'The gate. Blocks completion if mandatory steps are incomplete.' },
+            ].map(({ icon: Icon, hook, desc }) => (
+              <div key={hook} className="flex gap-4 p-5 rounded-xl bg-bg-card border border-border-subtle">
                 <Icon className="w-5 h-5 text-accent shrink-0 mt-0.5" />
                 <div>
-                  <code className="text-sm font-semibold text-text-primary">{name}</code>
+                  <code className="text-sm font-semibold text-accent">{hook}</code>
                   <p className="text-text-secondary text-sm mt-1">{desc}</p>
                 </div>
               </div>
@@ -126,19 +188,46 @@ export function Landing() {
         </div>
       </section>
 
-      {/* Benchmark proof */}
-      <section id="proof" className="py-14 px-6 border-t border-border-subtle">
+      {/* SDK — one-line install per provider */}
+      <section id="sdk" className="py-14 px-6 border-t border-border-subtle">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-4">Benchmark proof</h2>
-          <p className="text-text-secondary text-center mb-10 text-sm">
-            Real API calls, verified by independent LLM judge. N=15 CSP runs.
+          <h2 className="text-2xl font-bold text-center mb-4">One line. Any agent.</h2>
+          <p className="text-text-muted text-center text-sm mb-10">
+            Auto-detects your provider and starts tracking. No config.
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+          <div className="space-y-3">
             {[
-              { value: '63-73%', label: 'Cost savings' },
-              { value: '89%', label: 'Judge agreement' },
-              { value: '3', label: 'Workflow families' },
-              { value: '21', label: 'Live API calls' },
+              { label: 'Any provider (auto-detect)', code: 'from retention import track\ntrack()' },
+              { label: 'OpenAI', code: 'from retention import track\ntrack(providers=["openai"])' },
+              { label: 'Anthropic', code: 'from retention import track\ntrack(providers=["anthropic"])' },
+              { label: 'OpenAI Agents SDK', code: 'from retention import track\ntrack(providers=["openai_agents"])' },
+              { label: 'LangChain', code: 'from retention import track\ntrack(providers=["langchain"])' },
+              { label: 'CrewAI', code: 'from retention import track\ntrack(providers=["crewai"])' },
+            ].map(({ label, code }) => (
+              <div key={label} className="p-4 rounded-xl bg-bg-card border border-border-subtle">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs text-text-muted">{label}</span>
+                  <Puzzle className="w-3.5 h-3.5 text-text-muted" />
+                </div>
+                <pre className="font-mono text-xs text-accent whitespace-pre">{code}</pre>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Proof */}
+      <section className="py-14 px-6 border-t border-border-subtle">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-center mb-4">Measured, not promised</h2>
+          <p className="text-text-muted text-center text-sm mb-10">
+            Real API calls. Independent LLM judge. Reproducible.
+          </p>
+          <div className="grid grid-cols-3 gap-4 mb-8">
+            {[
+              { value: '63-73%', label: 'Cost savings on reruns' },
+              { value: '89%', label: 'Judge agreement rate' },
+              { value: '0', label: 'Corrections needed' },
             ].map(({ value, label }) => (
               <div key={label} className="text-center p-5 rounded-xl bg-bg-card border border-border-subtle">
                 <div className="text-2xl font-bold text-accent">{value}</div>
@@ -146,29 +235,23 @@ export function Landing() {
               </div>
             ))}
           </div>
-          <div className="p-5 rounded-xl bg-bg-card border border-border-subtle">
-            <h3 className="text-sm font-semibold mb-3">Verify it yourself</h3>
-            <div className="space-y-2 font-mono text-xs text-text-secondary">
-              <div><span className="text-accent">$</span> python backend/scripts/verify_stats.py</div>
-              <div><span className="text-accent">$</span> python backend/scripts/live_retention_proof.py</div>
-              <div><span className="text-accent">$</span> python backend/scripts/run_calibration.py</div>
-            </div>
-          </div>
         </div>
       </section>
 
       {/* CTA */}
       <section className="py-14 px-6 border-t border-border-subtle">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-2xl font-bold mb-4">Start in 60 seconds</h2>
-          <div className="inline-flex items-center gap-3 px-5 py-3 rounded-xl bg-bg-card border border-border-muted font-mono text-sm mb-6">
-            <span className="text-accent">$</span>
-            <code className="text-text-primary">{INSTALL_CMD}</code>
-            <CopyButton text={INSTALL_CMD} />
-          </div>
-          <p className="text-text-muted text-sm mt-4">
-            Then: <code className="text-text-secondary bg-bg-card px-2 py-0.5 rounded text-xs">ta.qa_check(url='http://localhost:3000')</code>
+          <h2 className="text-2xl font-bold mb-2">Stop correcting. Start shipping.</h2>
+          <p className="text-text-muted text-sm mb-6">60 seconds to install. Works with Claude Code, Cursor, Windsurf, or any MCP client.</p>
+          <InstallBlock />
+          <p className="text-text-muted text-sm mt-6">
+            Or add telemetry to any Python agent:
           </p>
+          <div className="inline-block mt-3 px-5 py-3 rounded-xl bg-bg-card border border-border-muted font-mono text-sm text-left">
+            <div className="text-text-muted text-xs mb-1"># pip install retention</div>
+            <div><span className="text-accent">from</span> retention <span className="text-accent">import</span> track</div>
+            <div>track()</div>
+          </div>
         </div>
       </section>
 

@@ -1,35 +1,23 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.backends._legacy:_Backend"
 
 [project]
-name = "retention-sh"
+name = "retention"
 version = "0.1.0"
-description = "Drop-in agent observability — track every tool call, find waste, prove savings."
+description = "The always-on judge for AI agents. One-line telemetry for any provider."
 readme = "README.md"
-license = "MIT"
-requires-python = ">=3.10"
-authors = [{ name = "retention.sh", email = "hello@retention.com" }]
-keywords = ["ai", "agent", "observability", "mcp", "claude", "openai", "langchain"]
+license = {text = "MIT"}
+requires-python = ">=3.9"
+keywords = ["ai", "agent", "workflow", "judge", "telemetry"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
+    "Topic :: Software Development :: Testing",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Topic :: Software Development :: Testing",
 ]
-
-# Zero required dependencies — all provider SDKs are optional
-dependencies = []
-
-[project.optional-dependencies]
-openai = ["openai>=1.0"]
-anthropic = ["anthropic>=0.20"]
-langchain = ["langchain-core>=0.2"]
-crewai = ["crewai>=0.50"]
-all = ["openai>=1.0", "anthropic>=0.20", "langchain-core>=0.2"]
 
 [project.urls]
 Homepage = "https://retention.sh"
-Documentation = "https://test-studio-xi.vercel.app/docs/sdk"
-Repository = "https://github.com/HomenShum/retention-sdk"
+Repository = "https://github.com/HomenShum/retention"
