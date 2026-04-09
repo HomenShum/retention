@@ -1,25 +1,46 @@
 # retention.sh
 
-**Your AI agent says "Done!" It isn't.**
+**See what your AI agent actually missed.**
 
-You're correcting the same mistakes every session. Skipped tests. Missing steps. Forgotten context. retention.sh watches every tool call and blocks incomplete work -- before you have to.
+Your agent says "done." retention.sh shows you the skipped tests, the forgotten steps, and the missing context -- then blocks it from happening again.
 
 ```bash
 curl -sL retention.sh/install.sh | bash
 ```
 
-## The problem
+## The menu
 
-AI coding agents (Claude, Cursor, Windsurf) skip steps, forget context, and declare victory early. Every correction costs tokens, time, and trust:
+Three things we do. That's it.
 
-- "You didn't run the tests."
-- "Where's the search step?"
-- "I asked you to QA all 5 surfaces, not just the landing page."
-- "The deploy is broken. The agent said it was done."
+### Workflow Judge (the signature dish)
 
-## How retention.sh fixes it
+See what the agent did, what it missed, and whether it should have kept going. Hard verdict: PASS, FAIL, or BLOCKED.
 
-**4 hooks. Always on. No opt-out.**
+*"Stop re-explaining the same steps every time."*
+
+### Replay Kit
+
+Capture one expensive workflow. Replay it at 60-70% lower cost. Strict judge verifies the replay actually worked.
+
+*"Replay the same workflow cheaper, with proof it still works."*
+
+### Run Anatomy
+
+Full trace of every tool call, with screenshots, evidence, and per-step cost. Shareable link for your team.
+
+*"Here's what happened. Here's what got skipped."*
+
+## Who this is for
+
+**Engineers** -- Agent keeps skipping tests and search steps. Catch skipped steps, replay repeated workflows cheaper.
+
+**Team leads** -- No visibility into what agents actually did. See what happened, what was missed, where savings came from.
+
+**Founders** -- Repeating expensive AI work manually every time. Turn repeated work into reusable operating leverage.
+
+## How it works
+
+4 hooks. Always on. No opt-out.
 
 | Hook | What it does |
 |------|-------------|
