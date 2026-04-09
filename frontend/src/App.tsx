@@ -6,6 +6,7 @@ import { Judge } from './pages/Judge'
 import { Anatomy } from './pages/Anatomy'
 import { Benchmark } from './pages/Benchmark'
 import { Compare } from './pages/Compare'
+import { Proof } from './pages/Proof'
 import { Layout } from './components/Layout'
 
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/proof" element={<Proof />} />
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/workflows" element={<Workflows />} />
