@@ -17,7 +17,7 @@ retention.sh remembers. After the first crawl, reruns use 60-70% fewer tokens an
 We just verified the full install works in 60 seconds:
 `curl -sL retention.sh/install.sh | bash`
 
-Then in Claude Code: `ta.qa_check(url='http://localhost:3000')`
+Then in Claude Code: `retention.qa_check(url='http://localhost:3000')`
 
 Running an **early access** — free, early users get direct access to the team. Want early users who'll tell us what's broken.
 
@@ -38,7 +38,7 @@ retention.sh fixes this — first crawl saves everything, reruns are 60-70% chea
 What it finds: JS console errors, broken links, a11y violations, rendering issues, missing labels.
 
 60-second install: `curl -sL retention.sh/install.sh | bash`
-Then: `ta.qa_check(url='http://localhost:3000')`
+Then: `retention.qa_check(url='http://localhost:3000')`
 
 Just shipped — free, no signup. Looking for Claude Code daily users. DM me if interested.
 ```

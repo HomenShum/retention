@@ -9,7 +9,7 @@ Usage (API):
   GET  /api/benchmarks/model-compare/runs/{run_id}
 
 Usage (MCP):
-  ta.benchmark.model_compare  { "tasks": ["list_apps"], "models": 3 }
+  retention.benchmark.model_compare  { "tasks": ["list_apps"], "models": 3 }
 """
 
 from __future__ import annotations
@@ -59,7 +59,7 @@ _register(BenchmarkTask(
     task_id="st_list_apps",
     name="List Demo Apps",
     prompt="List all available demo apps in the catalog. Return their IDs and names.",
-    expected_tools=["ta.pipeline.list_apps"],
+    expected_tools=["retention.pipeline.list_apps"],
     expected_keywords=["google-contacts", "instagram"],
     category="single_tool",
     timeout_s=30,
@@ -70,7 +70,7 @@ _register(BenchmarkTask(
     task_id="st_system_check",
     name="System Health Check",
     prompt="Run a system health check and report the status of each component.",
-    expected_tools=["ta.system_check"],
+    expected_tools=["retention.system_check"],
     expected_keywords=["backend", "status"],
     category="single_tool",
     timeout_s=30,
@@ -81,7 +81,7 @@ _register(BenchmarkTask(
     task_id="st_device_list",
     name="Device Inventory",
     prompt="List all available Android devices and emulators. Report their IDs and connection status.",
-    expected_tools=["ta.device.list"],
+    expected_tools=["retention.device.list"],
     expected_keywords=["device", "emulator"],
     category="single_tool",
     timeout_s=30,
@@ -103,7 +103,7 @@ _register(BenchmarkTask(
     task_id="st_git_status",
     name="Git Status",
     prompt="Show the current git status of the repository — modified, staged, and untracked files.",
-    expected_tools=["ta.codebase.git_status"],
+    expected_tools=["retention.codebase.git_status"],
     expected_keywords=["modified", "file"],
     category="single_tool",
     timeout_s=30,
@@ -114,7 +114,7 @@ _register(BenchmarkTask(
     task_id="st_recent_commits",
     name="Recent Commits",
     prompt="Get the 10 most recent git commits. Show the SHA, author, and message for each.",
-    expected_tools=["ta.codebase.recent_commits"],
+    expected_tools=["retention.codebase.recent_commits"],
     expected_keywords=["commit", "author"],
     category="single_tool",
     timeout_s=30,
@@ -136,7 +136,7 @@ _register(BenchmarkTask(
     task_id="st_file_tree",
     name="File Tree",
     prompt="Show the file tree for the backend/app directory. List the top-level folders.",
-    expected_tools=["ta.codebase.file_tree"],
+    expected_tools=["retention.codebase.file_tree"],
     expected_keywords=["agents", "api", "services"],
     category="single_tool",
     timeout_s=30,
@@ -155,7 +155,7 @@ _register(BenchmarkTask(
         "First check the system health, then list all available devices. "
         "Summarize both results together."
     ),
-    expected_tools=["ta.system_check", "ta.device.list"],
+    expected_tools=["retention.system_check", "retention.device.list"],
     expected_keywords=["device", "status"],
     category="multi_tool",
     timeout_s=45,
@@ -169,7 +169,7 @@ _register(BenchmarkTask(
         "Search the codebase for the file 'main.py' in the backend, "
         "then read it and tell me how many route files are imported."
     ),
-    expected_tools=["ta.codebase.search", "ta.codebase.read_file"],
+    expected_tools=["retention.codebase.search", "retention.codebase.read_file"],
     expected_keywords=["import", "route"],
     category="multi_tool",
     timeout_s=60,
@@ -183,7 +183,7 @@ _register(BenchmarkTask(
         "Get the 5 most recent commits, then show the diff for the most recent one. "
         "Summarize what files changed."
     ),
-    expected_tools=["ta.codebase.recent_commits", "ta.codebase.commit_diff"],
+    expected_tools=["retention.codebase.recent_commits", "retention.codebase.commit_diff"],
     expected_keywords=["commit", "changed"],
     category="multi_tool",
     timeout_s=60,
@@ -211,7 +211,7 @@ _register(BenchmarkTask(
         "List all demo apps, then start a QA pipeline run on the google-contacts app "
         "from the catalog."
     ),
-    expected_tools=["ta.pipeline.list_apps", "ta.pipeline.run_catalog"],
+    expected_tools=["retention.pipeline.list_apps", "retention.pipeline.run_catalog"],
     expected_keywords=["google-contacts", "run_id"],
     category="multi_tool",
     timeout_s=90,
@@ -225,7 +225,7 @@ _register(BenchmarkTask(
         "Get the file tree for the backend directory, "
         "then list the contents of the backend/app/agents directory."
     ),
-    expected_tools=["ta.codebase.file_tree", "ta.codebase.list_directory"],
+    expected_tools=["retention.codebase.file_tree", "retention.codebase.list_directory"],
     expected_keywords=["agents", "coordinator"],
     category="multi_tool",
     timeout_s=45,
@@ -239,7 +239,7 @@ _register(BenchmarkTask(
         "Run a system check, then also run a page health check on http://localhost:5173. "
         "Compare the results — is the backend healthy but the frontend down, or vice versa?"
     ),
-    expected_tools=["ta.system_check", "ta.playwright.check_page_health"],
+    expected_tools=["retention.system_check", "ta.playwright.check_page_health"],
     expected_keywords=["health", "page"],
     category="multi_tool",
     timeout_s=60,
@@ -253,7 +253,7 @@ _register(BenchmarkTask(
         "Check NemoClaw's status and then get the telemetry data. "
         "Report which model is active and its performance metrics."
     ),
-    expected_tools=["ta.nemoclaw.status", "ta.nemoclaw.telemetry"],
+    expected_tools=["retention.nemoclaw.status", "retention.nemoclaw.telemetry"],
     expected_keywords=["model", "latency"],
     category="multi_tool",
     timeout_s=45,
@@ -272,7 +272,7 @@ _register(BenchmarkTask(
         "Read the file backend/app/main.py and count how many router includes "
         "(app.include_router calls) there are. Return the exact number."
     ),
-    expected_tools=["ta.codebase.read_file"],
+    expected_tools=["retention.codebase.read_file"],
     expected_keywords=["include_router"],
     category="reasoning",
     timeout_s=60,
@@ -286,7 +286,7 @@ _register(BenchmarkTask(
         "Search for 'NemoClawAgent' in the codebase. Read the file that defines it, "
         "then list all classes it depends on (imports from the same package)."
     ),
-    expected_tools=["ta.codebase.search", "ta.codebase.read_file"],
+    expected_tools=["retention.codebase.search", "retention.codebase.read_file"],
     expected_keywords=["NemotronClient", "DeepAgentBridge"],
     category="reasoning",
     timeout_s=60,
@@ -300,7 +300,7 @@ _register(BenchmarkTask(
         "Read the golden bugs file at backend/data/golden_bugs.json. "
         "How many bugs are there? What severity levels exist? Which bug IDs are 'critical'?"
     ),
-    expected_tools=["ta.codebase.read_file"],
+    expected_tools=["retention.codebase.read_file"],
     expected_keywords=["GOLDEN", "critical", "severity"],
     category="reasoning",
     timeout_s=60,
@@ -315,7 +315,7 @@ _register(BenchmarkTask(
         "identifies 7 with 1 false positive, what are the precision, recall, and F1 score? "
         "Return the numbers."
     ),
-    expected_tools=["ta.codebase.exec_python"],
+    expected_tools=["retention.codebase.exec_python"],
     expected_keywords=["precision", "recall", "f1"],
     category="reasoning",
     timeout_s=60,
@@ -329,7 +329,7 @@ _register(BenchmarkTask(
         "Use shell_command to count the number of lines in backend/app/api/mcp_server.py. "
         "Report the exact line count."
     ),
-    expected_tools=["ta.codebase.shell_command"],
+    expected_tools=["retention.codebase.shell_command"],
     expected_keywords=["line"],
     category="reasoning",
     timeout_s=45,
@@ -343,7 +343,7 @@ _register(BenchmarkTask(
         "Read both backend/app/agents/coordinator/coordinator_instructions.py "
         "and backend/app/main.py. Which file is longer? By how many lines?"
     ),
-    expected_tools=["ta.codebase.read_file"],
+    expected_tools=["retention.codebase.read_file"],
     expected_keywords=["lines", "longer"],
     category="reasoning",
     timeout_s=60,
@@ -362,7 +362,7 @@ _register(BenchmarkTask(
         "Start a QA pipeline run on the 'google-contacts' catalog app, "
         "then immediately check its status and report back."
     ),
-    expected_tools=["ta.pipeline.run_catalog", "ta.pipeline.status"],
+    expected_tools=["retention.pipeline.run_catalog", "retention.pipeline.status"],
     expected_keywords=["run_id", "status"],
     category="pipeline",
     timeout_s=90,
@@ -375,7 +375,7 @@ _register(BenchmarkTask(
     prompt=(
         "Run a full QA web flow on https://example.com. Report the run_id."
     ),
-    expected_tools=["ta.run_web_flow"],
+    expected_tools=["retention.run_web_flow"],
     expected_keywords=["run_id"],
     category="pipeline",
     timeout_s=90,
@@ -389,7 +389,7 @@ _register(BenchmarkTask(
         "List all completed pipeline results. How many runs are there? "
         "What was the most recent one?"
     ),
-    expected_tools=["ta.pipeline.results"],
+    expected_tools=["retention.pipeline.results"],
     expected_keywords=["run"],
     category="pipeline",
     timeout_s=45,
@@ -417,7 +417,7 @@ _register(BenchmarkTask(
         "Start a web flow on https://example.com, then emit a pass/fail verdict "
         "for the run with a 0.7 pass threshold."
     ),
-    expected_tools=["ta.run_web_flow", "ta.emit_verdict"],
+    expected_tools=["retention.run_web_flow", "retention.emit_verdict"],
     expected_keywords=["verdict", "pass"],
     category="pipeline",
     timeout_s=120,
@@ -431,7 +431,7 @@ _register(BenchmarkTask(
         "Start a QA pipeline on https://example.com but scope the crawl to only the "
         "homepage using entry_url='/' and max_crawl_turns=10. Use scope_hint 'Only test the main page links'."
     ),
-    expected_tools=["ta.pipeline.run"],
+    expected_tools=["retention.pipeline.run"],
     expected_keywords=["run_id", "scope"],
     category="pipeline",
     timeout_s=90,
@@ -450,7 +450,7 @@ _register(BenchmarkTask(
         "Get the status of pipeline run_id 'nonexistent-12345'. "
         "If it doesn't exist, say so clearly."
     ),
-    expected_tools=["ta.pipeline.status"],
+    expected_tools=["retention.pipeline.status"],
     expected_keywords=["not found", "error", "invalid", "exist"],
     category="error_recovery",
     timeout_s=30,
@@ -464,7 +464,7 @@ _register(BenchmarkTask(
         "Read the file backend/nonexistent/fake_module.py. "
         "If the file doesn't exist, explain what happened and suggest how to find it."
     ),
-    expected_tools=["ta.codebase.read_file"],
+    expected_tools=["retention.codebase.read_file"],
     expected_keywords=["not found", "error", "exist", "search"],
     category="error_recovery",
     timeout_s=30,
@@ -478,7 +478,7 @@ _register(BenchmarkTask(
         "Start a pipeline run on the catalog app 'nonexistent-app-xyz'. "
         "Handle the error and list what apps are actually available."
     ),
-    expected_tools=["ta.pipeline.run_catalog", "ta.pipeline.list_apps"],
+    expected_tools=["retention.pipeline.run_catalog", "retention.pipeline.list_apps"],
     expected_keywords=["error", "available"],
     category="error_recovery",
     timeout_s=60,
@@ -492,7 +492,7 @@ _register(BenchmarkTask(
         "Execute this Python code: 'def foo(: return 42'. "
         "When it fails, fix the syntax and run the corrected version."
     ),
-    expected_tools=["ta.codebase.exec_python"],
+    expected_tools=["retention.codebase.exec_python"],
     expected_keywords=["syntax", "42"],
     category="error_recovery",
     timeout_s=45,
@@ -507,7 +507,7 @@ _register(BenchmarkTask(
         "When it's blocked, explain why and suggest a safe alternative "
         "to count files instead."
     ),
-    expected_tools=["ta.codebase.shell_command"],
+    expected_tools=["retention.codebase.shell_command"],
     expected_keywords=["blocked", "not allowed", "safe"],
     category="error_recovery",
     timeout_s=30,
@@ -522,7 +522,7 @@ _register(BenchmarkTask(
         "When nothing is found, broaden your search to find something "
         "related to 'agent' instead and report what you found."
     ),
-    expected_tools=["ta.codebase.search"],
+    expected_tools=["retention.codebase.search"],
     expected_keywords=["agent", "no results", "not found", "found"],
     category="error_recovery",
     timeout_s=60,
@@ -541,7 +541,7 @@ _register(BenchmarkTask(
         "Find which file handles the /api/benchmarks endpoint. "
         "Search for the route, read the handler file, and explain what it does."
     ),
-    expected_tools=["ta.codebase.search", "ta.codebase.read_file"],
+    expected_tools=["retention.codebase.search", "retention.codebase.read_file"],
     expected_keywords=["benchmark", "route", "handler"],
     category="debugging",
     timeout_s=60,
@@ -555,7 +555,7 @@ _register(BenchmarkTask(
         "Search the codebase for 'agent_error_log'. Read the file and identify "
         "what errors have been logged. Summarize the root causes."
     ),
-    expected_tools=["ta.codebase.search", "ta.codebase.read_file"],
+    expected_tools=["retention.codebase.search", "retention.codebase.read_file"],
     expected_keywords=["error", "log"],
     category="debugging",
     timeout_s=60,
@@ -570,7 +570,7 @@ _register(BenchmarkTask(
         "(just check existence, don't print the value). Also check NVIDIA_API_KEY "
         "and report which ones are configured."
     ),
-    expected_tools=["ta.codebase.exec_python"],
+    expected_tools=["retention.codebase.exec_python"],
     expected_keywords=["OPENROUTER", "configured", "set"],
     category="debugging",
     timeout_s=45,
@@ -584,7 +584,7 @@ _register(BenchmarkTask(
         "Search the mcp_server.py file to count how many MCP tools are registered. "
         "Use shell_command with grep to count lines matching 'MCPTool(' in the file."
     ),
-    expected_tools=["ta.codebase.shell_command"],
+    expected_tools=["retention.codebase.shell_command"],
     expected_keywords=["MCPTool", "count"],
     category="debugging",
     timeout_s=45,
@@ -599,7 +599,7 @@ _register(BenchmarkTask(
         "is defined, read its imports, and map out its dependency chain (what external "
         "libraries does it use?)."
     ),
-    expected_tools=["ta.codebase.search", "ta.codebase.read_file"],
+    expected_tools=["retention.codebase.search", "retention.codebase.read_file"],
     expected_keywords=["rotation", "import", "threading"],
     category="debugging",
     timeout_s=60,
@@ -613,7 +613,7 @@ _register(BenchmarkTask(
         "List the contents of backend/data/benchmark_runs/ directory. "
         "If there are any results files, read one and summarize the benchmark outcomes."
     ),
-    expected_tools=["ta.codebase.list_directory", "ta.codebase.read_file"],
+    expected_tools=["retention.codebase.list_directory", "retention.codebase.read_file"],
     expected_keywords=["benchmark", "score", "model"],
     category="debugging",
     timeout_s=60,
@@ -632,7 +632,7 @@ _register(BenchmarkTask(
         "Annotate test case 'tc_001' in run 'demo-run-001' as a 'flag' with content "
         "'This test is flaky — fails 20% of the time on slow network'."
     ),
-    expected_tools=["ta.feedback.annotate"],
+    expected_tools=["retention.feedback.annotate"],
     expected_keywords=["flag", "annotate", "tc_001"],
     category="feedback",
     timeout_s=30,
@@ -646,7 +646,7 @@ _register(BenchmarkTask(
         "List all feedback annotations for pipeline run 'demo-run-001'. "
         "Summarize what types of feedback exist."
     ),
-    expected_tools=["ta.feedback.list"],
+    expected_tools=["retention.feedback.list"],
     expected_keywords=["feedback", "annotation"],
     category="feedback",
     timeout_s=30,
@@ -660,7 +660,7 @@ _register(BenchmarkTask(
         "Get the feedback summary for run 'demo-run-001'. "
         "How many flags, suggestions, approvals, and rejections are there?"
     ),
-    expected_tools=["ta.feedback.summary"],
+    expected_tools=["retention.feedback.summary"],
     expected_keywords=["summary", "count"],
     category="feedback",
     timeout_s=30,
@@ -675,7 +675,7 @@ _register(BenchmarkTask(
         "with content 'Login flow verified — works correctly'. "
         "Then list annotations to confirm it was saved."
     ),
-    expected_tools=["ta.feedback.annotate", "ta.feedback.list"],
+    expected_tools=["retention.feedback.annotate", "retention.feedback.list"],
     expected_keywords=["approval", "login", "saved"],
     category="feedback",
     timeout_s=45,
@@ -691,7 +691,7 @@ _register(BenchmarkTask(
     task_id="adv_vague_request",
     name="Adversarial: Vague Request",
     prompt="Check everything.",
-    expected_tools=["ta.system_check"],
+    expected_tools=["retention.system_check"],
     expected_keywords=["status", "check"],
     category="adversarial",
     timeout_s=45,
@@ -705,7 +705,7 @@ _register(BenchmarkTask(
         "I need to know if the system is healthy, what apps we have, "
         "and what the last few commits were. Also what devices are available."
     ),
-    expected_tools=["ta.system_check", "ta.pipeline.list_apps", "ta.codebase.recent_commits", "ta.device.list"],
+    expected_tools=["retention.system_check", "retention.pipeline.list_apps", "retention.codebase.recent_commits", "retention.device.list"],
     expected_keywords=["status", "device", "commit"],
     category="adversarial",
     timeout_s=90,
@@ -730,7 +730,7 @@ _register(BenchmarkTask(
         "Use the pipeline tool to search the codebase for 'FastAPI'. "
         "Note: you should use the correct codebase search tool, not the pipeline tool."
     ),
-    expected_tools=["ta.codebase.search"],
+    expected_tools=["retention.codebase.search"],
     expected_keywords=["FastAPI"],
     category="adversarial",
     timeout_s=45,

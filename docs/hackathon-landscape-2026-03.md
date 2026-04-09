@@ -14,7 +14,7 @@
 - **Dates**: March 30 - April 12, 2026
 - **Prize pool**: $55,000
 - **Focus**: Autonomous trading agents
-- **retention.sh fit**: MODERATE — Trading agents need verification that trades execute correctly. ta.qa_check could verify trading UI. Less direct than pure MCP hackathons.
+- **retention.sh fit**: MODERATE — Trading agents need verification that trades execute correctly. retention.qa_check could verify trading UI. Less direct than pure MCP hackathons.
 
 ### 3. Lablab.ai General AI Hackathon (Hybrid SF)
 - **Dates**: April 20-26, 2026
@@ -35,7 +35,7 @@
 - **Dates**: April 2-3, 2026
 - **Scale**: 95+ sessions, speakers from Anthropic, Datadog, Hugging Face, Microsoft
 - **Focus**: MCP protocol, conformance testing, security, enterprise deployment
-- **retention.sh fit**: PERFECT — This is THE event for MCP. retention.sh is an MCP tool. Conformance testing and security are exactly what ta.ux_audit does.
+- **retention.sh fit**: PERFECT — This is THE event for MCP. retention.sh is an MCP tool. Conformance testing and security are exactly what retention.ux_audit does.
 
 ## YC W2026 Competitors & Adjacents
 
@@ -75,21 +75,21 @@ They build an agent/app in 48 hours. They need to:
 
 **Hour 1-12 (Building)**
 - `curl -sL retention.sh/install.sh | bash` — 60 seconds to install
-- Agent now has ta.qa_check — instant QA after every code change
+- Agent now has retention.qa_check — instant QA after every code change
 - .claude/rules/retention.md makes Claude Code auto-QA
 
 **Hour 12-24 (First Integration Test)**
-- `ta.sitemap(url='http://localhost:3000')` — see the whole app mapped with screenshots
-- `ta.ux_audit(url='...')` — catch nav issues, dead ends, a11y gaps before judges see them
+- `retention.sitemap(url='http://localhost:3000')` — see the whole app mapped with screenshots
+- `retention.ux_audit(url='...')` — catch nav issues, dead ends, a11y gaps before judges see them
 - Findings tell you exactly what to fix and where
 
 **Hour 24-36 (Fix Loop)**
-- Fix code → `ta.diff_crawl(url='...')` → see what improved
+- Fix code → `retention.diff_crawl(url='...')` → see what improved
 - Each re-crawl costs 60-70% fewer tokens (trajectory replay)
-- `ta.savings.compare` — show judges the efficiency
+- `retention.savings.compare` — show judges the efficiency
 
 **Hour 36-48 (Demo Prep)**
-- `ta.team.invite` — share with teammates instantly
+- `retention.team.invite` — share with teammates instantly
 - Team dashboard shows aggregate savings
 - Site map with screenshots = ready-made demo visual
 
@@ -97,7 +97,7 @@ They build an agent/app in 48 hours. They need to:
 
 **CLEAR (works today):**
 - One-liner install — no signup, no web forms
-- ta.qa_check — instant value, zero config
+- retention.qa_check — instant value, zero config
 - Team invite — one Slack message
 - Site map demo — visual proof of crawl capability
 - Dashboard with real data

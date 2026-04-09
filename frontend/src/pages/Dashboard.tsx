@@ -118,11 +118,11 @@ function SiteMap() {
       <Globe className="w-12 h-12 text-text-muted mx-auto mb-4" />
       <h3 className="text-lg font-semibold mb-2">Site Map</h3>
       <p className="text-text-secondary text-sm mb-6 max-w-md mx-auto">
-        Run <code className="text-accent text-xs bg-bg-card px-1.5 py-0.5 rounded">ta.sitemap(url='your-app')</code> to generate an interactive site map with screenshots and findings.
+        Run <code className="text-accent text-xs bg-bg-card px-1.5 py-0.5 rounded">retention.sitemap(url='your-app')</code> to generate an interactive site map with screenshots and findings.
       </p>
       <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-xl bg-bg-card border border-border-muted font-mono text-xs">
         <span className="text-accent">$</span>
-        <code>ta.sitemap(url='http://localhost:3000')</code>
+        <code>retention.sitemap(url='http://localhost:3000')</code>
       </div>
     </div>
   )
@@ -153,7 +153,7 @@ function Team() {
       </p>
       <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-xl bg-bg-card border border-border-muted font-mono text-xs">
         <span className="text-accent">$</span>
-        <code>ta.team.invite</code>
+        <code>retention.team.invite</code>
       </div>
     </div>
   )

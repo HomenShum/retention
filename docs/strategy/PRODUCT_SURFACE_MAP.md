@@ -69,14 +69,14 @@ This is where revenue comes from. Requires active pilot or subscription.
 | Drift detection dashboard | (in dashboard) | SaaS | Per-trajectory health scoring, drift alerts |
 | Workflow compression viz | (in dashboard) | SaaS | Original vs compressed side-by-side, stage-by-stage cost |
 | Optimization candidates | (in dashboard) | SaaS | Proposed shortcuts, audit status, verified savings |
-| Training export profile | `ta.tcwp.export_profile profile=training` | Enterprise | Fine-tuning data, preferences, reward signals |
-| Sales export profile | `ta.tcwp.export_profile profile=sales` | SaaS | Buyer-facing proof packages |
-| ROI reports | `ta.savings.roi` + dashboard | SaaS | Breakeven analysis, cumulative ROI, forecast |
-| Longitudinal rollups | `ta.memory.rollup` + dashboard | SaaS | Day/week/month/quarter savings aggregation |
-| Cross-model benchmarks | `ta.benchmark.model_compare` + dashboard | SaaS | Model-vs-model comparison dashboards |
+| Training export profile | `retention.tcwp.export_profile profile=training` | Enterprise | Fine-tuning data, preferences, reward signals |
+| Sales export profile | `retention.tcwp.export_profile profile=sales` | SaaS | Buyer-facing proof packages |
+| ROI reports | `retention.savings.roi` + dashboard | SaaS | Breakeven analysis, cumulative ROI, forecast |
+| Longitudinal rollups | `retention.memory.rollup` + dashboard | SaaS | Day/week/month/quarter savings aggregation |
+| Cross-model benchmarks | `retention.benchmark.model_compare` + dashboard | SaaS | Model-vs-model comparison dashboards |
 | Audit trail PDF | (future) | Enterprise | Compliance-ready audit report from TCWP |
 | Self-hosted deployment | (future) | Enterprise | On-prem / VPC, customer-managed keys |
-| Team onboarding | `ta.team.invite` + dashboard | SaaS | Invite teammates, shared memory |
+| Team onboarding | `retention.team.invite` + dashboard | SaaS | Invite teammates, shared memory |
 
 **Why paid:** This is where value compounds over time. Trajectory memory, compression history, team visibility, and longitudinal savings are the things competitors cannot clone from our open tools.
 
@@ -140,7 +140,7 @@ ACTIVATION (email gate)
   Install MCP tools → run first crawl → see savings
     ↓
 HABIT (free tier)
-  Daily: ta.crawl.url → ta.savings.compare → /compare
+  Daily: ta.crawl.url → retention.savings.compare → /compare
   Weekly: check /trajectories portfolio, review drift
     ↓
 AHA MOMENT

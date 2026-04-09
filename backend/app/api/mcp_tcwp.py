@@ -243,20 +243,20 @@ def _build_permissions(pkg_id: str) -> Dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 def dispatch_tcwp(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
-    """Handle ta.tcwp.* tools."""
+    """Handle retention.tcwp.* tools."""
     _ensure_dir()
 
-    if tool == "ta.tcwp.generate":
+    if tool == "retention.tcwp.generate":
         return _handle_generate(args)
-    if tool == "ta.tcwp.validate":
+    if tool == "retention.tcwp.validate":
         return _handle_validate(args)
-    if tool == "ta.tcwp.list":
+    if tool == "retention.tcwp.list":
         return _handle_list(args)
-    if tool == "ta.tcwp.export":
+    if tool == "retention.tcwp.export":
         return _handle_export(args)
-    if tool == "ta.tcwp.ingest":
+    if tool == "retention.tcwp.ingest":
         return _handle_ingest(args)
-    if tool == "ta.tcwp.export_profile":
+    if tool == "retention.tcwp.export_profile":
         return _handle_export_profile(args)
 
     return {"error": f"Unknown TCWP tool: {tool}"}
@@ -341,7 +341,7 @@ def _handle_generate(args: Dict[str, Any]) -> Dict[str, Any]:
         (bundle_dir / "sales_brief.json").write_text(json.dumps(brief, indent=2))
 
     return {
-        "tool": "ta.tcwp.generate",
+        "tool": "retention.tcwp.generate",
         "status": "ok",
         "package_id": pkg_id,
         "path": str(bundle_dir),
@@ -426,7 +426,7 @@ def _handle_validate(args: Dict[str, Any]) -> Dict[str, Any]:
 
     valid = len(errors) == 0
     return {
-        "tool": "ta.tcwp.validate",
+        "tool": "retention.tcwp.validate",
         "status": "ok" if valid else "error",
         "valid": valid,
         "errors": errors,
@@ -459,7 +459,7 @@ def _handle_list(args: Dict[str, Any]) -> Dict[str, Any]:
                         bundles.append({"package_id": pkg_dir.name, "error": "invalid manifest"})
 
     return {
-        "tool": "ta.tcwp.list",
+        "tool": "retention.tcwp.list",
         "status": "ok",
         "bundles": bundles,
         "total": len(bundles),
@@ -500,7 +500,7 @@ def _handle_export(args: Dict[str, Any]) -> Dict[str, Any]:
     export_path.write_text(json.dumps(bundle, indent=2))
 
     return {
-        "tool": "ta.tcwp.export",
+        "tool": "retention.tcwp.export",
         "status": "ok",
         "package_id": pkg_id,
         "export_path": str(export_path),
@@ -532,7 +532,7 @@ def _handle_ingest(args: Dict[str, Any]) -> Dict[str, Any]:
                 return {"error": f"Package {pkg_id} already exists", "package_id": pkg_id}
             import shutil
             shutil.copytree(source, dest)
-            return {"tool": "ta.tcwp.ingest", "status": "ok", "package_id": pkg_id, "path": str(dest)}
+            return {"tool": "retention.tcwp.ingest", "status": "ok", "package_id": pkg_id, "path": str(dest)}
 
         elif source.is_file() and source.suffix == ".json":
             # Import from export JSON
@@ -546,7 +546,7 @@ def _handle_ingest(args: Dict[str, Any]) -> Dict[str, Any]:
                     (dest / f"{key}.jsonl").write_text("\n".join(json.dumps(v) for v in value))
                 elif isinstance(value, dict):
                     (dest / f"{key}.json").write_text(json.dumps(value, indent=2))
-            return {"tool": "ta.tcwp.ingest", "status": "ok", "package_id": pkg_id, "path": str(dest)}
+            return {"tool": "retention.tcwp.ingest", "status": "ok", "package_id": pkg_id, "path": str(dest)}
 
     elif json_data:
         bundle = json.loads(json_data)
@@ -559,7 +559,7 @@ def _handle_ingest(args: Dict[str, Any]) -> Dict[str, Any]:
                 (dest / f"{key}.jsonl").write_text("\n".join(json.dumps(v) for v in value))
             elif isinstance(value, dict):
                 (dest / f"{key}.json").write_text(json.dumps(value, indent=2))
-        return {"tool": "ta.tcwp.ingest", "status": "ok", "package_id": pkg_id, "path": str(dest)}
+        return {"tool": "retention.tcwp.ingest", "status": "ok", "package_id": pkg_id, "path": str(dest)}
 
     return {"error": "path or json_data is required"}
 
@@ -658,7 +658,7 @@ def _handle_export_profile(args: Dict[str, Any]) -> Dict[str, Any]:
     export_path.write_text(json.dumps(bundle, indent=2))
 
     return {
-        "tool": "ta.tcwp.export_profile",
+        "tool": "retention.tcwp.export_profile",
         "status": "ok",
         "package_id": pkg_id,
         "profile": profile_name,

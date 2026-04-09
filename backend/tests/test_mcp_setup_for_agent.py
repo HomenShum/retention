@@ -36,7 +36,7 @@ def test_setup_for_agent_includes_app_url_when_provided(monkeypatch) -> None:
 
     assert response.status_code == 200
     body = response.text
-    assert 'ACTION: Call ta.run_web_flow with url="http://localhost:3000" to start QA testing.' in body
+    assert 'ACTION: Call retention.run_web_flow with url="http://localhost:3000" to start QA testing.' in body
     assert 'RUN: curl -s "http://testserver/mcp/setup/init.sh" | bash' in body
 
 

@@ -141,38 +141,38 @@ async def verify_mcp_token(request: Request):
 # Tools that are safe for external agents to call
 MCP_TOOL_ALLOWLIST = frozenset({
     # QA Pipeline
-    "ta.pipeline.run", "ta.pipeline.run_catalog", "ta.pipeline.status",
-    "ta.pipeline.results", "ta.pipeline.list_apps", "ta.pipeline.screenshot",
-    "ta.pipeline.rerun_failures", "ta.pipeline.replay_gif",
+    "retention.pipeline.run", "retention.pipeline.run_catalog", "retention.pipeline.status",
+    "retention.pipeline.results", "retention.pipeline.list_apps", "retention.pipeline.screenshot",
+    "retention.pipeline.rerun_failures", "retention.pipeline.replay_gif",
     # Benchmark generation
-    "ta.benchmark.generate_app", "ta.benchmark.list_templates",
-    "ta.benchmark.list_cases", "ta.benchmark.run_case",
-    "ta.benchmark.score", "ta.benchmark.run_history", "ta.pipeline.failure_bundle", "ta.pipeline.run_log",
+    "retention.benchmark.generate_app", "retention.benchmark.list_templates",
+    "retention.benchmark.list_cases", "retention.benchmark.run_case",
+    "retention.benchmark.score", "retention.benchmark.run_history", "retention.pipeline.failure_bundle", "retention.pipeline.run_log",
     # Feedback
-    "ta.feedback.annotate", "ta.feedback.list", "ta.feedback.summary",
-    "ta.feedback_package", "ta.summarize_failure", "ta.suggest_fix_context",
-    "ta.collect_trace_bundle", "ta.emit_verdict", "ta.compare_before_after",
+    "retention.feedback.annotate", "retention.feedback.list", "retention.feedback.summary",
+    "ta.feedback_package", "retention.summarize_failure", "retention.suggest_fix_context",
+    "retention.collect_trace_bundle", "retention.emit_verdict", "retention.compare_before_after",
     # Device (scoped)
-    "ta.device.list", "ta.device.lease",
+    "retention.device.list", "retention.device.lease",
     # System
-    "ta.system_check", "ta.quickstart", "ta.get_handoff",
+    "retention.system_check", "retention.quickstart", "retention.get_handoff",
     # Exploration Memory
-    "ta.memory.status", "ta.memory.graph", "ta.memory.apps",
+    "retention.memory.status", "retention.memory.graph", "retention.memory.apps",
     "ta.setup.status", "ta.setup.launch_emulator", "ta.setup.instructions",
     # Exploration Memory
-    "ta.memory.stats", "ta.memory.check", "ta.memory.invalidate",
+    "retention.memory.stats", "retention.memory.check", "retention.memory.invalidate",
     # Linkage Graph
     "ta.linkage.register_feature", "ta.linkage.affected_features",
     "ta.linkage.rerun_suggestions", "ta.linkage.stats",
     # Screenshot Diff
     "ta.screenshots.set_baseline", "ta.screenshots.compare", "ta.screenshots.history",
     # Web Demo (Playwright, no emulator)
-    "ta.web_demo.discover", "ta.web_demo.run", "ta.web_demo.scorecard", "ta.web_demo.status",
+    "retention.web_demo.discover", "retention.web_demo.run", "retention.web_demo.scorecard", "retention.web_demo.status",
     # Codebase (read-only)
-    "ta.codebase.search", "ta.codebase.read_file", "ta.codebase.git_log",
-    "ta.codebase.git_diff", "ta.codebase.list_files",
+    "retention.codebase.search", "retention.codebase.read_file", "retention.codebase.git_log",
+    "retention.codebase.git_diff", "retention.codebase.list_files",
     # QA flows
-    "ta.run_web_flow", "ta.run_android_flow", "ta.rerun",
+    "retention.run_web_flow", "retention.run_android_flow", "retention.rerun",
     # Coordinator agent
     "ta.agent.run",
     # Playwright (browser automation)
@@ -180,12 +180,12 @@ MCP_TOOL_ALLOWLIST = frozenset({
     "ta.playwright.click", "ta.playwright.fill",
     # Design-to-Code (Figma, Stitch by Google)
     # Figma snapshot + flow analysis (existing FigmaService integration)
-    "ta.design.figma_snapshot",     # Fetch Figma file data with progressive disclosure
-    "ta.design.figma_analyze_flows", # Cluster Figma frames into flow groups
+    "retention.design.figma_snapshot",     # Fetch Figma file data with progressive disclosure
+    "retention.design.figma_analyze_flows", # Cluster Figma frames into flow groups
     # Stitch by Google / external design-to-code MCP bridge
-    "ta.design.generate_from_design", # Convert design URL → React/HTML components
+    "retention.design.generate_from_design", # Convert design URL → React/HTML components
     # Design → Generate → QA (one-stop pipeline from design file)
-    "ta.design.pipeline",           # design URL → code gen → deploy → crawl → test
+    "retention.design.pipeline",           # design URL → code gen → deploy → crawl → test
     # Context Graph (execution judgment infrastructure)
     "ta.graph.list", "ta.graph.stats", "ta.graph.verdicts",
     "ta.graph.failure_chain", "ta.graph.precedents", "ta.graph.mermaid",
@@ -193,27 +193,27 @@ MCP_TOOL_ALLOWLIST = frozenset({
     "ta.graph.slack_open_items", "ta.graph.slack_similar_request",
     # Trajectory Replay
     "ta.trajectory.list", "ta.trajectory.replay", "ta.trajectory.compare",
-    "ta.memory.export", "ta.memory.import",
+    "retention.memory.export", "retention.memory.import",
     # TCWP (Canonical Workflow Package)
-    "ta.tcwp.generate", "ta.tcwp.validate", "ta.tcwp.list", "ta.tcwp.export", "ta.tcwp.ingest", "ta.tcwp.export_profile",
+    "retention.tcwp.generate", "retention.tcwp.validate", "retention.tcwp.list", "retention.tcwp.export", "retention.tcwp.ingest", "retention.tcwp.export_profile",
     # Audit Engine
-    "ta.audit.validate_shortcut", "ta.audit.compare", "ta.audit.drift_report", "ta.audit.list",
+    "retention.audit.validate_shortcut", "retention.audit.compare", "retention.audit.drift_report", "retention.audit.list",
     # Workflow Compression
-    "ta.compress.workflow", "ta.compress.list", "ta.compress.stats", "ta.compress.rollback",
+    "retention.compress.workflow", "retention.compress.list", "retention.compress.stats", "retention.compress.rollback",
     # Checkpoint Validation
-    "ta.checkpoint.list", "ta.checkpoint.set", "ta.checkpoint.verify", "ta.checkpoint.drift_report",
+    "retention.checkpoint.list", "retention.checkpoint.set", "retention.checkpoint.verify", "retention.checkpoint.drift_report",
     # Savings Forecast + ROI
-    "ta.savings.forecast", "ta.savings.roi", "ta.savings.breakdown",
+    "retention.savings.forecast", "retention.savings.roi", "retention.savings.breakdown",
     # Usage Tracking
     "ta.usage.sync_ccusage", "ta.usage.summary",
     # Explore-only (no test gen)
     "ta.explore.run",
     # Retention self-serve QA loop
-    "ta.onboard.status", "ta.crawl.url", "ta.savings.compare",
-    "ta.team.invite", "ta.qa.redesign",
-    "ta.qa_check", "ta.diff_crawl", "ta.ux_audit", "ta.suggest_tests",
-    "ta.sitemap",
-    "ta.start_workflow", "ta.memory.rollup",
+    "ta.onboard.status", "ta.crawl.url", "retention.savings.compare",
+    "retention.team.invite", "ta.qa.redesign",
+    "retention.qa_check", "retention.diff_crawl", "retention.ux_audit", "ta.suggest_tests",
+    "retention.sitemap",
+    "retention.start_workflow", "retention.memory.rollup",
     # Workflow Judge (always-on completion enforcement)
     "ta.judge.check", "ta.judge.detect", "ta.judge.status",
     "ta.judge.workflows", "ta.judge.correction", "ta.judge.analyze",
@@ -221,7 +221,7 @@ MCP_TOOL_ALLOWLIST = frozenset({
 
 # Tools that must NEVER be exposed to external agents
 MCP_TOOL_DENYLIST = frozenset({
-    "ta.codebase.shell_command",  # Arbitrary shell — internal only
+    "retention.codebase.shell_command",  # Arbitrary shell — internal only
     "ta.admin.reset",
     "ta.admin.delete_all",
 })
@@ -306,7 +306,7 @@ def validate_mcp_tool_call(tool_name: str, args: dict) -> tuple[bool, str]:
             return False, f"Blocked: suspicious content detected in tool arguments"
 
     # URL validation for pipeline tools (SSRF protection)
-    if tool_name in ("ta.pipeline.run", "ta.run_web_flow"):
+    if tool_name in ("retention.pipeline.run", "retention.run_web_flow"):
         url = args.get("url", "")
         if url:
             from urllib.parse import urlparse
@@ -406,10 +406,10 @@ class MCPToolCallResponse(BaseModel):
 
 _TOOLS: List[MCPTool] = [
     MCPTool(
-        name="ta.request_validation_gate",
+        name="retention.request_validation_gate",
         description=(
             "Open a Validation Stop Hook before submitting/merging a PR. "
-            "Returns a hook_id. Poll ta.get_hook_status until status is 'released'. "
+            "Returns a hook_id. Poll retention.get_hook_status until status is 'released'. "
             "Do NOT merge if status is 'blocked'."
         ),
         parameters=[
@@ -422,14 +422,14 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.get_hook_status",
+        name="retention.get_hook_status",
         description="Poll a Validation Stop Hook by hook_id. Returns status: pending|running|released|blocked.",
         parameters=[
-            MCPToolParam(name="hook_id", type="string", description="hook_id returned by ta.request_validation_gate", required=True),
+            MCPToolParam(name="hook_id", type="string", description="hook_id returned by retention.request_validation_gate", required=True),
         ],
     ),
     MCPTool(
-        name="ta.get_evidence_manifest",
+        name="retention.get_evidence_manifest",
         description=(
             "Retrieve the ActionSpan evidence manifest for a test session. "
             "Returns pass rate, average composite score, and all captured spans."
@@ -439,7 +439,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.smoke_test",
+        name="retention.smoke_test",
         description="Run a lightweight smoke test on the connected Android device and return a pass/fail verdict.",
         parameters=[
             MCPToolParam(name="device_id", type="string", description="ADB device serial (optional — uses first available)"),
@@ -500,7 +500,7 @@ _TOOLS: List[MCPTool] = [
     ),
     # --- Codebase tools (local filesystem + git) ---
     MCPTool(
-        name="ta.codebase.recent_commits",
+        name="retention.codebase.recent_commits",
         description="Get recent git commits from the local repository.",
         parameters=[
             MCPToolParam(name="limit", type="number", description="Number of commits (default 20, max 50)"),
@@ -509,7 +509,7 @@ _TOOLS: List[MCPTool] = [
         internal=True,
     ),
     MCPTool(
-        name="ta.codebase.commit_diff",
+        name="retention.codebase.commit_diff",
         description="Get files changed in a specific commit with line-level stats.",
         parameters=[
             MCPToolParam(name="sha", type="string", description="Commit SHA to inspect", required=True),
@@ -517,7 +517,7 @@ _TOOLS: List[MCPTool] = [
         internal=True,
     ),
     MCPTool(
-        name="ta.codebase.search",
+        name="retention.codebase.search",
         description="Search the codebase by keyword (file contents or file paths).",
         parameters=[
             MCPToolParam(name="query", type="string", description="Search terms", required=True),
@@ -526,7 +526,7 @@ _TOOLS: List[MCPTool] = [
         internal=True,
     ),
     MCPTool(
-        name="ta.codebase.read_file",
+        name="retention.codebase.read_file",
         description="Read a file from the local repository.",
         parameters=[
             MCPToolParam(name="path", type="string", description="Repo-relative file path", required=True),
@@ -536,7 +536,7 @@ _TOOLS: List[MCPTool] = [
         internal=True,
     ),
     MCPTool(
-        name="ta.codebase.list_directory",
+        name="retention.codebase.list_directory",
         description="List files and subdirectories in a directory.",
         parameters=[
             MCPToolParam(name="path", type="string", description="Directory path relative to repo root"),
@@ -544,7 +544,7 @@ _TOOLS: List[MCPTool] = [
         internal=True,
     ),
     MCPTool(
-        name="ta.codebase.file_tree",
+        name="retention.codebase.file_tree",
         description="Get a recursive list of all tracked files in the repo (or a subtree).",
         parameters=[
             MCPToolParam(name="path", type="string", description="Root path to start from"),
@@ -552,13 +552,13 @@ _TOOLS: List[MCPTool] = [
         internal=True,
     ),
     MCPTool(
-        name="ta.codebase.git_status",
+        name="retention.codebase.git_status",
         description="Get current git status showing modified, staged, and untracked files.",
         parameters=[],
         internal=True,
     ),
     MCPTool(
-        name="ta.codebase.exec_python",
+        name="retention.codebase.exec_python",
         description="Execute a Python snippet in a sandboxed environment. Safe imports: json, math, datetime, collections, csv, re, statistics, pandas, numpy, pathlib. Use print() for output. 60s timeout.",
         parameters=[
             MCPToolParam(name="code", type="string", description="Python code to execute", required=True),
@@ -566,7 +566,7 @@ _TOOLS: List[MCPTool] = [
         internal=True,
     ),
     MCPTool(
-        name="ta.codebase.shell_command",
+        name="retention.codebase.shell_command",
         description="Run a shell command for data processing. Allowed commands: wc, sort, uniq, head, tail, jq, date, ls, cat, grep, find, du, df, echo, awk, sed, tr, cut, paste, column, diff, stat, file. No rm, mv, cp, curl, wget, python, sudo. 30s timeout.",
         parameters=[
             MCPToolParam(name="command", type="string", description="Shell command to run", required=True),
@@ -615,7 +615,7 @@ _TOOLS: List[MCPTool] = [
     ),
     # --- QA Pipeline tools (remote agent access) ---
     MCPTool(
-        name="ta.pipeline.run",
+        name="retention.pipeline.run",
         description="Start a full QA pipeline (crawl → workflows → test cases) on any URL via the Android emulator. Returns a run_id for polling. Use entry_url to scope the crawl to a specific page/section instead of crawling the whole app. Use workflow_ids to re-test registered workflows without re-discovering.",
         parameters=[
             MCPToolParam(name="app_url", type="string", description="URL to crawl and test", required=True),
@@ -628,40 +628,40 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.pipeline.run_catalog",
-        description="Start a QA pipeline for a pre-configured demo app from the catalog. Use ta.pipeline.list_apps to see available apps.",
+        name="retention.pipeline.run_catalog",
+        description="Start a QA pipeline for a pre-configured demo app from the catalog. Use retention.pipeline.list_apps to see available apps.",
         parameters=[
             MCPToolParam(name="app_id", type="string", description="App ID from the catalog (e.g. 'google-contacts', 'kyb-ca-sos')", required=True),
             MCPToolParam(name="device_id", type="string", description="ADB device ID (auto-detects if omitted)"),
         ],
     ),
     MCPTool(
-        name="ta.pipeline.status",
+        name="retention.pipeline.status",
         description="Poll the status of a running QA pipeline. Returns current stage, progress metrics, and recent events.",
         parameters=[
-            MCPToolParam(name="run_id", type="string", description="run_id from ta.pipeline.run or ta.pipeline.run_catalog", required=True),
+            MCPToolParam(name="run_id", type="string", description="run_id from retention.pipeline.run or retention.pipeline.run_catalog", required=True),
         ],
     ),
     MCPTool(
-        name="ta.pipeline.results",
+        name="retention.pipeline.results",
         description="Get pipeline results. Without run_id: lists all completed runs. With run_id: returns full test suite (test cases, workflows, crawl data).",
         parameters=[
             MCPToolParam(name="run_id", type="string", description="Specific run_id to retrieve (omit to list all)"),
         ],
     ),
     MCPTool(
-        name="ta.pipeline.list_apps",
+        name="retention.pipeline.list_apps",
         description="List all available demo apps in the catalog with their IDs, names, packages, and types.",
         parameters=[],
     ),
     # --- Device tools ---
     MCPTool(
-        name="ta.device.list",
+        name="retention.device.list",
         description="List available Android emulators and devices with their connection status and specs.",
         parameters=[],
     ),
     MCPTool(
-        name="ta.device.lease",
+        name="retention.device.lease",
         description="Lease a device for exclusive testing use. Default lease duration is 30 minutes.",
         parameters=[
             MCPToolParam(name="device_id", type="string", description="Device ID to lease", required=True),
@@ -670,7 +670,7 @@ _TOOLS: List[MCPTool] = [
     ),
     # --- Feedback / annotation tools ---
     MCPTool(
-        name="ta.feedback.annotate",
+        name="retention.feedback.annotate",
         description="Attach a feedback annotation to a test case or workflow in a pipeline run. Use for UI review, bug flags, suggestions, approvals.",
         parameters=[
             MCPToolParam(name="run_id", type="string", description="Pipeline run_id", required=True),
@@ -682,7 +682,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.feedback.list",
+        name="retention.feedback.list",
         description="List feedback annotations for a pipeline run, optionally filtered by target.",
         parameters=[
             MCPToolParam(name="run_id", type="string", description="Pipeline run_id", required=True),
@@ -691,7 +691,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.feedback.summary",
+        name="retention.feedback.summary",
         description="Get a summary of all feedback for a pipeline run: counts by type, flagged items, approval status.",
         parameters=[
             MCPToolParam(name="run_id", type="string", description="Pipeline run_id", required=True),
@@ -709,7 +709,7 @@ _TOOLS: List[MCPTool] = [
         description=(
             "Check what's installed on the local machine for Android QA: Java, Android SDK, ADB, AVDs, Node.js. "
             "Returns a prioritized list of fix commands for anything missing. "
-            "Use this when ta.run_android_flow fails with 'No emulator found' — "
+            "Use this when retention.run_android_flow fails with 'No emulator found' — "
             "it tells Claude Code exactly what to install and in what order."
         ),
         parameters=[],
@@ -718,7 +718,7 @@ _TOOLS: List[MCPTool] = [
         name="ta.setup.launch_emulator",
         description=(
             "Launch an Android emulator by AVD name. If no AVD specified, launches the first available one. "
-            "After calling this, wait ~30 seconds for boot, then call ta.system_check to verify."
+            "After calling this, wait ~30 seconds for boot, then call retention.system_check to verify."
         ),
         parameters=[
             MCPToolParam(name="avd_name", type="string", description="AVD name to launch (auto-detects if omitted)"),
@@ -730,12 +730,12 @@ _TOOLS: List[MCPTool] = [
         parameters=[],
     ),
     MCPTool(
-        name="ta.system_check",
+        name="retention.system_check",
         description=(
             "Run a full system readiness check. Verifies: backend health, "
             "ADB/emulator connectivity, Playwright availability, WebSocket relay, "
             "and MCP tool dispatch. Returns per-component pass/fail with fix instructions. "
-            "Run this first to ensure everything works before calling ta.run_web_flow."
+            "Run this first to ensure everything works before calling retention.run_web_flow."
         ),
         parameters=[
             MCPToolParam(
@@ -746,7 +746,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.pipeline.screenshot",
+        name="retention.pipeline.screenshot",
         description="Grab a live screenshot from the emulator right now. Returns image metadata and a view_url to watch the full live stream in the browser.",
         parameters=[
             MCPToolParam(name="run_id", type="string", description="Pipeline run_id (optional — helps find the right device)"),
@@ -754,11 +754,11 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.pipeline.rerun_failures",
+        name="retention.pipeline.rerun_failures",
         description=(
             "Rerun only the failed test cases from a previous QA run. Skips crawl, workflow discovery, "
             "and test generation — goes straight to execution. Massive time and token savings for "
-            "verify-after-fix loops. Use ta.compare_before_after to diff the baseline vs rerun results."
+            "verify-after-fix loops. Use retention.compare_before_after to diff the baseline vs rerun results."
         ),
         parameters=[
             MCPToolParam(name="baseline_run_id", type="string", description="run_id of the completed run whose failures to rerun", required=True),
@@ -767,18 +767,18 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.pipeline.failure_bundle",
+        name="retention.pipeline.failure_bundle",
         description=(
             "Get a compact, token-efficient failure bundle optimized for Claude Code consumption. "
             "Returns only failures with suggested fixes and a rerun command. "
-            "~500-1500 tokens vs 5000+ for raw results. Use this instead of ta.pipeline.results for fix loops."
+            "~500-1500 tokens vs 5000+ for raw results. Use this instead of retention.pipeline.results for fix loops."
         ),
         parameters=[
             MCPToolParam(name="run_id", type="string", description="Pipeline run_id", required=True),
         ],
     ),
     MCPTool(
-        name="ta.pipeline.run_log",
+        name="retention.pipeline.run_log",
         description=(
             "Read the persistent run log for a completed QA run. Contains compact failure bundle, "
             "timing data, and rerun command. Persisted to disk so Claude Code can read it across sessions. "
@@ -790,7 +790,7 @@ _TOOLS: List[MCPTool] = [
     ),
     # --- GIF Replay ---
     MCPTool(
-        name="ta.pipeline.replay_gif",
+        name="retention.pipeline.replay_gif",
         description=(
             "Generate an animated replay GIF for a completed pipeline run. "
             "Stitches captured screenshots (or synthesizes frames from results) into "
@@ -805,7 +805,7 @@ _TOOLS: List[MCPTool] = [
     ),
     # --- Interactive Site Map ---
     MCPTool(
-        name="ta.sitemap",
+        name="retention.sitemap",
         description=(
             "Interactive site map — crawl a URL, then drill into specific screens, "
             "view screenshots, check findings. Stateful: crawl once, then explore.\n\n"
@@ -824,7 +824,7 @@ _TOOLS: List[MCPTool] = [
     ),
     # --- QA Verification tools (end-to-end flow + evidence + verdicts) ---
     MCPTool(
-        name="ta.run_web_flow",
+        name="retention.run_web_flow",
         description="Execute a complete QA verification flow for a web app: crawl, generate tests, run on emulator, collect evidence. Returns a run_id for polling.",
         parameters=[
             MCPToolParam(name="url", type="string", description="Web app URL to verify", required=True),
@@ -833,7 +833,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.run_android_flow",
+        name="retention.run_android_flow",
         description="Execute a QA verification flow on an Android emulator for a native app: crawl, generate tests, run, collect evidence. Returns a run_id for polling.",
         parameters=[
             MCPToolParam(name="app_package", type="string", description="Android package name (e.g. com.instagram.android)", required=True),
@@ -843,12 +843,12 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.rerun",
+        name="retention.rerun",
         description=(
             "Rerun tests from a prior QA run — skips crawl, workflow discovery, and test generation entirely. "
             "By default reruns only FAILED tests (failures_only=true). Saves ~98% of time vs a full run (measured: 10s rerun vs 505s full). "
             "Use after fixing bugs to verify the fix without re-crawling. "
-            "Chain: ta.run_web_flow → ta.feedback_package → fix code → ta.rerun → ta.compare_before_after."
+            "Chain: retention.run_web_flow → ta.feedback_package → fix code → retention.rerun → retention.compare_before_after."
         ),
         parameters=[
             MCPToolParam(name="run_id", type="string", description="run_id of the prior completed run to rerun", required=True),
@@ -859,7 +859,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.collect_trace_bundle",
+        name="retention.collect_trace_bundle",
         description="Gather all evidence artifacts (screenshots, action spans, logs, video) from a completed run into a compact bundle.",
         parameters=[
             MCPToolParam(name="run_id", type="string", description="Pipeline run_id", required=True),
@@ -868,7 +868,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.summarize_failure",
+        name="retention.summarize_failure",
         description="Produce a token-efficient failure summary for a completed run — highlights only failing tests with root-cause hints.",
         parameters=[
             MCPToolParam(name="run_id", type="string", description="Pipeline run_id", required=True),
@@ -877,7 +877,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.compare_before_after",
+        name="retention.compare_before_after",
         description="Diff two test runs — shows new failures, fixed tests, and metric deltas between a baseline and current run.",
         parameters=[
             MCPToolParam(name="baseline_run_id", type="string", description="Run ID of the baseline (before) run", required=True),
@@ -886,7 +886,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.emit_verdict",
+        name="retention.emit_verdict",
         description="Emit a final pass/fail/blocked verdict for a completed run based on test results and a configurable pass threshold.",
         parameters=[
             MCPToolParam(name="run_id", type="string", description="Pipeline run_id", required=True),
@@ -894,7 +894,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.suggest_fix_context",
+        name="retention.suggest_fix_context",
         description="Analyze failures from a completed run and suggest root-cause candidates with relevant source file paths for debugging.",
         parameters=[
             MCPToolParam(name="run_id", type="string", description="Pipeline run_id", required=True),
@@ -921,7 +921,7 @@ _TOOLS: List[MCPTool] = [
     ),
     # --- Multi-app benchmark suite tools ---
     MCPTool(
-        name="ta.benchmark.run_suite",
+        name="retention.benchmark.run_suite",
         description="Run the full retention.sh benchmark suite against real-world apps (Swag Labs, The Internet, OWASP Juice Shop, TaskFlow Pro)",
         parameters=[
             MCPToolParam(
@@ -937,18 +937,18 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.benchmark.scorecard",
+        name="retention.benchmark.scorecard",
         description="Get the latest benchmark scorecard with pass/fail status for all QA metrics",
         parameters=[],
     ),
     # --- Benchmark App Generation (controllable QA targets) ---
     MCPTool(
-        name="ta.benchmark.generate_app",
+        name="retention.benchmark.generate_app",
         description=(
             "Generate a controllable benchmark app with planted bugs for QA evaluation. "
             "Creates an Expo React Native app (or HTML fallback) from a template, injects "
             "bugs at the specified difficulty level, and registers it for benchmarking. "
-            "Use ta.benchmark.run_case to execute QA against the generated app."
+            "Use retention.benchmark.run_case to execute QA against the generated app."
         ),
         parameters=[
             MCPToolParam(name="template", type="string", description="App template: booking, profile, feed, ecommerce, settings", required=True),
@@ -958,50 +958,50 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.benchmark.list_templates",
+        name="retention.benchmark.list_templates",
         description="List available benchmark app templates with their screens and workflows.",
         parameters=[],
     ),
     MCPTool(
-        name="ta.benchmark.list_cases",
+        name="retention.benchmark.list_cases",
         description="List all generated benchmark cases with their bug counts and status.",
         parameters=[],
     ),
     MCPTool(
-        name="ta.benchmark.run_case",
-        description="Run QA against a generated benchmark case. Installs the app, runs ta.run_web_flow or ta.run_android_flow, and collects evidence.",
+        name="retention.benchmark.run_case",
+        description="Run QA against a generated benchmark case. Installs the app, runs retention.run_web_flow or retention.run_android_flow, and collects evidence.",
         parameters=[
-            MCPToolParam(name="case_id", type="string", description="Benchmark case ID from ta.benchmark.generate_app", required=True),
+            MCPToolParam(name="case_id", type="string", description="Benchmark case ID from retention.benchmark.generate_app", required=True),
             MCPToolParam(name="thread_mode", type="string", description="'fresh' (new thread per run) or 'continuous' (same thread). Default: fresh"),
         ],
     ),
     MCPTool(
-        name="ta.benchmark.score",
+        name="retention.benchmark.score",
         description="Score a completed benchmark run against the planted bug manifest. Returns precision, recall, F1, and per-bug detection status.",
         parameters=[
-            MCPToolParam(name="run_id", type="string", description="Benchmark run ID from ta.benchmark.run_case", required=True),
+            MCPToolParam(name="run_id", type="string", description="Benchmark run ID from retention.benchmark.run_case", required=True),
         ],
     ),
     MCPTool(
-        name="ta.benchmark.run_history",
+        name="retention.benchmark.run_history",
         description="List all benchmark runs with their scores and comparison data.",
         parameters=[],
     ),
     # --- Exploration Memory ---
     MCPTool(
-        name="ta.memory.stats",
+        name="retention.memory.stats",
         description="Get exploration memory statistics: cached apps, hit rate, tokens saved. Shows the compounding value of retention.sh's durable memory.",
         parameters=[],
     ),
     MCPTool(
-        name="ta.memory.check",
+        name="retention.memory.check",
         description="Check what's cached for a specific app URL. Returns which pipeline stages can be skipped (CRAWL, WORKFLOW, TESTCASE) and estimated cost savings.",
         parameters=[
             MCPToolParam(name="app_url", type="string", description="App URL to check", required=True),
         ],
     ),
     MCPTool(
-        name="ta.memory.invalidate",
+        name="retention.memory.invalidate",
         description="Clear cached exploration data for an app (force full re-exploration on next run). Use when the app UI has changed significantly.",
         parameters=[
             MCPToolParam(name="app_url", type="string", description="App URL to invalidate", required=True),
@@ -1009,7 +1009,7 @@ _TOOLS: List[MCPTool] = [
     ),
     # --- NemoClaw: NVIDIA Nemotron-powered QA agent ---
     MCPTool(
-        name="ta.nemoclaw.run",
+        name="retention.nemoclaw.run",
         description="Run a NemoClaw QA agent (Nemotron Super via OpenRouter free tier) that uses retention.sh tools to test apps. Autonomously crawls, generates workflows, executes tests, and reports findings. Supports OpenRouter, NVIDIA NIM, or any OpenAI-compatible endpoint.",
         parameters=[
             MCPToolParam(name="prompt", type="string", description="What to test, e.g. 'Run QA pipeline on https://example.com and analyze the checkout flow'", required=True),
@@ -1018,26 +1018,26 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.nemoclaw.status",
+        name="retention.nemoclaw.status",
         description="Check NemoClaw availability, current model, provider, and free model roster.",
         parameters=[],
         internal=True,
     ),
     MCPTool(
-        name="ta.nemoclaw.telemetry",
+        name="retention.nemoclaw.telemetry",
         description="Get per-model telemetry: latency, tokens/sec, error rate, rate limits, rotation state. Shows which free models are healthy.",
         parameters=[],
         internal=True,
     ),
     MCPTool(
-        name="ta.nemoclaw.refresh",
+        name="retention.nemoclaw.refresh",
         description="Force re-scan OpenRouter for free models. Discovers newly released free models and re-ranks them by quality. Use after model releases or when rotation seems stale.",
         parameters=[],
         internal=True,
     ),
     MCPTool(
-        name="ta.benchmark.model_compare",
-        description="Start a model-vs-model benchmark. Runs each free model through 48 NemoClaw tasks across 8 categories (single_tool, multi_tool, reasoning, pipeline, error_recovery, debugging, feedback, adversarial), scoring tool accuracy, correctness, latency, and throughput. Returns a run_id to poll with ta.benchmark.model_compare_status.",
+        name="retention.benchmark.model_compare",
+        description="Start a model-vs-model benchmark. Runs each free model through 48 NemoClaw tasks across 8 categories (single_tool, multi_tool, reasoning, pipeline, error_recovery, debugging, feedback, adversarial), scoring tool accuracy, correctness, latency, and throughput. Returns a run_id to poll with retention.benchmark.model_compare_status.",
         parameters=[
             MCPToolParam(name="tasks", type="array", description="Task IDs to run (default: all 48). Filter by category prefix: st_*, mt_*, reason_*, pipe_*, err_*, debug_*, fb_*, adv_*", required=False),
             MCPToolParam(name="categories", type="array", description="Filter by category: single_tool, multi_tool, reasoning, pipeline, error_recovery, debugging, feedback, adversarial", required=False),
@@ -1047,14 +1047,14 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.benchmark.model_compare_status",
+        name="retention.benchmark.model_compare_status",
         description="Poll status or get results of a model comparison benchmark run.",
         parameters=[
-            MCPToolParam(name="run_id", type="string", description="Benchmark run ID returned by ta.benchmark.model_compare", required=True),
+            MCPToolParam(name="run_id", type="string", description="Benchmark run ID returned by retention.benchmark.model_compare", required=True),
         ],
     ),
     MCPTool(
-        name="ta.benchmark.qa_pipeline",
+        name="retention.benchmark.qa_pipeline",
         description=(
             "Run QA pipeline benchmark: execute N consecutive QA flows against a frozen app "
             "and measure wall clock time, tool calls, pass rate, and precision/recall against planted bugs. "
@@ -1082,11 +1082,11 @@ _TOOLS: List[MCPTool] = [
             MCPToolParam(name="run_id", type="string", description="Pipeline run_id from a completed QA run", required=True),
             MCPToolParam(name="app_url", type="string", description="The app URL that was tested (for re-verification)"),
             MCPToolParam(name="repo_root", type="string", description="Path to the repo root on the user's machine (default: '.')"),
-            MCPToolParam(name="rerun_command", type="string", description="Command to re-run QA after fixes (default: use ta.run_web_flow)"),
+            MCPToolParam(name="rerun_command", type="string", description="Command to re-run QA after fixes (default: use retention.run_web_flow)"),
         ],
     ),
     MCPTool(
-        name="ta.optimize_bundle",
+        name="retention.optimize_bundle",
         description=(
             "Analyze a React/Vite frontend project and return a step-by-step autonomous prompt "
             "for optimizing entry chunk size via lazy-loading, code splitting, and dependency analysis. "
@@ -1101,15 +1101,15 @@ _TOOLS: List[MCPTool] = [
     ),
     # --- Quickstart & Handoff ---
     MCPTool(
-        name="ta.quickstart",
+        name="retention.quickstart",
         description=(
             "Smart one-call QA entry point. Detects your environment and picks the best mode:\n"
             "- Web app + emulator → full mobile pipeline (Chrome on emulator)\n"
             "- Web app + no emulator → Playwright-direct pipeline (no setup needed)\n"
             "- Native app + emulator → native pipeline\n"
             "- Native app + no emulator → guides you through emulator setup\n\n"
-            "Returns a run_id to poll with ta.pipeline.status. When complete, "
-            "call ta.get_handoff(run_id) to read the bug report. "
+            "Returns a run_id to poll with retention.pipeline.status. When complete, "
+            "call retention.get_handoff(run_id) to read the bug report. "
             "Works for web apps WITHOUT any emulator setup."
         ),
         parameters=[
@@ -1119,7 +1119,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.get_handoff",
+        name="retention.get_handoff",
         description=(
             "Get a structured markdown QA report for a completed pipeline run. "
             "Includes: verdict, pass rate, failure table (test | reason), "
@@ -1132,7 +1132,7 @@ _TOOLS: List[MCPTool] = [
     ),
     # --- Exploration Memory ---
     MCPTool(
-        name="ta.memory.status",
+        name="retention.memory.status",
         description=(
             "Check what exploration memory exists for an app. Shows cached crawl, "
             "workflows, and test suites with timestamps and estimated cost savings. "
@@ -1144,7 +1144,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.memory.graph",
+        name="retention.memory.graph",
         description=(
             "Get the screen fingerprint graph for an app. Shows all discovered screens, "
             "their components, transitions between screens, and fingerprint hashes. "
@@ -1156,19 +1156,19 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.memory.apps",
+        name="retention.memory.apps",
         description="List all apps with stored exploration memory and their stats.",
         parameters=[],
     ),
     # --- Web Demo Bridge (Playwright-based, no emulator) ---
     MCPTool(
-        name="ta.web_demo.discover",
+        name="retention.web_demo.discover",
         description=(
             "Discover testable tasks from a web URL using Playwright. "
             "Loads the page in a headless browser, extracts interactive elements "
             "(links, buttons, forms, inputs), and returns a list of test tasks. "
             "No emulator needed — pure browser automation. "
-            "Use this as the first step before ta.web_demo.run."
+            "Use this as the first step before retention.web_demo.run."
         ),
         parameters=[
             MCPToolParam(name="url", type="string", description="The web URL to discover tasks from", required=True),
@@ -1176,37 +1176,37 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.web_demo.run",
+        name="retention.web_demo.run",
         description=(
-            "Run QA tests on discovered web tasks. Takes task_ids from ta.web_demo.discover "
+            "Run QA tests on discovered web tasks. Takes task_ids from retention.web_demo.discover "
             "and executes them in parallel using Playwright. Returns a suite_id to poll. "
-            "No emulator needed. When complete, call ta.web_demo.scorecard to see results."
+            "No emulator needed. When complete, call retention.web_demo.scorecard to see results."
         ),
         parameters=[
-            MCPToolParam(name="task_ids", type="string", description="Comma-separated task IDs from ta.web_demo.discover (or 'all' to run all)", required=True),
+            MCPToolParam(name="task_ids", type="string", description="Comma-separated task IDs from retention.web_demo.discover (or 'all' to run all)", required=True),
             MCPToolParam(name="parallel", type="integer", description="Number of parallel browser instances (default: 2)"),
         ],
     ),
     MCPTool(
-        name="ta.web_demo.scorecard",
+        name="retention.web_demo.scorecard",
         description=(
             "Get the QA scorecard for a completed web demo suite. "
             "Shows pass/fail per task, mode comparison, and overall verdict."
         ),
         parameters=[
-            MCPToolParam(name="suite_id", type="string", description="Suite ID from ta.web_demo.run", required=True),
+            MCPToolParam(name="suite_id", type="string", description="Suite ID from retention.web_demo.run", required=True),
         ],
     ),
     MCPTool(
-        name="ta.web_demo.status",
+        name="retention.web_demo.status",
         description="Check the status of a running web demo suite.",
         parameters=[
-            MCPToolParam(name="suite_id", type="string", description="Suite ID from ta.web_demo.run", required=True),
+            MCPToolParam(name="suite_id", type="string", description="Suite ID from retention.web_demo.run", required=True),
         ],
     ),
     # --- Design-to-Code tools (Figma, Stitch by Google) ---
     MCPTool(
-        name="ta.design.figma_snapshot",
+        name="retention.design.figma_snapshot",
         description=(
             "Fetch a Figma file snapshot with progressive disclosure. Returns design data at "
             "the requested level (metadata, components, or full). Large payloads are stored "
@@ -1219,7 +1219,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.design.figma_analyze_flows",
+        name="retention.design.figma_analyze_flows",
         description=(
             "Analyze a Figma file to detect visual user flows. Clusters frames into flow groups "
             "based on prototype connections, section groupings, name patterns, and spatial proximity. "
@@ -1232,7 +1232,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.design.generate_from_design",
+        name="retention.design.generate_from_design",
         description=(
             "Convert a design file (Figma URL or Stitch export) into deployable code. "
             "Uses the Figma snapshot + flow analysis to produce React components or a self-contained "
@@ -1246,11 +1246,11 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.design.pipeline",
+        name="retention.design.pipeline",
         description=(
             "One-stop design-to-QA pipeline: fetches a Figma design, generates code from it, "
             "deploys to emulator, runs the full QA crawl → workflow → test case → execution pipeline, "
-            "and returns results. Combines ta.design.generate_from_design + ta.pipeline.run in one call."
+            "and returns results. Combines retention.design.generate_from_design + retention.pipeline.run in one call."
         ),
         parameters=[
             MCPToolParam(name="design_url", type="string", description="Figma file URL", required=True),
@@ -1260,7 +1260,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.codebase.analyze_ui_impact",
+        name="retention.codebase.analyze_ui_impact",
         description="Analyze the visual impact of modified files. Returns affected features, workflows, and UI screens with evidence.",
         parameters=[
             MCPToolParam(name="files_changed", type="string", description="Comma-separated list of modified file paths.", required=True),
@@ -1292,7 +1292,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.savings.compare",
+        name="retention.savings.compare",
         description=(
             "Run an A/B comparison: execute the same test with and without trajectory replay, "
             "then show the token/time/request savings side by side. This is the honest proof — "
@@ -1304,7 +1304,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.team.invite",
+        name="retention.team.invite",
         description=(
             "Generate a ready-to-share Slack/Discord message for teammates to join your team. "
             "Returns the formatted message with the one-liner install command, invite code, "
@@ -1330,7 +1330,7 @@ _TOOLS: List[MCPTool] = [
     ),
     # --- TCWP (Canonical Workflow Package) ---
     MCPTool(
-        name="ta.tcwp.generate",
+        name="retention.tcwp.generate",
         description="Generate a TCWP bundle from a saved trajectory. Produces manifest, workflow, run, trajectory, events, provenance, permissions, and optional sales brief.",
         parameters=[
             MCPToolParam(name="trajectory_id", type="string", description="ID of saved trajectory to package", required=True),
@@ -1341,7 +1341,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.tcwp.validate",
+        name="retention.tcwp.validate",
         description="Validate a TCWP bundle for integrity and schema compliance. Checks required files, field presence, and hash integrity.",
         parameters=[
             MCPToolParam(name="package_id", type="string", description="ID of the TCWP package to validate"),
@@ -1349,19 +1349,19 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.tcwp.list",
+        name="retention.tcwp.list",
         description="List all TCWP bundles stored locally with their workflow IDs, run IDs, tags, and file counts.",
         parameters=[],
     ),
     MCPTool(
-        name="ta.tcwp.export",
+        name="retention.tcwp.export",
         description="Export a TCWP bundle as a single JSON file for sharing with partners or uploading to retention.sh Cloud.",
         parameters=[
             MCPToolParam(name="package_id", type="string", description="ID of the TCWP package to export", required=True),
         ],
     ),
     MCPTool(
-        name="ta.tcwp.ingest",
+        name="retention.tcwp.ingest",
         description="Import a TCWP bundle from a directory, export JSON file, or JSON string into local storage.",
         parameters=[
             MCPToolParam(name="path", type="string", description="Path to a TCWP bundle directory or export JSON file"),
@@ -1369,7 +1369,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.tcwp.export_profile",
+        name="retention.tcwp.export_profile",
         description="Export a TCWP bundle using a specific profile: 'ops' (replay/rerun), 'training' (fine-tuning/evals/reward modeling), or 'sales' (buyer proof/GTM). Filters files and applies consent/redaction rules per profile.",
         parameters=[
             MCPToolParam(name="package_id", type="string", description="ID of the TCWP package to export", required=True),
@@ -1378,7 +1378,7 @@ _TOOLS: List[MCPTool] = [
     ),
     # --- Audit Engine ---
     MCPTool(
-        name="ta.audit.validate_shortcut",
+        name="retention.audit.validate_shortcut",
         description="Validate an optimization shortcut against a baseline trajectory. Compares end state, checkpoints, and cost metrics.",
         parameters=[
             MCPToolParam(name="trajectory_id", type="string", description="Baseline trajectory ID", required=True),
@@ -1388,7 +1388,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.audit.compare",
+        name="retention.audit.compare",
         description="Compare a shortcut run against a baseline run. Shows cost deltas, checkpoint differences, and compression gains.",
         parameters=[
             MCPToolParam(name="baseline_run_id", type="string", description="Original full-crawl run ID"),
@@ -1397,7 +1397,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.audit.drift_report",
+        name="retention.audit.drift_report",
         description="Generate a drift report for a trajectory — shows per-step stability, health status, and recommendations.",
         parameters=[
             MCPToolParam(name="trajectory_id", type="string", description="Trajectory to check drift for", required=True),
@@ -1405,13 +1405,13 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.audit.list",
+        name="retention.audit.list",
         description="List all audit results with their verdicts and risk assessments.",
         parameters=[],
     ),
     # --- Workflow Compression ---
     MCPTool(
-        name="ta.compress.workflow",
+        name="retention.compress.workflow",
         description="Compress a workflow trajectory by removing redundant steps. Proposes an optimized path with fewer steps and lower token cost.",
         parameters=[
             MCPToolParam(name="trajectory_id", type="string", description="Trajectory to compress", required=True),
@@ -1420,19 +1420,19 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.compress.list",
+        name="retention.compress.list",
         description="List all compression results with step counts, token savings, and timestamps.",
         parameters=[],
     ),
     MCPTool(
-        name="ta.compress.stats",
+        name="retention.compress.stats",
         description="Get aggregate compression statistics across all workflows or filtered by task name.",
         parameters=[
             MCPToolParam(name="task_name", type="string", description="Filter stats by task name (optional)"),
         ],
     ),
     MCPTool(
-        name="ta.compress.rollback",
+        name="retention.compress.rollback",
         description="Rollback to uncompressed trajectory. The original is always preserved.",
         parameters=[
             MCPToolParam(name="trajectory_id", type="string", description="Trajectory to rollback", required=True),
@@ -1440,7 +1440,7 @@ _TOOLS: List[MCPTool] = [
     ),
     # --- Checkpoint Validation ---
     MCPTool(
-        name="ta.checkpoint.list",
+        name="retention.checkpoint.list",
         description="List all checkpoints for a trajectory, or all saved checkpoints if no trajectory specified.",
         parameters=[
             MCPToolParam(name="trajectory_id", type="string", description="Trajectory to list checkpoints for"),
@@ -1448,7 +1448,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.checkpoint.set",
+        name="retention.checkpoint.set",
         description="Set a checkpoint at a specific step with expected state.",
         parameters=[
             MCPToolParam(name="trajectory_id", type="string", description="Trajectory the checkpoint belongs to", required=True),
@@ -1458,7 +1458,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.checkpoint.verify",
+        name="retention.checkpoint.verify",
         description="Verify a checkpoint against the current state. Returns pass/fail with drift score.",
         parameters=[
             MCPToolParam(name="checkpoint_id", type="string", description="Checkpoint to verify", required=True),
@@ -1466,7 +1466,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.checkpoint.drift_report",
+        name="retention.checkpoint.drift_report",
         description="Generate drift report for all checkpoints of a trajectory.",
         parameters=[
             MCPToolParam(name="trajectory_id", type="string", description="Trajectory to report on", required=True),
@@ -1474,7 +1474,7 @@ _TOOLS: List[MCPTool] = [
     ),
     # --- Savings Forecast + ROI ---
     MCPTool(
-        name="ta.savings.forecast",
+        name="retention.savings.forecast",
         description="Predict token/cost savings for future runs based on trajectory history. Shows projected savings curve.",
         parameters=[
             MCPToolParam(name="trajectory_id", type="string", description="Trajectory to forecast for", required=True),
@@ -1483,7 +1483,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.savings.roi",
+        name="retention.savings.roi",
         description="Calculate ROI of trajectory investment. Shows breakeven point, cumulative savings, and profitability.",
         parameters=[
             MCPToolParam(name="trajectory_id", type="string", description="Trajectory to calculate ROI for", required=True),
@@ -1492,7 +1492,7 @@ _TOOLS: List[MCPTool] = [
         ],
     ),
     MCPTool(
-        name="ta.savings.breakdown",
+        name="retention.savings.breakdown",
         description="Break down savings by pipeline stage (navigation, interaction, verification, wait). Shows which stages cost the most tokens.",
         parameters=[
             MCPToolParam(name="trajectory_id", type="string", description="Trajectory to break down", required=True),
@@ -1910,13 +1910,13 @@ ACTION: Ask the user for the RETENTION_MCP_TOKEN value, or check the environment
     if app_url:
         app_step = f"""
 STEP 5: Test the user's app
-ACTION: Call ta.run_web_flow with url="{app_url}" to start QA testing.
+ACTION: Call retention.run_web_flow with url="{app_url}" to start QA testing.
 NOTE: If the URL is localhost, the proxy connects outbound via WebSocket so retention.sh can reach it.
 """
     else:
         app_step = """
 STEP 5: Test the user's app
-ACTION: Ask the user for their app URL, then call ta.run_web_flow to start QA testing.
+ACTION: Ask the user for their app URL, then call retention.run_web_flow to start QA testing.
 NOTE: If the URL is localhost, the proxy connects outbound via WebSocket so retention.sh can reach it.
 """
 
@@ -1945,7 +1945,7 @@ ACTION: Tell the user to restart {agent_name} so it picks up the new retention M
 ACTION: After restart, run /mcp to verify retention appears in the server list.
 
 STEP 4: Verify connectivity
-ACTION: Call ta.system_check to verify the connection works and list all available tools.
+ACTION: Call retention.system_check to verify the connection works and list all available tools.
 EXPECTED: A response confirming the backend is reachable and listing 50+ tools.
 {app_step}
 DONE
@@ -1977,30 +1977,30 @@ GETTING STARTED (run these in order):
 2. ta.crawl.url(url='https://your-app.com') — Crawl your site, get instant QA findings
 3. Fix the findings in your code
 4. ta.crawl.url(url='https://your-app.com') — Re-crawl to verify (uses trajectory replay = cheaper)
-5. ta.savings.compare      — See the token/time savings between runs
-6. ta.team.invite           — Generate a Slack message to onboard teammates
+5. retention.savings.compare      — See the token/time savings between runs
+6. retention.team.invite           — Generate a Slack message to onboard teammates
 
 SELF-SERVE QA LOOP:
 - ta.onboard.status         — Prerequisite checker + next steps
 - ta.crawl.url              — Crawl any URL, get JS errors, a11y gaps, rendering issues
-- ta.savings.compare        — A/B comparison: same test with/without trajectory replay
-- ta.team.invite            — Ready-to-share Slack message for teammate onboarding
+- retention.savings.compare        — A/B comparison: same test with/without trajectory replay
+- retention.team.invite            — Ready-to-share Slack message for teammate onboarding
 - ta.qa.redesign            — Full QA→fix→verify loop with fix suggestions
 
 FULL QA PIPELINE:
-- ta.run_web_flow           — Run browser-based QA test on any URL
-- ta.run_android_flow       — Run Android emulator test on mobile apps
-- ta.collect_trace_bundle   — Get ActionSpan evidence clips (2-3s video proof)
-- ta.summarize_failure      — AI-summarize a test failure with root cause
-- ta.suggest_fix_context    — Get fix suggestions scoped to your codebase
-- ta.compare_before_after   — Compare two test runs to detect regressions
+- retention.run_web_flow           — Run browser-based QA test on any URL
+- retention.run_android_flow       — Run Android emulator test on mobile apps
+- retention.collect_trace_bundle   — Get ActionSpan evidence clips (2-3s video proof)
+- retention.summarize_failure      — AI-summarize a test failure with root cause
+- retention.suggest_fix_context    — Get fix suggestions scoped to your codebase
+- retention.compare_before_after   — Compare two test runs to detect regressions
 
 AGENT GUIDANCE:
 When the user first connects, run ta.onboard.status to show what's ready.
 After any code change (git diff shows modifications), suggest: ta.crawl.url to verify.
 After a successful crawl with findings, suggest fixes then re-crawl.
-After a re-crawl, suggest ta.savings.compare to show the improvement.
-If no team exists, suggest ta.team.invite after the first successful run.
+After a re-crawl, suggest retention.savings.compare to show the improvement.
+If no team exists, suggest retention.team.invite after the first successful run.
 (56 tools total — run ta.onboard.status for the full list)
 """
     return PlainTextResponse(instructions.strip(), media_type="text/plain")
@@ -2101,10 +2101,10 @@ async def call_tool(req: MCPToolCallRequest, request: Request) -> MCPToolCallRes
 # ---------------------------------------------------------------------------
 
 async def _dispatch_codebase(tool: str, args: Dict[str, Any]) -> Any:
-    """Handle ta.codebase.* tools using local git + filesystem."""
+    """Handle retention.codebase.* tools using local git + filesystem."""
     args.pop("_caller_id", None)
 
-    if tool == "ta.codebase.analyze_ui_impact":
+    if tool == "retention.codebase.analyze_ui_impact":
         files_str = args.get("files_changed", "")
         files_changed = [f.strip() for f in files_str.split(",") if f.strip()]
         if not files_changed:
@@ -2121,7 +2121,7 @@ async def _dispatch_codebase(tool: str, args: Dict[str, Any]) -> Any:
         }
 
 
-    if tool == "ta.codebase.recent_commits":
+    if tool == "retention.codebase.recent_commits":
         limit = min(int(args.get("limit", 20)), 50)
         cmd = [
             "git", "log", f"-{limit}",
@@ -2146,7 +2146,7 @@ async def _dispatch_codebase(tool: str, args: Dict[str, Any]) -> Any:
                 })
         return commits
 
-    if tool == "ta.codebase.commit_diff":
+    if tool == "retention.codebase.commit_diff":
         sha = args.get("sha")
         if not sha:
             raise HTTPException(status_code=400, detail="sha is required")
@@ -2176,7 +2176,7 @@ async def _dispatch_codebase(tool: str, args: Dict[str, Any]) -> Any:
                 })
         return result
 
-    if tool == "ta.codebase.search":
+    if tool == "retention.codebase.search":
         query = args.get("query")
         if not query:
             raise HTTPException(status_code=400, detail="query is required")
@@ -2198,7 +2198,7 @@ async def _dispatch_codebase(tool: str, args: Dict[str, Any]) -> Any:
             content_matches = out2.stdout.strip().splitlines()[:100]
             return {"files": file_matches, "content_preview": content_matches, "total_files": len(file_matches)}
 
-    if tool == "ta.codebase.read_file":
+    if tool == "retention.codebase.read_file":
         rel_path = args.get("path")
         if not rel_path:
             raise HTTPException(status_code=400, detail="path is required")
@@ -2228,7 +2228,7 @@ async def _dispatch_codebase(tool: str, args: Dict[str, Any]) -> Any:
             "content": "\n".join(lines),
         }
 
-    if tool == "ta.codebase.list_directory":
+    if tool == "retention.codebase.list_directory":
         rel_path = args.get("path", "")
         dpath = _safe_path(rel_path) if rel_path else _REPO_ROOT
         if not dpath.exists():
@@ -2248,7 +2248,7 @@ async def _dispatch_codebase(tool: str, args: Dict[str, Any]) -> Any:
             })
         return {"path": rel_path or "/", "entries": entries}
 
-    if tool == "ta.codebase.file_tree":
+    if tool == "retention.codebase.file_tree":
         tree_path = args.get("path", "")
         cmd = ["git", "ls-tree", "-r", "--name-only", "HEAD"]
         if tree_path:
@@ -2261,7 +2261,7 @@ async def _dispatch_codebase(tool: str, args: Dict[str, Any]) -> Any:
         truncated = total > 500
         return {"root": tree_path or "/", "total_items": total, "truncated": truncated, "files": all_files[:500]}
 
-    if tool == "ta.codebase.git_status":
+    if tool == "retention.codebase.git_status":
         out = subprocess.run(
             ["git", "status", "--porcelain"],
             capture_output=True, text=True, timeout=5, cwd=_REPO_ROOT,
@@ -2272,7 +2272,7 @@ async def _dispatch_codebase(tool: str, args: Dict[str, Any]) -> Any:
                 entries.append({"status": line[:2].strip(), "path": line[3:]})
         return {"entries": entries, "total": len(entries)}
 
-    if tool == "ta.codebase.exec_python":
+    if tool == "retention.codebase.exec_python":
         code = args.get("code", "")
         if not code:
             raise HTTPException(status_code=400, detail="code is required")
@@ -2345,7 +2345,7 @@ async def _dispatch_codebase(tool: str, args: Dict[str, Any]) -> Any:
         except subprocess.TimeoutExpired:
             return {"stdout": "", "stderr": "Execution timed out (60s limit)", "returncode": 1}
 
-    if tool == "ta.codebase.shell_command":
+    if tool == "retention.codebase.shell_command":
         command = args.get("command", "")
         if not command:
             raise HTTPException(status_code=400, detail="command is required")
@@ -2412,7 +2412,7 @@ async def _dispatch_codebase(tool: str, args: Dict[str, Any]) -> Any:
         except subprocess.TimeoutExpired:
             return {"stdout": "", "stderr": "Execution timed out (30s limit)", "returncode": 1}
 
-    if tool == "ta.codebase.run_tests":
+    if tool == "retention.codebase.run_tests":
         files = args.get("files", [])
         timeout = min(int(args.get("timeout", 120)), 300)
         if not files:
@@ -2457,7 +2457,7 @@ async def _dispatch_codebase(tool: str, args: Dict[str, Any]) -> Any:
         except subprocess.TimeoutExpired:
             return {"passed": False, "summary": f"Tests timed out after {timeout}s", "test_count": 0}
 
-    if tool == "ta.codebase.create_pull_request":
+    if tool == "retention.codebase.create_pull_request":
         branch_name = args.get("branch_name", "")
         title = args.get("title", "")
         body = args.get("body", "")
@@ -2508,7 +2508,7 @@ async def _dispatch_codebase(tool: str, args: Dict[str, Any]) -> Any:
         pr_url = pr.stdout.strip()
         return {"status": "created", "pr_url": pr_url, "branch": branch_name, "base": base}
 
-    if tool == "ta.codebase.merge_pull_request":
+    if tool == "retention.codebase.merge_pull_request":
         pr_number = int(args.get("pr_number", 0))
         merge_method = args.get("merge_method", "squash")
         if not pr_number:
@@ -2523,7 +2523,7 @@ async def _dispatch_codebase(tool: str, args: Dict[str, Any]) -> Any:
             return {"status": "failed", "error": result.stderr[:500]}
         return {"status": "merged", "pr_number": pr_number, "method": merge_method}
 
-    if tool == "ta.codebase.create_github_issue":
+    if tool == "retention.codebase.create_github_issue":
         title = args.get("title", "")
         body = args.get("body", "")
         labels = args.get("labels", [])
@@ -2542,7 +2542,7 @@ async def _dispatch_codebase(tool: str, args: Dict[str, Any]) -> Any:
             return {"status": "error", "error": result.stderr[:500]}
         return {"status": "created", "url": result.stdout.strip()}
 
-    if tool == "ta.codebase.write_file":
+    if tool == "retention.codebase.write_file":
         rel_path = args.get("path")
         content = args.get("content", "")
         if not rel_path:
@@ -2561,7 +2561,7 @@ async def _dispatch_codebase(tool: str, args: Dict[str, Any]) -> Any:
         fpath.write_text(content)
         return {"written": str(rel_path), "size": len(content)}
 
-    if tool == "ta.codebase.git_commit_and_push":
+    if tool == "retention.codebase.git_commit_and_push":
         import json as _json
         message = args.get("message", "")
         files = args.get("files", [])
@@ -2595,7 +2595,7 @@ async def _dispatch_codebase(tool: str, args: Dict[str, Any]) -> Any:
             if line.strip().endswith(".py") and "|" in line
         ]
         if changed_py and not skip_review:
-            test_result = await _dispatch_codebase("ta.codebase.run_tests", {"files": []})
+            test_result = await _dispatch_codebase("retention.codebase.run_tests", {"files": []})
             if not test_result.get("passed", True) and test_result.get("test_count", 0) > 0:
                 subprocess.run(["git", "reset", "HEAD"], cwd=_REPO_ROOT, timeout=10)
                 return {
@@ -2701,10 +2701,10 @@ async def _dispatch(tool: str, args: Dict[str, Any], *, caller_id: str = "anonym
     # Inject caller_id into args for downstream isolation (pipeline, feedback, relay)
     args["_caller_id"] = caller_id
 
-    if tool.startswith("ta.codebase."):
+    if tool.startswith("retention.codebase."):
         return await _dispatch_codebase(tool, args)
 
-    if tool == "ta.request_validation_gate":
+    if tool == "retention.request_validation_gate":
         from .validation_hooks import ValidationHook, HookStatus
         import uuid
         hook = ValidationHook(
@@ -2773,16 +2773,16 @@ async def _dispatch(tool: str, args: Dict[str, Any], *, caller_id: str = "anonym
             import asyncio
             asyncio.create_task(_run_validation_qa())
 
-        return {"hook_id": hook.hook_id, "status": hook.status, "message": "Gate opened. Poll ta.get_hook_status until released."}
+        return {"hook_id": hook.hook_id, "status": hook.status, "message": "Gate opened. Poll retention.get_hook_status until released."}
 
-    if tool == "ta.get_hook_status":
+    if tool == "retention.get_hook_status":
         hook_id = args.get("hook_id")
         hook = _hooks.get(hook_id)
         if not hook:
             raise HTTPException(status_code=404, detail=f"Hook not found: {hook_id}")
         return {"hook_id": hook.hook_id, "status": hook.status, "release_notes": hook.release_notes, "failure_reason": hook.failure_reason}
 
-    if tool == "ta.get_evidence_manifest":
+    if tool == "retention.get_evidence_manifest":
         session_id = args.get("session_id")
         if not session_id:
             raise HTTPException(status_code=400, detail="session_id is required")
@@ -2866,7 +2866,7 @@ async def _dispatch(tool: str, args: Dict[str, Any], *, caller_id: str = "anonym
                 "success": True,
                 "avd": result["avd"],
                 "message": result["message"],
-                "next_step": "Wait ~30 seconds for emulator to boot, then call ta.system_check to verify.",
+                "next_step": "Wait ~30 seconds for emulator to boot, then call retention.system_check to verify.",
             }
         except HTTPException as exc:
             return {"success": False, "error": exc.detail, "fix": "Run ./scripts/setup-macos.sh to install Android SDK and create an AVD."}
@@ -2875,7 +2875,7 @@ async def _dispatch(tool: str, args: Dict[str, Any], *, caller_id: str = "anonym
         from .setup import get_setup_instructions as _get_instructions
         return await _get_instructions()
 
-    if tool == "ta.system_check":
+    if tool == "retention.system_check":
         import shutil
         import subprocess
         checks = {}
@@ -3023,13 +3023,13 @@ async def _dispatch(tool: str, args: Dict[str, Any], *, caller_id: str = "anonym
             "update": update_available,
             "dashboard": "https://retention.sh/demo",
             "next_step": (
-                "You're ready! Try: ta.sitemap(url='http://localhost:5173') or ta.qa_check(url='http://localhost:5173')"
+                "You're ready! Try: retention.sitemap(url='http://localhost:5173') or retention.qa_check(url='http://localhost:5173')"
                 if all_pass
-                else "Fix the failing checks above, then run ta.system_check again."
+                else "Fix the failing checks above, then run retention.system_check again."
             ),
         }
 
-    if tool == "ta.smoke_test":
+    if tool == "retention.smoke_test":
         # Lightweight: just verify adb is reachable and report
         import shutil
         import subprocess
@@ -3057,15 +3057,15 @@ async def _dispatch(tool: str, args: Dict[str, Any], *, caller_id: str = "anonym
     if tool.startswith("ta.playwright."):
         return await _dispatch_playwright(tool, args)
 
-    if tool.startswith("ta.pipeline."):
+    if tool.startswith("retention.pipeline."):
         from .mcp_pipeline import dispatch_pipeline
         return await dispatch_pipeline(tool, args)
 
-    if tool.startswith("ta.feedback."):
+    if tool.startswith("retention.feedback."):
         from .mcp_pipeline import dispatch_feedback
         return await dispatch_feedback(tool, args)
 
-    if tool.startswith("ta.device."):
+    if tool.startswith("retention.device."):
         from .mcp_pipeline import dispatch_device
         return await dispatch_device(tool, args)
 
@@ -3075,44 +3075,44 @@ async def _dispatch(tool: str, args: Dict[str, Any], *, caller_id: str = "anonym
 
     # QA verification tools (ta.run_*, ta.collect_*, ta.summarize_*, ta.compare_*, ta.emit_*, ta.suggest_*)
     _qa_verification_tools = {
-        "ta.run_web_flow", "ta.run_android_flow", "ta.rerun",
-        "ta.collect_trace_bundle",
-        "ta.summarize_failure", "ta.compare_before_after", "ta.emit_verdict",
-        "ta.suggest_fix_context",
+        "retention.run_web_flow", "retention.run_android_flow", "retention.rerun",
+        "retention.collect_trace_bundle",
+        "retention.summarize_failure", "retention.compare_before_after", "retention.emit_verdict",
+        "retention.suggest_fix_context",
     }
     if tool in _qa_verification_tools:
         from .mcp_pipeline import dispatch_qa_verification
         return await dispatch_qa_verification(tool, args)
 
-    if tool.startswith("ta.benchmark."):
+    if tool.startswith("retention.benchmark."):
         return await _dispatch_benchmark(tool, args)
 
-    if tool.startswith("ta.nemoclaw."):
+    if tool.startswith("retention.nemoclaw."):
         return await _dispatch_nemoclaw(tool, args)
 
-    if tool.startswith("ta.design."):
+    if tool.startswith("retention.design."):
         return await _dispatch_design(tool, args)
 
     if tool.startswith("ta.trajectory."):
         return _dispatch_trajectory(tool, args)
 
-    if tool.startswith("ta.tcwp."):
+    if tool.startswith("retention.tcwp."):
         from .mcp_tcwp import dispatch_tcwp
         return dispatch_tcwp(tool, args)
 
-    if tool.startswith("ta.audit."):
+    if tool.startswith("retention.audit."):
         from .mcp_audit import dispatch_audit
         return dispatch_audit(tool, args)
 
-    if tool.startswith("ta.compress."):
+    if tool.startswith("retention.compress."):
         from .mcp_compress import dispatch_compress
         return dispatch_compress(tool, args)
 
-    if tool.startswith("ta.checkpoint."):
+    if tool.startswith("retention.checkpoint."):
         from .mcp_checkpoint import dispatch_checkpoint
         return dispatch_checkpoint(tool, args)
 
-    if tool in ("ta.savings.forecast", "ta.savings.roi", "ta.savings.breakdown"):
+    if tool in ("retention.savings.forecast", "retention.savings.roi", "retention.savings.breakdown"):
         from .mcp_savings import dispatch_savings
         return dispatch_savings(tool, args)
 
@@ -3131,20 +3131,20 @@ async def _dispatch(tool: str, args: Dict[str, Any], *, caller_id: str = "anonym
         return await _dispatch_explore(args)
 
     # Retention self-serve QA loop
-    if tool in ("ta.onboard.status", "ta.crawl.url", "ta.savings.compare", "ta.team.invite", "ta.qa.redesign"):
+    if tool in ("ta.onboard.status", "ta.crawl.url", "retention.savings.compare", "retention.team.invite", "ta.qa.redesign"):
         return await _dispatch_retention(tool, args)
 
-    if tool.startswith("ta.memory."):
+    if tool.startswith("retention.memory."):
         from ..agents.qa_pipeline.exploration_memory import (
             get_memory_stats, check_memory, invalidate_app,
         )
-        if tool == "ta.memory.stats":
+        if tool == "retention.memory.stats":
             return get_memory_stats()
-        if tool == "ta.memory.check":
+        if tool == "retention.memory.check":
             app_url = args.get("app_url", "")
             mem = check_memory(app_url=app_url)
             return mem.summary()
-        if tool == "ta.memory.invalidate":
+        if tool == "retention.memory.invalidate":
             app_url = args.get("app_url", "")
             return invalidate_app(app_url=app_url)
         # export/import handled in _dispatch_memory
@@ -3153,16 +3153,16 @@ async def _dispatch(tool: str, args: Dict[str, Any], *, caller_id: str = "anonym
     if tool == "ta.feedback_package":
         return await _build_feedback_package(tool, args)
 
-    if tool == "ta.optimize_bundle":
+    if tool == "retention.optimize_bundle":
         return _build_optimize_bundle_prompt(args)
 
-    if tool == "ta.quickstart":
+    if tool == "retention.quickstart":
         return await _handle_quickstart(args)
 
-    if tool == "ta.get_handoff":
+    if tool == "retention.get_handoff":
         return await _handle_get_handoff(args)
 
-    if tool.startswith("ta.memory."):
+    if tool.startswith("retention.memory."):
         return _dispatch_memory(tool, args)
 
     if tool.startswith("ta.linkage."):
@@ -3174,7 +3174,7 @@ async def _dispatch(tool: str, args: Dict[str, Any], *, caller_id: str = "anonym
     if tool.startswith("ta.screenshots."):
         return _dispatch_screenshots(tool, args)
 
-    if tool.startswith("ta.web_demo."):
+    if tool.startswith("retention.web_demo."):
         return await _dispatch_web_demo(tool, args)
 
     if tool == "ta.agent.run":
@@ -3199,13 +3199,13 @@ async def _build_feedback_package(tool: str, args: Dict[str, Any]) -> Dict[str, 
     # ── Gather data from the three underlying tools ──────────────────
     # Thread caller_id so ownership checks pass on internal calls
     summary = await dispatch_qa_verification(
-        "ta.summarize_failure", {"run_id": run_id, "priority_filter": "all", "_caller_id": caller_id}
+        "retention.summarize_failure", {"run_id": run_id, "priority_filter": "all", "_caller_id": caller_id}
     )
     fix_ctx = await dispatch_qa_verification(
-        "ta.suggest_fix_context", {"run_id": run_id, "max_files": 8, "_caller_id": caller_id}
+        "retention.suggest_fix_context", {"run_id": run_id, "max_files": 8, "_caller_id": caller_id}
     )
     trace = await dispatch_qa_verification(
-        "ta.collect_trace_bundle", {"run_id": run_id, "include_video": False, "_caller_id": caller_id}
+        "retention.collect_trace_bundle", {"run_id": run_id, "include_video": False, "_caller_id": caller_id}
     )
 
     if summary.get("error"):
@@ -3266,16 +3266,16 @@ async def _build_feedback_package(tool: str, args: Dict[str, Any]) -> Dict[str, 
         rerun_instruction = f"Run: `{rerun_command}`"
     elif app_url:
         rerun_instruction = (
-            f"Call `ta.pipeline.rerun_failures` with baseline_run_id=\"{run_id}\" and "
+            f"Call `retention.pipeline.rerun_failures` with baseline_run_id=\"{run_id}\" and "
             f"app_url=\"{app_url}\" to rerun ONLY the failed tests (skips crawl/discovery). "
-            f"Then call `ta.compare_before_after` with baseline_run_id=\"{run_id}\" and "
+            f"Then call `retention.compare_before_after` with baseline_run_id=\"{run_id}\" and "
             f"current_run_id=<new_run_id> to see what's fixed."
         )
     else:
         rerun_instruction = (
-            f"Call `ta.pipeline.rerun_failures` with baseline_run_id=\"{run_id}\" to rerun "
+            f"Call `retention.pipeline.rerun_failures` with baseline_run_id=\"{run_id}\" to rerun "
             f"ONLY the failed tests (skips crawl/discovery — saves time and tokens). "
-            f"Then call `ta.compare_before_after` to diff the results."
+            f"Then call `retention.compare_before_after` to diff the results."
         )
 
     pass_rate = summary.get("pass_rate", 0)
@@ -3480,8 +3480,8 @@ async def _dispatch_agent_run(args: Dict[str, Any]) -> Dict[str, Any]:
                         "Your environment is already fully set up!\n\n"
                         f"Progress: {setup_status.get('progress', 0)}%\n\n"
                         "Ready to run QA:\n"
-                        "- `ta.run_web_flow(url=\"http://localhost:3000\")` for web apps\n"
-                        "- `ta.run_android_flow(app_package=\"com.example.app\")` for native apps"
+                        "- `retention.run_web_flow(url=\"http://localhost:3000\")` for web apps\n"
+                        "- `retention.run_android_flow(app_package=\"com.example.app\")` for native apps"
                     ),
                     "tool_calls_made": [{"tool": "ta.setup.status", "status": "ok"}],
                     "setup_status": setup_status,
@@ -3504,11 +3504,11 @@ async def _dispatch_agent_run(args: Dict[str, Any]) -> Dict[str, Any]:
                     parts.append(
                         f"\nAVD `{avd}` exists but no emulator is running.\n"
                         f"Next: `ta.setup.launch_emulator(avd_name=\"{avd}\")`\n"
-                        f"Then wait ~30s → `ta.system_check` to verify."
+                        f"Then wait ~30s → `retention.system_check` to verify."
                     )
                 parts.append(
                     "\nAfter fixes: `ta.setup.status` to verify → "
-                    "`ta.run_web_flow` or `ta.run_android_flow` to start QA."
+                    "`retention.run_web_flow` or `retention.run_android_flow` to start QA."
                 )
 
                 return {
@@ -3524,27 +3524,27 @@ async def _dispatch_agent_run(args: Dict[str, Any]) -> Dict[str, Any]:
             if app_url:
                 from .mcp_pipeline import dispatch_qa_verification
                 return await dispatch_qa_verification(
-                    "ta.run_web_flow",
+                    "retention.run_web_flow",
                     {"url": app_url, "app_name": "User App", "_caller_id": caller_id},
                 )
             elif app_package:
                 from .mcp_pipeline import dispatch_qa_verification
                 return await dispatch_qa_verification(
-                    "ta.run_android_flow",
+                    "retention.run_android_flow",
                     {"app_package": app_package, "app_name": "User App", "_caller_id": caller_id},
                 )
             # No app context — check system first
-            system_check = await _dispatch("ta.system_check", {})
+            system_check = await _dispatch("retention.system_check", {})
             if not system_check.get("ready"):
                 return await _dispatch_agent_run({"message": "Help me set up an Android emulator"})
             return {
                 "tool": "ta.agent.run", "status": "ok",
                 "response": (
                     "System is ready for QA. Provide your app:\n"
-                    "- `ta.run_web_flow(url=\"http://your-app\")`\n"
-                    "- `ta.run_android_flow(app_package=\"com.your.package\")`"
+                    "- `retention.run_web_flow(url=\"http://your-app\")`\n"
+                    "- `retention.run_android_flow(app_package=\"com.your.package\")`"
                 ),
-                "tool_calls_made": [{"tool": "ta.system_check", "status": "ok"}],
+                "tool_calls_made": [{"tool": "retention.system_check", "status": "ok"}],
             }
 
         # ── Generic fallback ─────────────────────────────────────────
@@ -3553,10 +3553,10 @@ async def _dispatch_agent_run(args: Dict[str, Any]) -> Dict[str, Any]:
             "response": (
                 "I'm the retention.sh assistant. I can help with:\n"
                 "- **Setup**: `ta.setup.status` — check your environment\n"
-                "- **Web QA**: `ta.run_web_flow(url=\"...\")` — test a web app\n"
-                "- **Mobile QA**: `ta.run_android_flow(app_package=\"...\")` — test an Android app\n"
-                "- **Rerun**: `ta.rerun(run_id=\"...\")` — re-test after fixing bugs\n"
-                "- **Results**: `ta.summarize_failure(run_id=\"...\")` — get failure summary"
+                "- **Web QA**: `retention.run_web_flow(url=\"...\")` — test a web app\n"
+                "- **Mobile QA**: `retention.run_android_flow(app_package=\"...\")` — test an Android app\n"
+                "- **Rerun**: `retention.rerun(run_id=\"...\")` — re-test after fixing bugs\n"
+                "- **Results**: `retention.summarize_failure(run_id=\"...\")` — get failure summary"
             ),
             "tool_calls_made": [],
         }
@@ -3668,7 +3668,7 @@ For each component classified as "route-specific" or "wrapper":
 """
 
     return {
-        "tool": "ta.optimize_bundle",
+        "tool": "retention.optimize_bundle",
         "status": "ok",
         "type": "agent_prompt",
         "prompt": prompt,
@@ -3683,13 +3683,13 @@ For each component classified as "route-specific" or "wrapper":
 
 
 async def _dispatch_benchmark(tool: str, args: Dict[str, Any]) -> Any:
-    """Handle ta.benchmark.* tools."""
+    """Handle retention.benchmark.* tools."""
     args.pop("_caller_id", None)
     import httpx
 
     base_url = os.environ.get("TA_BACKEND_URL", "http://localhost:8000").rstrip("/") + "/api"
 
-    if tool == "ta.benchmark.run_suite":
+    if tool == "retention.benchmark.run_suite":
         app_ids = args.get("app_ids") or []
         max_interactions = int(args.get("max_interactions", 30))
         payload: Dict[str, Any] = {"max_interactions": max_interactions}
@@ -3703,16 +3703,16 @@ async def _dispatch_benchmark(tool: str, args: Dict[str, Any]) -> Any:
             "suite_id": data.get("suite_id"),
             "status": data.get("status"),
             "apps": data.get("apps", []),
-            "message": f"Suite started. Poll ta.benchmark.run_suite status with suite_id={data.get('suite_id')}",
+            "message": f"Suite started. Poll retention.benchmark.run_suite status with suite_id={data.get('suite_id')}",
         }
 
-    if tool == "ta.benchmark.scorecard":
+    if tool == "retention.benchmark.scorecard":
         async with httpx.AsyncClient(timeout=30) as client:
             resp = await client.get(f"{base_url}/benchmarks/comprehensive/scorecard")
             resp.raise_for_status()
             return resp.json()
 
-    if tool == "ta.benchmark.model_compare":
+    if tool == "retention.benchmark.model_compare":
         from ..benchmarks.model_benchmark import run_model_benchmark
         task_ids = args.get("tasks")
         categories = args.get("categories")
@@ -3727,7 +3727,7 @@ async def _dispatch_benchmark(tool: str, args: Dict[str, Any]) -> Any:
             repeats=repeats,
         )
 
-    if tool == "ta.benchmark.model_compare_status":
+    if tool == "retention.benchmark.model_compare_status":
         from ..benchmarks.model_benchmark import get_benchmark_run
         run_id = args.get("run_id", "")
         run = get_benchmark_run(run_id)
@@ -3750,15 +3750,15 @@ async def _dispatch_benchmark(tool: str, args: Dict[str, Any]) -> Any:
             "results": run.get("results", {}),
         }
 
-    if tool.startswith("ta.benchmark.qa_pipeline"):
+    if tool.startswith("retention.benchmark.qa_pipeline"):
         from ..benchmarks.qa_benchmark import dispatch_qa_benchmark
         return await dispatch_qa_benchmark(tool, args)
 
     # Benchmark app generation tools
     _gen_tools = {
-        "ta.benchmark.generate_app", "ta.benchmark.list_templates",
-        "ta.benchmark.list_cases", "ta.benchmark.run_case",
-        "ta.benchmark.score", "ta.benchmark.run_history",
+        "retention.benchmark.generate_app", "retention.benchmark.list_templates",
+        "retention.benchmark.list_cases", "retention.benchmark.run_case",
+        "retention.benchmark.score", "retention.benchmark.run_history",
     }
     if tool in _gen_tools:
         from ..integrations.benchmark_gen import dispatch_benchmark_gen
@@ -4114,7 +4114,7 @@ async def _dispatch_playwright(tool: str, args: Dict[str, Any]) -> Any:
 # ---------------------------------------------------------------------------
 
 async def _dispatch_nemoclaw(tool: str, args: Dict[str, Any]) -> Any:
-    """Handle ta.nemoclaw.* tools — auto-rotating free model QA agent."""
+    """Handle retention.nemoclaw.* tools — auto-rotating free model QA agent."""
     args.pop("_caller_id", None)
     from ..integrations.nemoclaw import (
         NemotronClient,
@@ -4123,10 +4123,10 @@ async def _dispatch_nemoclaw(tool: str, args: Dict[str, Any]) -> Any:
         dispatch_nemoclaw_refresh,
     )
 
-    if tool == "ta.nemoclaw.run":
+    if tool == "retention.nemoclaw.run":
         return await dispatch_nemoclaw_run(args)
 
-    if tool == "ta.nemoclaw.status":
+    if tool == "retention.nemoclaw.status":
         client = NemotronClient()
         from ..integrations.openrouter_rotation import get_rotation
         rotation = get_rotation()
@@ -4146,10 +4146,10 @@ async def _dispatch_nemoclaw(tool: str, args: Dict[str, Any]) -> Any:
             ),
         }
 
-    if tool == "ta.nemoclaw.telemetry":
+    if tool == "retention.nemoclaw.telemetry":
         return await dispatch_nemoclaw_telemetry()
 
-    if tool == "ta.nemoclaw.refresh":
+    if tool == "retention.nemoclaw.refresh":
         return await dispatch_nemoclaw_refresh()
 
     raise HTTPException(status_code=400, detail=f"Unknown nemoclaw tool: {tool}")
@@ -4161,12 +4161,12 @@ async def _dispatch_nemoclaw(tool: str, args: Dict[str, Any]) -> Any:
 
 async def _dispatch_design(tool: str, args: Dict[str, Any]) -> Any:
     args.pop("_caller_id", None)
-    """Handle ta.design.* tools — design-to-QA pipeline."""
+    """Handle retention.design.* tools — design-to-QA pipeline."""
     import os, httpx
 
     figma_token = os.getenv("FIGMA_ACCESS_TOKEN", "")
 
-    if tool == "ta.design.figma_snapshot":
+    if tool == "retention.design.figma_snapshot":
         file_key = args.get("file_key", "")
         depth = args.get("depth", "metadata")  # metadata | components | full
         if not file_key:
@@ -4215,7 +4215,7 @@ async def _dispatch_design(tool: str, args: Dict[str, Any]) -> Any:
 
             return result
 
-    if tool == "ta.design.figma_analyze_flows":
+    if tool == "retention.design.figma_analyze_flows":
         file_key = args.get("file_key", "")
         if not file_key:
             raise HTTPException(status_code=400, detail="file_key is required")
@@ -4248,10 +4248,10 @@ async def _dispatch_design(tool: str, args: Dict[str, Any]) -> Any:
             "file_key": file_key,
             "flow_count": len(flows),
             "flows": flows,
-            "hint": "Use ta.design.generate_from_design to turn these flows into runnable code",
+            "hint": "Use retention.design.generate_from_design to turn these flows into runnable code",
         }
 
-    if tool == "ta.design.generate_from_design":
+    if tool == "retention.design.generate_from_design":
         design_url = args.get("design_url", "")
         output_format = args.get("output_format", "react")  # react | html
         if not design_url:
@@ -4279,7 +4279,7 @@ async def _dispatch_design(tool: str, args: Dict[str, Any]) -> Any:
                 "hint": "Extract component hierarchy from design and pass as app_description to Chef",
             }
 
-    if tool == "ta.design.pipeline":
+    if tool == "retention.design.pipeline":
         design_url = args.get("design_url", "")
         if not design_url:
             raise HTTPException(status_code=400, detail="design_url is required")
@@ -4297,7 +4297,7 @@ async def _dispatch_design(tool: str, args: Dict[str, Any]) -> Any:
             "design_url": design_url,
             "output_format": output_format,
             "run_qa": run_qa,
-            "next_step": "Call ta.design.figma_snapshot first, then ta.design.generate_from_design, then ta.pipeline.run",
+            "next_step": "Call retention.design.figma_snapshot first, then retention.design.generate_from_design, then retention.pipeline.run",
         }
 
     raise HTTPException(status_code=400, detail=f"Unknown design tool: {tool}")
@@ -4330,7 +4330,7 @@ async def _handle_quickstart(args: Dict[str, Any]) -> Dict[str, Any]:
 
     # 1. Assess environment capabilities
     try:
-        system = await _dispatch("ta.system_check", {"include_web_test": False}, caller_id=caller_id)
+        system = await _dispatch("retention.system_check", {"include_web_test": False}, caller_id=caller_id)
     except Exception as exc:
         system = {"ready": False, "error": str(exc)}
 
@@ -4363,20 +4363,20 @@ async def _handle_quickstart(args: Dict[str, Any]) -> Dict[str, Any]:
         try:
             if is_native:
                 qa_result = await dispatch_qa_verification(
-                    "ta.run_android_flow",
+                    "retention.run_android_flow",
                     {"package_name": package_name, "app_name": app_name, "timeout_seconds": 3600, "_caller_id": caller_id},
                 )
             else:
                 qa_result = await dispatch_qa_verification(
-                    "ta.run_web_flow",
+                    "retention.run_web_flow",
                     {"url": url, "app_name": app_name, "timeout_seconds": 3600, "_caller_id": caller_id},
                 )
         except Exception as exc:
-            return {"tool": "ta.quickstart", "status": "error", "context": context, "error": str(exc)}
+            return {"tool": "retention.quickstart", "status": "error", "context": context, "error": str(exc)}
 
         run_id = qa_result.get("run_id", "")
         return {
-            "tool": "ta.quickstart",
+            "tool": "retention.quickstart",
             "status": "ok",
             "mode": "emulator",
             "context": context,
@@ -4386,10 +4386,10 @@ async def _handle_quickstart(args: Dict[str, Any]) -> Dict[str, Any]:
             "app_name": app_name,
             "message": f"Full QA pipeline started for {app_name} (emulator mode).",
             "next_steps": [
-                f"Poll progress: ta.pipeline.status(run_id='{run_id}')",
-                f"When complete: ta.get_handoff(run_id='{run_id}')",
+                f"Poll progress: retention.pipeline.status(run_id='{run_id}')",
+                f"When complete: retention.get_handoff(run_id='{run_id}')",
                 "Read the handoff — it lists bugs found, files to fix, and rerun command.",
-                f"After fixing: ta.rerun(run_id='{run_id}') to verify ($0, ~10s).",
+                f"After fixing: retention.rerun(run_id='{run_id}') to verify ($0, ~10s).",
             ],
         }
 
@@ -4397,7 +4397,7 @@ async def _handle_quickstart(args: Dict[str, Any]) -> Dict[str, Any]:
     if is_web_url and not is_native:
         try:
             qa_result = await dispatch_qa_verification(
-                "ta.run_web_flow",
+                "retention.run_web_flow",
                 {
                     "url": url, "app_name": app_name, "timeout_seconds": 3600,
                     "mode": "playwright",  # Explicit Playwright mode
@@ -4407,7 +4407,7 @@ async def _handle_quickstart(args: Dict[str, Any]) -> Dict[str, Any]:
         except Exception as exc:
             # Playwright also failed — fall back to web_demo tools
             return {
-                "tool": "ta.quickstart",
+                "tool": "retention.quickstart",
                 "status": "ok",
                 "mode": "web_demo",
                 "context": context,
@@ -4419,9 +4419,9 @@ async def _handle_quickstart(args: Dict[str, Any]) -> Dict[str, Any]:
                     "Follow the steps below to discover and test your app."
                 ),
                 "next_steps": [
-                    f"Step 1: ta.web_demo.discover(url='{url}')",
-                    "Step 2: ta.web_demo.run(task_ids='all')",
-                    "Step 3: ta.web_demo.scorecard(suite_id=<from step 2>)",
+                    f"Step 1: retention.web_demo.discover(url='{url}')",
+                    "Step 2: retention.web_demo.run(task_ids='all')",
+                    "Step 3: retention.web_demo.scorecard(suite_id=<from step 2>)",
                     "These produce structured test results, failure bundles, and rerun commands — same as the emulator pipeline.",
                 ],
             }
@@ -4430,7 +4430,7 @@ async def _handle_quickstart(args: Dict[str, Any]) -> Dict[str, Any]:
         if qa_result.get("status") == "setup_required":
             # Even Playwright path needs emulator — fall to web_demo
             return {
-                "tool": "ta.quickstart",
+                "tool": "retention.quickstart",
                 "status": "ok",
                 "mode": "web_demo",
                 "context": context,
@@ -4442,9 +4442,9 @@ async def _handle_quickstart(args: Dict[str, Any]) -> Dict[str, Any]:
                     f"Running web QA for {app_name} using browser-based testing."
                 ),
                 "next_steps": [
-                    f"Step 1: ta.web_demo.discover(url='{url}')",
-                    "Step 2: ta.web_demo.run(task_ids='all')",
-                    "Step 3: ta.web_demo.scorecard(suite_id=<from step 2>)",
+                    f"Step 1: retention.web_demo.discover(url='{url}')",
+                    "Step 2: retention.web_demo.run(task_ids='all')",
+                    "Step 3: retention.web_demo.scorecard(suite_id=<from step 2>)",
                 ],
                 "emulator_setup_available": True,
                 "emulator_setup_hint": (
@@ -4455,7 +4455,7 @@ async def _handle_quickstart(args: Dict[str, Any]) -> Dict[str, Any]:
 
         run_id = qa_result.get("run_id", "")
         return {
-            "tool": "ta.quickstart",
+            "tool": "retention.quickstart",
             "status": "ok",
             "mode": "playwright" if run_id else "web_demo",
             "context": context,
@@ -4465,14 +4465,14 @@ async def _handle_quickstart(args: Dict[str, Any]) -> Dict[str, Any]:
             "app_name": app_name,
             "message": f"Web QA started for {app_name} (Playwright mode — no emulator needed).",
             "next_steps": [
-                f"Poll progress: ta.pipeline.status(run_id='{run_id}')",
-                f"When complete: ta.get_handoff(run_id='{run_id}')",
+                f"Poll progress: retention.pipeline.status(run_id='{run_id}')",
+                f"When complete: retention.get_handoff(run_id='{run_id}')",
                 "Read the handoff — bugs, fix suggestions, rerun command.",
-                f"After fixing: ta.rerun(run_id='{run_id}') to verify.",
+                f"After fixing: retention.rerun(run_id='{run_id}') to verify.",
             ] if run_id else [
-                f"Step 1: ta.web_demo.discover(url='{url}')",
-                "Step 2: ta.web_demo.run(task_ids='all')",
-                "Step 3: ta.web_demo.scorecard(suite_id=<from step 2>)",
+                f"Step 1: retention.web_demo.discover(url='{url}')",
+                "Step 2: retention.web_demo.run(task_ids='all')",
+                "Step 3: retention.web_demo.scorecard(suite_id=<from step 2>)",
             ],
         }
 
@@ -4491,7 +4491,7 @@ async def _handle_quickstart(args: Dict[str, Any]) -> Dict[str, Any]:
             setup_commands.append(f"# Step {step.get('step', '?')}: {step.get('title', '')}\n{cmd}")
 
     return {
-        "tool": "ta.quickstart",
+        "tool": "retention.quickstart",
         "status": "setup_required",
         "mode": "needs_emulator",
         "context": context,
@@ -4501,13 +4501,13 @@ async def _handle_quickstart(args: Dict[str, Any]) -> Dict[str, Any]:
         "message": (
             "Native Android app testing requires an emulator. "
             "Execute the setup commands below on your local machine, "
-            "then retry ta.quickstart."
+            "then retry retention.quickstart."
         ),
         "setup_prompt": (
             "Execute these commands to set up an Android emulator:\n\n"
             + "\n\n".join(setup_commands)
             + "\n\nAfter boot (~30s), verify: adb devices\n"
-            + f"Then retry: ta.quickstart(package_name='{package_name}')"
+            + f"Then retry: retention.quickstart(package_name='{package_name}')"
         ),
         "manual_steps": manual_steps,
     }
@@ -4526,7 +4526,7 @@ async def _handle_get_handoff(args: Dict[str, Any]) -> Dict[str, Any]:
     handoff_path = handoff_dir / f"{run_id}.md"
     if handoff_path.exists():
         return {
-            "tool": "ta.get_handoff",
+            "tool": "retention.get_handoff",
             "status": "ok",
             "run_id": run_id,
             "format": "markdown",
@@ -4540,10 +4540,10 @@ async def _handle_get_handoff(args: Dict[str, Any]) -> Dict[str, Any]:
         return {"error": f"Failed to build handoff: {exc}"}
 
     if not report_md:
-        return {"error": f"No results found for run_id: {run_id}. Is the pipeline still running? Check ta.pipeline.status."}
+        return {"error": f"No results found for run_id: {run_id}. Is the pipeline still running? Check retention.pipeline.status."}
 
     return {
-        "tool": "ta.get_handoff",
+        "tool": "retention.get_handoff",
         "status": "ok",
         "run_id": run_id,
         "format": "markdown",
@@ -4563,7 +4563,7 @@ async def _dispatch_web_demo(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
     args.pop("_caller_id", None)
     import uuid as _uuid
 
-    if tool == "ta.web_demo.discover":
+    if tool == "retention.web_demo.discover":
         url = args.get("url")
         if not url:
             return {"error": "url is required"}
@@ -4583,10 +4583,10 @@ async def _dispatch_web_demo(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
             "count": len(task_dicts),
             "tasks": [{"task_id": t["task_id"], "bucket": t.get("bucket", ""),
                         "prompt": t.get("prompt", "")} for t in task_dicts],
-            "next_step": f"Call ta.web_demo.run with task_ids='all' to run all {len(task_dicts)} tasks.",
+            "next_step": f"Call retention.web_demo.run with task_ids='all' to run all {len(task_dicts)} tasks.",
         }
 
-    if tool == "ta.web_demo.run":
+    if tool == "retention.web_demo.run":
         task_ids_raw = args.get("task_ids", "all")
         parallel = int(args.get("parallel", 2))
         from .benchmark_comparison import _active_runs, _run_suite_background, _registry, AgentMode
@@ -4595,7 +4595,7 @@ async def _dispatch_web_demo(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
         else:
             task_ids = [tid.strip() for tid in task_ids_raw.split(",") if tid.strip()]
         if not task_ids:
-            return {"error": "No tasks found. Run ta.web_demo.discover first."}
+            return {"error": "No tasks found. Run retention.web_demo.discover first."}
         suite_id = _uuid.uuid4().hex[:8]
         modes = [AgentMode.TEST_ASSURANCE]
         _active_runs[suite_id] = {
@@ -4611,12 +4611,12 @@ async def _dispatch_web_demo(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
             "task_count": len(task_ids),
             "message": f"Running {len(task_ids)} tasks with {parallel} parallel browsers.",
             "next_steps": [
-                f"Poll: ta.web_demo.status(suite_id='{suite_id}')",
-                f"When done: ta.web_demo.scorecard(suite_id='{suite_id}')",
+                f"Poll: retention.web_demo.status(suite_id='{suite_id}')",
+                f"When done: retention.web_demo.scorecard(suite_id='{suite_id}')",
             ],
         }
 
-    if tool == "ta.web_demo.status":
+    if tool == "retention.web_demo.status":
         suite_id = args.get("suite_id")
         if not suite_id:
             return {"error": "suite_id is required"}
@@ -4628,7 +4628,7 @@ async def _dispatch_web_demo(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
                 "completed_tasks": run.get("completed_tasks", 0),
                 "task_count": run.get("task_count", 0), "error": run.get("error")}
 
-    if tool == "ta.web_demo.scorecard":
+    if tool == "retention.web_demo.scorecard":
         suite_id = args.get("suite_id")
         if not suite_id:
             return {"error": "suite_id is required"}
@@ -4638,7 +4638,7 @@ async def _dispatch_web_demo(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
             return {"error": f"No suite found: {suite_id}"}
         if run["status"] != "completed":
             return {"tool": tool, "suite_id": suite_id, "status": run["status"],
-                    "message": f"Not complete yet (status: {run['status']}). Poll ta.web_demo.status."}
+                    "message": f"Not complete yet (status: {run['status']}). Poll retention.web_demo.status."}
         scorecard_suite_id = run.get("scorecard_suite_id", suite_id)
         scorecard = _writer.load_scorecard(scorecard_suite_id)
         if not scorecard:
@@ -4656,9 +4656,9 @@ async def _dispatch_web_demo(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 def _dispatch_memory(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
-    """Handle ta.memory.* tools for querying exploration memory."""
+    """Handle retention.memory.* tools for querying exploration memory."""
 
-    if tool == "ta.memory.apps":
+    if tool == "retention.memory.apps":
         from ..agents.qa_pipeline.exploration_memory import _load_index
         index = _load_index()
         apps = []
@@ -4679,7 +4679,7 @@ def _dispatch_memory(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
             "stats": index.get("stats", {}),
         }
 
-    if tool == "ta.memory.status":
+    if tool == "retention.memory.status":
         app_url = args.get("app_url", "")
         app_name = args.get("app_name", "")
         if not app_url and not app_name:
@@ -4704,7 +4704,7 @@ def _dispatch_memory(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
             },
         }
 
-    if tool == "ta.memory.graph":
+    if tool == "retention.memory.graph":
         app_url = args.get("app_url", "")
         app_name = args.get("app_name", "")
         if not app_url and not app_name:
@@ -4716,7 +4716,7 @@ def _dispatch_memory(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
         if not cached:
             return {
                 "tool": tool, "status": "empty",
-                "message": f"No exploration memory for this app. Run ta.quickstart or ta.run_web_flow first.",
+                "message": f"No exploration memory for this app. Run retention.quickstart or retention.run_web_flow first.",
             }
 
         crawl_result, crawl_fp = cached
@@ -4756,8 +4756,8 @@ def _dispatch_memory(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
             ),
         }
 
-    # ── ta.memory.export ──
-    if tool == "ta.memory.export":
+    # ── retention.memory.export ──
+    if tool == "retention.memory.export":
         import json as _json
         from pathlib import Path as _Path
         from datetime import datetime, timezone
@@ -4793,8 +4793,8 @@ def _dispatch_memory(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
             "counts": {k: len(v) for k, v in bundle.items() if isinstance(v, dict) and k != "exported_at"},
         }
 
-    # ── ta.memory.import ──
-    if tool == "ta.memory.import":
+    # ── retention.memory.import ──
+    if tool == "retention.memory.import":
         import json as _json
         from pathlib import Path as _Path
 
@@ -4923,7 +4923,7 @@ def _dispatch_trajectory(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
                 "avg_token_savings": traj.avg_token_savings,
                 "avg_time_savings": traj.avg_time_savings,
             },
-            "message": f"Trajectory loaded: {len(traj.steps)} steps, replayed {traj.replay_count}x. Use ta.pipeline.run or the REST API POST /api/trajectories/{trajectory_id}/replay to execute.",
+            "message": f"Trajectory loaded: {len(traj.steps)} steps, replayed {traj.replay_count}x. Use retention.pipeline.run or the REST API POST /api/trajectories/{trajectory_id}/replay to execute.",
         }
 
     return {"error": f"Unknown trajectory tool: {tool}"}
@@ -4990,7 +4990,7 @@ async def _dispatch_explore(args: Dict[str, Any]) -> Dict[str, Any]:
         "app_name": app_name,
         "mode": "explore_only",
         "stages": ["CRAWL"],
-        "message": f"Explore-only flow started ({surface}). Captures trajectory without test generation. Poll ta.pipeline.status for progress.",
+        "message": f"Explore-only flow started ({surface}). Captures trajectory without test generation. Poll retention.pipeline.status for progress.",
     }
 
 
@@ -4999,7 +4999,7 @@ async def _dispatch_explore(args: Dict[str, Any]) -> Dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 async def _dispatch_retention(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
-    """Handle ta.onboard.status, ta.crawl.url, ta.savings.compare, ta.team.invite, ta.qa.redesign."""
+    """Handle ta.onboard.status, ta.crawl.url, retention.savings.compare, retention.team.invite, ta.qa.redesign."""
 
     if tool == "ta.onboard.status":
         checks: Dict[str, Any] = {}
@@ -5019,8 +5019,8 @@ async def _dispatch_retention(tool: str, args: Dict[str, Any]) -> Dict[str, Any]
         if team_id:
             checks["team"] = {"status": "pass", "detail": f"Team: {team_id}"}
         else:
-            checks["team"] = {"status": "info", "detail": "No team — run ta.team.invite to create one"}
-            next_steps.append("Create or join a team: ta.team.invite")
+            checks["team"] = {"status": "info", "detail": "No team — run retention.team.invite to create one"}
+            next_steps.append("Create or join a team: retention.team.invite")
 
         # 3. Backend health — if we're responding, backend is running
         checks["backend"] = {"status": "pass", "detail": "Backend running (this response proves it)"}
@@ -5266,14 +5266,14 @@ async def _dispatch_retention(tool: str, args: Dict[str, Any]) -> Dict[str, Any]
             "trajectory_id": trajectory_id,
             "next_steps": [
                 f"Fix the {len(findings)} finding(s) above, then re-crawl: ta.crawl.url(url='{url}')" if findings
-                else f"Clean crawl! Save trajectory for replay: ta.savings.compare(url='{url}')",
+                else f"Clean crawl! Save trajectory for replay: retention.savings.compare(url='{url}')",
                 "View site map: retention.sh/demo (enter your URL to see the visual crawl)",
-                "Deep UX audit: ta.ux_audit(url='" + url + "')",
+                "Deep UX audit: retention.ux_audit(url='" + url + "')",
                 "Generate tests: ta.suggest_tests(url='" + url + "')",
             ],
         }
 
-    if tool == "ta.savings.compare":
+    if tool == "retention.savings.compare":
         url = args.get("url", "")
         trajectory_id = args.get("trajectory_id", "")
 
@@ -5339,7 +5339,7 @@ async def _dispatch_retention(tool: str, args: Dict[str, Any]) -> Dict[str, Any]
             "next_step": "Apply a fix to your app, then re-crawl: ta.crawl.url(url='" + (url or traj.task_goal) + "')",
         }
 
-    if tool == "ta.team.invite":
+    if tool == "retention.team.invite":
         team_name = args.get("team_name", "")
         team_code = os.environ.get("RETENTION_TEAM", "")
 
@@ -5456,16 +5456,16 @@ Dashboard: {dashboard_url}/memory/team?team={team_code}"""
                 "step_1": "Review the findings and fix suggestions above",
                 "step_2": "Apply fixes to your codebase",
                 "step_3": f"Re-crawl to verify: ta.crawl.url(url='{url}')",
-                "step_4": f"Compare savings: ta.savings.compare(trajectory_id='{trajectory_id}')" if trajectory_id else "Save a trajectory first",
+                "step_4": f"Compare savings: retention.savings.compare(trajectory_id='{trajectory_id}')" if trajectory_id else "Save a trajectory first",
                 "step_5": "Repeat until clean — each re-crawl uses trajectory replay and costs less",
             },
             "dashboard": f"View results: retention.sh/demo",
         }
 
     # ── Interactive Site Map ─────────────────────────────────────────────────
-    # ta.sitemap — stateful, drillable site map via MCP
+    # retention.sitemap — stateful, drillable site map via MCP
 
-    if tool == "ta.sitemap":
+    if tool == "retention.sitemap":
         action = args.get("action", "crawl")  # crawl | overview | screen | screenshot | findings
         url = args.get("url", "")
 
@@ -5476,7 +5476,7 @@ Dashboard: {dashboard_url}/memory/team?team={team_code}"""
 
         if action == "crawl":
             if not url:
-                return {"error": "url is required for action='crawl'. Example: ta.sitemap(url='https://myapp.com')"}
+                return {"error": "url is required for action='crawl'. Example: retention.sitemap(url='https://myapp.com')"}
             # Run the crawl and cache results
             crawl = await _dispatch_retention("ta.crawl.url", {"url": url, "depth": 2, "save_trajectory": True})
             if crawl.get("status") == "error":
@@ -5495,17 +5495,17 @@ Dashboard: {dashboard_url}/memory/team?team={team_code}"""
                 ],
                 "findings_summary": [{"severity": f["severity"], "title": f["title"]} for f in findings],
                 "next": [
-                    "ta.sitemap(action='overview') — see the full navigation map",
-                    "ta.sitemap(action='screen', index=0) — drill into a specific screen",
-                    "ta.sitemap(action='screenshot', index=0) — get the screenshot of a screen",
-                    "ta.sitemap(action='findings') — see all findings with details",
+                    "retention.sitemap(action='overview') — see the full navigation map",
+                    "retention.sitemap(action='screen', index=0) — drill into a specific screen",
+                    "retention.sitemap(action='screenshot', index=0) — get the screenshot of a screen",
+                    "retention.sitemap(action='findings') — see all findings with details",
                 ],
             }
 
         if action == "overview":
             # Return the cached crawl overview (no re-crawl)
             if not cache:
-                return {"error": "No crawl cached. Run ta.sitemap(url='...') first."}
+                return {"error": "No crawl cached. Run retention.sitemap(url='...') first."}
             last_url = list(cache.keys())[-1]
             crawl = cache[last_url]
             screens = crawl.get("screens", [])
@@ -5530,7 +5530,7 @@ Dashboard: {dashboard_url}/memory/team?team={team_code}"""
                     for d in sorted(set(s.get("depth", 0) for s in screens))
                 },
                 "next": [
-                    f"ta.sitemap(action='screen', index={i}) — {s.get('title', s.get('url', ''))[:40]}"
+                    f"retention.sitemap(action='screen', index={i}) — {s.get('title', s.get('url', ''))[:40]}"
                     for i, s in enumerate(screens[:8])
                 ],
             }
@@ -5539,7 +5539,7 @@ Dashboard: {dashboard_url}/memory/team?team={team_code}"""
             # Drill into a specific screen
             index = int(args.get("index", 0))
             if not cache:
-                return {"error": "No crawl cached. Run ta.sitemap(url='...') first."}
+                return {"error": "No crawl cached. Run retention.sitemap(url='...') first."}
             last_url = list(cache.keys())[-1]
             screens = cache[last_url].get("screens", [])
             if index >= len(screens):
@@ -5556,9 +5556,9 @@ Dashboard: {dashboard_url}/memory/team?team={team_code}"""
                 "has_screenshot": bool(screen.get("screenshot_full")),
                 "error": screen.get("error"),
                 "next": [
-                    f"ta.sitemap(action='screenshot', index={index}) — view this page's screenshot",
-                    "ta.sitemap(action='findings') — see QA findings",
-                    "ta.sitemap(action='overview') — back to overview",
+                    f"retention.sitemap(action='screenshot', index={index}) — view this page's screenshot",
+                    "retention.sitemap(action='findings') — see QA findings",
+                    "retention.sitemap(action='overview') — back to overview",
                 ],
             }
 
@@ -5566,7 +5566,7 @@ Dashboard: {dashboard_url}/memory/team?team={team_code}"""
             # Return base64 screenshot for a specific screen
             index = int(args.get("index", 0))
             if not cache:
-                return {"error": "No crawl cached. Run ta.sitemap(url='...') first."}
+                return {"error": "No crawl cached. Run retention.sitemap(url='...') first."}
             last_url = list(cache.keys())[-1]
             screens = cache[last_url].get("screens", [])
             if index >= len(screens):
@@ -5588,7 +5588,7 @@ Dashboard: {dashboard_url}/memory/team?team={team_code}"""
 
         if action == "findings":
             if not cache:
-                return {"error": "No crawl cached. Run ta.sitemap(url='...') first."}
+                return {"error": "No crawl cached. Run retention.sitemap(url='...') first."}
             last_url = list(cache.keys())[-1]
             findings = cache[last_url].get("findings", [])
             return {
@@ -5597,14 +5597,14 @@ Dashboard: {dashboard_url}/memory/team?team={team_code}"""
                 "total": len(findings),
                 "findings": findings,
                 "next": [
-                    f"Fix the issues, then re-crawl: ta.sitemap(url='{last_url}')",
-                    f"ta.ux_audit(url='{last_url}') — deeper UX analysis",
+                    f"Fix the issues, then re-crawl: retention.sitemap(url='{last_url}')",
+                    f"retention.ux_audit(url='{last_url}') — deeper UX analysis",
                 ],
             }
 
         return {"error": f"Unknown sitemap action: {action}. Use: crawl, overview, screen, screenshot, findings"}
 
-    if tool == "ta.start_workflow":
+    if tool == "retention.start_workflow":
         # Canonical workflow start — checks for existing trajectory, decides replay vs explore
         url = args.get("url", "")
         workflow_id = args.get("workflow_id", "")
@@ -5679,10 +5679,10 @@ Dashboard: {dashboard_url}/memory/team?team={team_code}"""
                     "trajectory_id": crawl.get("trajectory_id"),
                 },
                 "result": {k: v for k, v in crawl.items() if k != "screens"},
-                "next": f"Trajectory saved. Next run will use replay: ta.start_workflow(url='{url}')",
+                "next": f"Trajectory saved. Next run will use replay: retention.start_workflow(url='{url}')",
             }
 
-    if tool == "ta.memory.rollup":
+    if tool == "retention.memory.rollup":
         period = args.get("period", "daily")  # daily | weekly | monthly
         workflow_family = args.get("workflow_family", "")
 
@@ -5714,16 +5714,16 @@ Dashboard: {dashboard_url}/memory/team?team={team_code}"""
                 "durability_score": round(aggregate.get("replay_success_rate", 0) * 100, 0),
             },
             "next": [
-                "ta.memory.rollup(period='weekly') — weekly rollup",
-                "ta.savings.compare — detailed A/B comparison",
+                "retention.memory.rollup(period='weekly') — weekly rollup",
+                "retention.savings.compare — detailed A/B comparison",
             ],
         }
 
-    if tool == "ta.qa_check":
+    if tool == "retention.qa_check":
         # One-shot QA check — crawl + findings in one call
         url = args.get("url", "")
         if not url:
-            return {"error": "url is required. Example: ta.qa_check(url='http://localhost:3000')"}
+            return {"error": "url is required. Example: retention.qa_check(url='http://localhost:3000')"}
         crawl = await _dispatch_retention("ta.crawl.url", {"url": url, "depth": 1, "save_trajectory": False})
         if crawl.get("status") == "error":
             return crawl
@@ -5746,7 +5746,7 @@ Dashboard: {dashboard_url}/memory/team?team={team_code}"""
             ),
         }
 
-    if tool == "ta.diff_crawl":
+    if tool == "retention.diff_crawl":
         # Compare current crawl vs last saved crawl
         url = args.get("url", "")
         if not url:
@@ -5788,7 +5788,7 @@ Dashboard: {dashboard_url}/memory/team?team={team_code}"""
             ),
         }
 
-    if tool == "ta.ux_audit":
+    if tool == "retention.ux_audit":
         # Deep UX audit — navigation structure, layout scoring, first-time visitor flow
         url = args.get("url", "")
         if not url:
@@ -5859,8 +5859,8 @@ Dashboard: {dashboard_url}/memory/team?team={team_code}"""
             ],
             "next_steps": [
                 f"Fix findings: {len(findings)} issue(s) to address",
-                f"Re-audit after fixes: ta.ux_audit(url='{url}')",
-                f"Compare improvement: ta.diff_crawl(url='{url}')",
+                f"Re-audit after fixes: retention.ux_audit(url='{url}')",
+                f"Compare improvement: retention.diff_crawl(url='{url}')",
             ],
         }
 

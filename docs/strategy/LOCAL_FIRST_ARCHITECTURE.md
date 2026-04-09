@@ -22,7 +22,7 @@ AFTER:
 ```
 
 The proxy.py already runs on the user's machine. It already has a split:
-- Client tools (ta.expose_local_app, ta.list_relays) run locally
+- Client tools (retention.expose_local_app, retention.list_relays) run locally
 - Server tools forward to Render
 
 We extend this: crawl/QA tools run locally using the user's own Playwright.
@@ -30,13 +30,13 @@ We extend this: crawl/QA tools run locally using the user's own Playwright.
 ## What Runs Locally (in proxy.py)
 
 ### Tier 1: Zero-dependency (stdlib only)
-- `ta.qa_check(url)` — HTTP fetch + HTML parse for basic findings
-- `ta.system_check` — verify env, check versions, report status
+- `retention.qa_check(url)` — HTTP fetch + HTML parse for basic findings
+- `retention.system_check` — verify env, check versions, report status
 
 ### Tier 2: Playwright (optional dependency)
 - `ta.crawl.url(url, max_pages)` — full Playwright crawl with screenshots
-- `ta.sitemap(action, url)` — interactive site map
-- `ta.diff_crawl(url)` — before/after comparison
+- `retention.sitemap(action, url)` — interactive site map
+- `retention.diff_crawl(url)` — before/after comparison
 
 ### Tier 3: Mobile (optional dependency)
 - `ta.mobile.screenshot` — capture from local emulator/simulator
@@ -94,9 +94,9 @@ curl -sL retention.sh/install.sh | bash
 ```
 
 Playwright install is OPTIONAL. Without it:
-- ta.qa_check still works (HTTP-only, no browser needed)
+- retention.qa_check still works (HTTP-only, no browser needed)
 - ta.crawl.url falls back to Render backend
-- ta.sitemap falls back to Render backend
+- retention.sitemap falls back to Render backend
 
 With it:
 - Everything runs locally, zero cloud dependency
@@ -113,7 +113,7 @@ With local-first TA:
 2. Proxy runs LOCAL Playwright → captures screens, finds bugs
 3. Results pushed to Convex dashboard
 4. Claude Code calls `ta.suggest_tests` → generates E2E tests from findings
-5. User fixes bugs, calls `ta.diff_crawl` → local replay, 60-70% cheaper
+5. User fixes bugs, calls `retention.diff_crawl` → local replay, 60-70% cheaper
 6. Trajectory saved → next time even cheaper
 
 For mobile:
@@ -146,7 +146,7 @@ Eventually, Render can be eliminated entirely:
 
 ## Implementation Priority
 
-1. Add `ta.qa_check` as a local tool in proxy.py (HTTP-only, no Playwright needed)
+1. Add `retention.qa_check` as a local tool in proxy.py (HTTP-only, no Playwright needed)
 2. Add local Playwright crawl tools (optional, detected at runtime)
 3. Add Convex push for results
 4. Update install.sh to offer Playwright install

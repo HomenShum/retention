@@ -224,12 +224,12 @@ async def run_ta_assisted_task(
     """Run task through retention.sh's full judged fix loop.
 
     TA-assisted mode:
-      - Structured MCP tool calls (ta.run_web_flow)
+      - Structured MCP tool calls (retention.run_web_flow)
       - Evidence collection (trace, screenshots, logs)
-      - Failure localization (ta.summarize_failure)
-      - Fix context (ta.suggest_fix_context)
-      - Verdict (ta.emit_verdict)
-      - Rerun support (ta.compare_before_after)
+      - Failure localization (retention.summarize_failure)
+      - Fix context (retention.suggest_fix_context)
+      - Verdict (retention.emit_verdict)
+      - Rerun support (retention.compare_before_after)
     """
     bug_id = bug.get("bug_id", bug.get("id", "unknown"))
     t0 = time.time()
@@ -241,7 +241,7 @@ async def run_ta_assisted_task(
             resp = await client.post(
                 f"{TA_BACKEND_URL}/mcp/tools/call",
                 json={
-                    "tool": "ta.run_web_flow",
+                    "tool": "retention.run_web_flow",
                     "arguments": {
                         "url": app_url,
                         "test_count": 3,
@@ -256,7 +256,7 @@ async def run_ta_assisted_task(
             bundle_resp = await client.post(
                 f"{TA_BACKEND_URL}/mcp/tools/call",
                 json={
-                    "tool": "ta.collect_trace_bundle",
+                    "tool": "retention.collect_trace_bundle",
                     "arguments": {"run_id": run_id},
                 },
             )
@@ -266,7 +266,7 @@ async def run_ta_assisted_task(
             summary_resp = await client.post(
                 f"{TA_BACKEND_URL}/mcp/tools/call",
                 json={
-                    "tool": "ta.summarize_failure",
+                    "tool": "retention.summarize_failure",
                     "arguments": {"run_id": run_id, "priority": "critical"},
                 },
             )
@@ -276,7 +276,7 @@ async def run_ta_assisted_task(
             verdict_resp = await client.post(
                 f"{TA_BACKEND_URL}/mcp/tools/call",
                 json={
-                    "tool": "ta.emit_verdict",
+                    "tool": "retention.emit_verdict",
                     "arguments": {"run_id": run_id, "pass_threshold": 0.8},
                 },
             )

@@ -18,13 +18,13 @@ So I built **retention.sh** — an MCP tool that saves the crawl as a trajectory
 curl -sL retention.sh/install.sh | bash
 ```
 
-Then: `ta.qa_check(url='http://localhost:3000')`
+Then: `retention.qa_check(url='http://localhost:3000')`
 
 **What you get:**
-- `ta.qa_check` — instant QA scan with verdict
-- `ta.sitemap` — interactive site map with screenshots (drill into any page)
-- `ta.ux_audit` — 21-rule UX audit
-- `ta.diff_crawl` — before/after comparison
+- `retention.qa_check` — instant QA scan with verdict
+- `retention.sitemap` — interactive site map with screenshots (drill into any page)
+- `retention.ux_audit` — 21-rule UX audit
+- `retention.diff_crawl` — before/after comparison
 - Team memory sharing with invite codes
 
 **Demo:** https://retention.sh/demo — enter any URL, see it crawled with findings.

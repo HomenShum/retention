@@ -27,10 +27,10 @@ def test_deep_agent_bridge_maps_openai_safe_tool_names(monkeypatch):
     monkeypatch.setattr(
         bridge,
         "fetch_tools",
-        lambda: [TAToolSpec(name="ta.pipeline.run", description="", parameters=[])],
+        lambda: [TAToolSpec(name="retention.pipeline.run", description="", parameters=[])],
     )
 
-    assert bridge._tool_name_map() == {"ta_pipeline_run": "ta.pipeline.run"}
+    assert bridge._tool_name_map() == {"ta_pipeline_run": "retention.pipeline.run"}
 
 
 @pytest.mark.asyncio

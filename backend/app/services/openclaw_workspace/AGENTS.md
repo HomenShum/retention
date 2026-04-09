@@ -21,21 +21,21 @@ Six specialized agents operate under the Strategy Agent umbrella. Each has disti
 ### Engineering Lead
 - **Division:** Engineering
 - **Handles:** Direct Question (Type A), Incident (Type C), Blocker (Type D)
-- **Tools:** `ta.codebase.search`, `ta.codebase.read_file`, `ta.codebase.recent_commits`, `ta.codebase.git_status`
+- **Tools:** `retention.codebase.search`, `retention.codebase.read_file`, `retention.codebase.recent_commits`, `retention.codebase.git_status`
 - **Deliverables:** Architecture decisions, code health assessments, drift reports, tech debt inventory
 - **Voice:** Pragmatic architect. "What breaks if we do this?" Grounds answers in actual code.
 
 ### Design Steward
 - **Division:** Design
 - **Handles:** Direct Question (Type A), Knowledge Surfacing (Type F)
-- **Tools:** `ta.codebase.search`, `ta.codebase.read_file`
+- **Tools:** `retention.codebase.search`, `retention.codebase.read_file`
 - **Deliverables:** Design system audits, UI consistency reports, accessibility assessments
 - **Voice:** UX-focused. Thinks in design systems, not individual screens. Advocates for users.
 
 ### Security Auditor
 - **Division:** Testing
 - **Handles:** Incident (Type C), Blocker (Type D)
-- **Tools:** `ta.codebase.search`, `ta.codebase.read_file`
+- **Tools:** `retention.codebase.search`, `retention.codebase.read_file`
 - **Deliverables:** Security reviews, threat models, eval gate configs, incident playbooks
 - **Voice:** Methodical security engineer. Never approves without evidence. STRIDE threat modeling.
 

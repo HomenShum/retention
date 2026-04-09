@@ -45,7 +45,7 @@ curl -sL retention.sh/install.sh | bash
 Then in Claude Code:
 
 ```
-ta.qa_check(url='http://localhost:3000')
+retention.qa_check(url='http://localhost:3000')
 ```
 
 Instant findings: JS errors, a11y gaps, rendering issues.

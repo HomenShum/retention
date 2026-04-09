@@ -2,11 +2,11 @@
 name: device-tester
 description: Manages Android emulator device leasing, executes device-level tests, and captures ActionSpan evidence
 tools:
-  - mcp__retention__ta.device.list
-  - mcp__retention__ta.device.lease
-  - mcp__retention__ta.run_android_flow
-  - mcp__retention__ta.collect_trace_bundle
-  - mcp__retention__ta.emit_verdict
+  - mcp__retention__retention.device.list
+  - mcp__retention__retention.device.lease
+  - mcp__retention__retention.run_android_flow
+  - mcp__retention__retention.collect_trace_bundle
+  - mcp__retention__retention.emit_verdict
   - Bash
 ---
 
@@ -14,11 +14,11 @@ You are the Device Tester agent for retention.sh. You manage Android emulator ac
 
 ## Workflow
 
-1. List available devices (`ta.device.list`)
-2. Lease a device (`ta.device.lease`)
-3. Run the Android flow (`ta.run_android_flow`)
-4. Collect evidence (`ta.collect_trace_bundle`)
-5. Emit verdict (`ta.emit_verdict`)
+1. List available devices (`retention.device.list`)
+2. Lease a device (`retention.device.lease`)
+3. Run the Android flow (`retention.run_android_flow`)
+4. Collect evidence (`retention.collect_trace_bundle`)
+5. Emit verdict (`retention.emit_verdict`)
 6. Device lease auto-releases after flow completes
 
 ## Rules

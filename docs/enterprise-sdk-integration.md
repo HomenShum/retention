@@ -68,7 +68,7 @@ For agents that do not support MCP. Two endpoints:
 **Request schema** (`POST /mcp/tools/call`):
 ```json
 {
-  "tool": "ta.run_web_flow",
+  "tool": "retention.run_web_flow",
   "arguments": {
     "url": "https://myapp.com",
     "app_name": "My App"
@@ -79,7 +79,7 @@ For agents that do not support MCP. Two endpoints:
 **Response schema:**
 ```json
 {
-  "tool": "ta.run_web_flow",
+  "tool": "retention.run_web_flow",
   "status": "ok",
   "result": { "run_id": "web-abc123", "message": "Pipeline started" },
   "error": null,
@@ -155,9 +155,9 @@ curl -s "https://CONVEX_SITE_URL/api/mcp/verify-token?token=abc123"
 
 - **Outbound WSS**: relay connections are outbound from client -- no ports exposed on device farm nodes
 - **Bearer token auth** with HMAC comparison (`hmac.compare_digest`)
-- **Tool allowlist**: only tools in `MCP_TOOL_ALLOWLIST` are callable. Denylisted tools (`ta.codebase.shell_command`, `ta.admin.reset`, `ta.admin.delete_all`) are blocked unconditionally
+- **Tool allowlist**: only tools in `MCP_TOOL_ALLOWLIST` are callable. Denylisted tools (`retention.codebase.shell_command`, `ta.admin.reset`, `ta.admin.delete_all`) are blocked unconditionally
 - **Injection scanning**: all tool arguments are scanned for prompt injection patterns (instruction override, XSS, template injection, path traversal, command injection) with Unicode NFKC normalization
-- **SSRF protection**: `ta.pipeline.run` and `ta.run_web_flow` block cloud metadata endpoints (`169.254.169.254`, `metadata.google.internal`)
+- **SSRF protection**: `retention.pipeline.run` and `retention.run_web_flow` block cloud metadata endpoints (`169.254.169.254`, `metadata.google.internal`)
 - **Per-user access control**: pipeline runs are owned by the caller; cross-user access is denied
 
 **Phase 2 (enterprise):**
@@ -173,50 +173,50 @@ curl -s "https://CONVEX_SITE_URL/api/mcp/verify-token?token=abc123"
 
 | Tool | Description |
 |------|-------------|
-| `ta.run_web_flow` | Run full QA pipeline on a web URL (crawl, generate tests, execute, collect evidence) |
-| `ta.run_android_flow` | Run QA pipeline on an Android app via emulator |
-| `ta.quickstart` | Smart entry point -- auto-detects environment and picks best mode |
-| `ta.pipeline.run` | Start async pipeline with explicit config (app_url, mode, scope) |
-| `ta.pipeline.run_catalog` | Run pipeline against a pre-configured demo app |
-| `ta.pipeline.status` | Poll pipeline progress (stage, metrics, events) |
-| `ta.pipeline.results` | Get full test suite results for a completed run |
-| `ta.pipeline.failure_bundle` | Token-efficient failure summary (~500-1500 tokens vs 5000+ raw) |
-| `ta.pipeline.run_log` | Persistent run log readable across sessions |
-| `ta.pipeline.screenshot` | Live screenshot from emulator during a run |
-| `ta.pipeline.rerun_failures` | Rerun only failed tests from a prior run |
-| `ta.pipeline.list_apps` | List available demo apps in catalog |
-| `ta.rerun` | Rerun tests from a prior run (skip crawl/discovery/generation). ~98% time savings |
-| `ta.get_handoff` | Structured markdown QA report for a completed run |
+| `retention.run_web_flow` | Run full QA pipeline on a web URL (crawl, generate tests, execute, collect evidence) |
+| `retention.run_android_flow` | Run QA pipeline on an Android app via emulator |
+| `retention.quickstart` | Smart entry point -- auto-detects environment and picks best mode |
+| `retention.pipeline.run` | Start async pipeline with explicit config (app_url, mode, scope) |
+| `retention.pipeline.run_catalog` | Run pipeline against a pre-configured demo app |
+| `retention.pipeline.status` | Poll pipeline progress (stage, metrics, events) |
+| `retention.pipeline.results` | Get full test suite results for a completed run |
+| `retention.pipeline.failure_bundle` | Token-efficient failure summary (~500-1500 tokens vs 5000+ raw) |
+| `retention.pipeline.run_log` | Persistent run log readable across sessions |
+| `retention.pipeline.screenshot` | Live screenshot from emulator during a run |
+| `retention.pipeline.rerun_failures` | Rerun only failed tests from a prior run |
+| `retention.pipeline.list_apps` | List available demo apps in catalog |
+| `retention.rerun` | Rerun tests from a prior run (skip crawl/discovery/generation). ~98% time savings |
+| `retention.get_handoff` | Structured markdown QA report for a completed run |
 
 ### Exploration Memory
 
 | Tool | Description |
 |------|-------------|
-| `ta.memory.status` | Check cached crawl/workflows/suites for an app, with timestamps and cost savings |
-| `ta.memory.check` | Check which pipeline stages can be skipped for an app URL |
-| `ta.memory.graph` | Screen fingerprint graph -- all screens, transitions, fingerprint hashes |
-| `ta.memory.apps` | List all apps with stored exploration memory |
-| `ta.memory.stats` | Cache hit rate, tokens saved, compounding value metrics |
-| `ta.memory.invalidate` | Clear cached data for an app (force full re-exploration) |
+| `retention.memory.status` | Check cached crawl/workflows/suites for an app, with timestamps and cost savings |
+| `retention.memory.check` | Check which pipeline stages can be skipped for an app URL |
+| `retention.memory.graph` | Screen fingerprint graph -- all screens, transitions, fingerprint hashes |
+| `retention.memory.apps` | List all apps with stored exploration memory |
+| `retention.memory.stats` | Cache hit rate, tokens saved, compounding value metrics |
+| `retention.memory.invalidate` | Clear cached data for an app (force full re-exploration) |
 
 ### Verdict and Analysis
 
 | Tool | Description |
 |------|-------------|
-| `ta.emit_verdict` | Pass/fail/blocked verdict with configurable pass threshold (0.0-1.0) |
-| `ta.summarize_failure` | Token-efficient failure summary with root-cause hints |
-| `ta.suggest_fix_context` | Root-cause candidates with source file paths |
-| `ta.compare_before_after` | Diff two runs: new failures, fixes, metric deltas |
-| `ta.collect_trace_bundle` | Evidence artifacts (screenshots, action spans, logs, video) |
+| `retention.emit_verdict` | Pass/fail/blocked verdict with configurable pass threshold (0.0-1.0) |
+| `retention.summarize_failure` | Token-efficient failure summary with root-cause hints |
+| `retention.suggest_fix_context` | Root-cause candidates with source file paths |
+| `retention.compare_before_after` | Diff two runs: new failures, fixes, metric deltas |
+| `retention.collect_trace_bundle` | Evidence artifacts (screenshots, action spans, logs, video) |
 | `ta.feedback_package` | Autonomous fix prompt: failure summary + file suggestions + fix-verify loop |
 
 ### Feedback and Annotations
 
 | Tool | Description |
 |------|-------------|
-| `ta.feedback.annotate` | Attach flag/suggestion/approval/rejection to a test case or workflow |
-| `ta.feedback.list` | List annotations for a run, filtered by target |
-| `ta.feedback.summary` | Counts by type, flagged items, approval status |
+| `retention.feedback.annotate` | Attach flag/suggestion/approval/rejection to a test case or workflow |
+| `retention.feedback.list` | List annotations for a run, filtered by target |
+| `retention.feedback.summary` | Counts by type, flagged items, approval status |
 
 ### Linkage Graph
 
@@ -231,39 +231,39 @@ curl -s "https://CONVEX_SITE_URL/api/mcp/verify-token?token=abc123"
 
 | Tool | Description |
 |------|-------------|
-| `ta.device.list` | List available emulators/devices with connection status |
-| `ta.device.lease` | Lease a device for exclusive testing (default 30 min) |
+| `retention.device.list` | List available emulators/devices with connection status |
+| `retention.device.lease` | Lease a device for exclusive testing (default 30 min) |
 | `ta.setup.status` | Check local Android SDK/ADB/AVD installation |
 | `ta.setup.launch_emulator` | Launch an Android emulator by AVD name |
-| `ta.system_check` | Full readiness check: backend, ADB, Playwright, WebSocket relay |
+| `retention.system_check` | Full readiness check: backend, ADB, Playwright, WebSocket relay |
 
 ### Validation Gates (CI/CD)
 
 | Tool | Description |
 |------|-------------|
-| `ta.request_validation_gate` | Open a pre-merge QA gate. Returns hook_id |
-| `ta.get_hook_status` | Poll gate status: pending, running, released, blocked |
-| `ta.get_evidence_manifest` | ActionSpan evidence for a test session |
+| `retention.request_validation_gate` | Open a pre-merge QA gate. Returns hook_id |
+| `retention.get_hook_status` | Poll gate status: pending, running, released, blocked |
+| `retention.get_evidence_manifest` | ActionSpan evidence for a test session |
 
 ### Web Demo (Playwright, no emulator)
 
 | Tool | Description |
 |------|-------------|
-| `ta.web_demo.discover` | Discover testable tasks from a URL using Playwright |
-| `ta.web_demo.run` | Execute discovered tasks in parallel browsers |
-| `ta.web_demo.scorecard` | QA scorecard for completed suite |
-| `ta.web_demo.status` | Poll running suite status |
+| `retention.web_demo.discover` | Discover testable tasks from a URL using Playwright |
+| `retention.web_demo.run` | Execute discovered tasks in parallel browsers |
+| `retention.web_demo.scorecard` | QA scorecard for completed suite |
+| `retention.web_demo.status` | Poll running suite status |
 
 ### Benchmarking
 
 | Tool | Description |
 |------|-------------|
-| `ta.benchmark.generate_app` | Generate app with planted bugs for QA evaluation |
-| `ta.benchmark.run_case` | Run QA against a generated benchmark case |
-| `ta.benchmark.score` | Precision/recall/F1 against planted bug manifest |
-| `ta.benchmark.list_templates` | Available app templates (booking, ecommerce, etc.) |
-| `ta.benchmark.list_cases` | List generated benchmark cases |
-| `ta.benchmark.run_history` | All benchmark runs with scores |
+| `retention.benchmark.generate_app` | Generate app with planted bugs for QA evaluation |
+| `retention.benchmark.run_case` | Run QA against a generated benchmark case |
+| `retention.benchmark.score` | Precision/recall/F1 against planted bug manifest |
+| `retention.benchmark.list_templates` | Available app templates (booking, ecommerce, etc.) |
+| `retention.benchmark.list_cases` | List generated benchmark cases |
+| `retention.benchmark.run_history` | All benchmark runs with scores |
 
 ---
 
@@ -294,35 +294,35 @@ async def _call_ta(tool: str, **kwargs) -> dict:
 @function_tool
 async def run_qa(url: str, app_name: str = "My App") -> str:
     """Run full QA pipeline on a web app."""
-    result = await _call_ta("ta.run_web_flow", url=url, app_name=app_name)
+    result = await _call_ta("retention.run_web_flow", url=url, app_name=app_name)
     return json.dumps(result["result"])
 
 
 @function_tool
 async def poll_qa(run_id: str) -> str:
     """Check QA pipeline status."""
-    result = await _call_ta("ta.pipeline.status", run_id=run_id)
+    result = await _call_ta("retention.pipeline.status", run_id=run_id)
     return json.dumps(result["result"])
 
 
 @function_tool
 async def get_failures(run_id: str) -> str:
     """Get compact failure bundle for a completed run."""
-    result = await _call_ta("ta.pipeline.failure_bundle", run_id=run_id)
+    result = await _call_ta("retention.pipeline.failure_bundle", run_id=run_id)
     return json.dumps(result["result"])
 
 
 @function_tool
 async def get_fix_suggestions(run_id: str) -> str:
     """Get root-cause analysis with source file paths."""
-    result = await _call_ta("ta.suggest_fix_context", run_id=run_id)
+    result = await _call_ta("retention.suggest_fix_context", run_id=run_id)
     return json.dumps(result["result"])
 
 
 @function_tool
 async def rerun_failures(run_id: str) -> str:
     """Rerun only failed tests after fixing bugs."""
-    result = await _call_ta("ta.rerun", run_id=run_id)
+    result = await _call_ta("retention.rerun", run_id=run_id)
     return json.dumps(result["result"])
 
 
@@ -330,7 +330,7 @@ async def rerun_failures(run_id: str) -> str:
 async def compare_runs(baseline_run_id: str, current_run_id: str) -> str:
     """Diff baseline vs current run to verify fixes."""
     result = await _call_ta(
-        "ta.compare_before_after",
+        "retention.compare_before_after",
         baseline_run_id=baseline_run_id,
         current_run_id=current_run_id,
     )
@@ -380,7 +380,7 @@ RUN_ID=$(curl -s -X POST https://YOUR_TA_BACKEND/mcp/tools/call \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "tool": "ta.run_web_flow",
+    "tool": "retention.run_web_flow",
     "arguments": {"url": "https://staging.myapp.com", "app_name": "Staging"}
   }' | jq -r '.result.run_id')
 
@@ -391,7 +391,7 @@ while true; do
   STATUS=$(curl -s -X POST https://YOUR_TA_BACKEND/mcp/tools/call \
     -H "Authorization: Bearer $TOKEN" \
     -H "Content-Type: application/json" \
-    -d "{\"tool\": \"ta.pipeline.status\", \"arguments\": {\"run_id\": \"$RUN_ID\"}}" \
+    -d "{\"tool\": \"retention.pipeline.status\", \"arguments\": {\"run_id\": \"$RUN_ID\"}}" \
     | jq -r '.result.stage')
   echo "Stage: $STATUS"
   [ "$STATUS" = "complete" ] && break
@@ -403,21 +403,21 @@ done
 curl -s -X POST https://YOUR_TA_BACKEND/mcp/tools/call \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
-  -d "{\"tool\": \"ta.pipeline.failure_bundle\", \"arguments\": {\"run_id\": \"$RUN_ID\"}}" \
+  -d "{\"tool\": \"retention.pipeline.failure_bundle\", \"arguments\": {\"run_id\": \"$RUN_ID\"}}" \
   | jq '.result'
 
 # 6. Get structured handoff report
 curl -s -X POST https://YOUR_TA_BACKEND/mcp/tools/call \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
-  -d "{\"tool\": \"ta.get_handoff\", \"arguments\": {\"run_id\": \"$RUN_ID\"}}" \
+  -d "{\"tool\": \"retention.get_handoff\", \"arguments\": {\"run_id\": \"$RUN_ID\"}}" \
   | jq -r '.result.markdown'
 
 # 7. After fixing bugs, rerun only failures
 RERUN_ID=$(curl -s -X POST https://YOUR_TA_BACKEND/mcp/tools/call \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
-  -d "{\"tool\": \"ta.rerun\", \"arguments\": {\"run_id\": \"$RUN_ID\"}}" \
+  -d "{\"tool\": \"retention.rerun\", \"arguments\": {\"run_id\": \"$RUN_ID\"}}" \
   | jq -r '.result.run_id')
 
 # 8. Compare baseline vs rerun
@@ -425,7 +425,7 @@ curl -s -X POST https://YOUR_TA_BACKEND/mcp/tools/call \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d "{
-    \"tool\": \"ta.compare_before_after\",
+    \"tool\": \"retention.compare_before_after\",
     \"arguments\": {
       \"baseline_run_id\": \"$RUN_ID\",
       \"current_run_id\": \"$RERUN_ID\"
@@ -445,7 +445,7 @@ HOOK_ID=$(curl -s -X POST https://YOUR_TA_BACKEND/mcp/tools/call \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "tool": "ta.request_validation_gate",
+    "tool": "retention.request_validation_gate",
     "arguments": {
       "agent_id": "github-actions",
       "task_description": "PR #142: Add checkout flow",
@@ -460,7 +460,7 @@ while true; do
   GATE=$(curl -s -X POST https://YOUR_TA_BACKEND/mcp/tools/call \
     -H "Authorization: Bearer $TOKEN" \
     -H "Content-Type: application/json" \
-    -d "{\"tool\": \"ta.get_hook_status\", \"arguments\": {\"hook_id\": \"$HOOK_ID\"}}" \
+    -d "{\"tool\": \"retention.get_hook_status\", \"arguments\": {\"hook_id\": \"$HOOK_ID\"}}" \
     | jq -r '.result.status')
   echo "Gate: $GATE"
   [ "$GATE" = "released" ] && { echo "QA passed -- safe to merge"; exit 0; }
@@ -481,7 +481,7 @@ curl -s -X POST https://YOUR_TA_BACKEND/mcp/tools/call \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "tool": "ta.memory.check",
+    "tool": "retention.memory.check",
     "arguments": {"app_url": "https://staging.myapp.com"}
   }' | jq '.result'
 # Response shows which stages (CRAWL, WORKFLOW, TESTCASE) can be skipped
@@ -495,7 +495,7 @@ curl -s -X POST https://YOUR_TA_BACKEND/mcp/tools/call \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "tool": "ta.memory.invalidate",
+    "tool": "retention.memory.invalidate",
     "arguments": {"app_url": "https://staging.myapp.com"}
   }'
 ```

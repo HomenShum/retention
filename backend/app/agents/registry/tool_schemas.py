@@ -11,11 +11,11 @@ from typing import Any, Dict, List
 
 
 # ---------------------------------------------------------------------------
-# Codebase tools (ta.codebase.*)
+# Codebase tools (retention.codebase.*)
 # ---------------------------------------------------------------------------
 
 CODEBASE_TOOLS: Dict[str, dict] = {
-    "ta.codebase.recent_commits": {
+    "retention.codebase.recent_commits": {
         "type": "function",
         "function": {
             "name": "recent_commits",
@@ -30,7 +30,7 @@ CODEBASE_TOOLS: Dict[str, dict] = {
             },
         },
     },
-    "ta.codebase.commit_diff": {
+    "retention.codebase.commit_diff": {
         "type": "function",
         "function": {
             "name": "commit_diff",
@@ -42,7 +42,7 @@ CODEBASE_TOOLS: Dict[str, dict] = {
             },
         },
     },
-    "ta.codebase.search": {
+    "retention.codebase.search": {
         "type": "function",
         "function": {
             "name": "search",
@@ -57,7 +57,7 @@ CODEBASE_TOOLS: Dict[str, dict] = {
             },
         },
     },
-    "ta.codebase.read_file": {
+    "retention.codebase.read_file": {
         "type": "function",
         "function": {
             "name": "read_file",
@@ -73,7 +73,7 @@ CODEBASE_TOOLS: Dict[str, dict] = {
             },
         },
     },
-    "ta.codebase.list_directory": {
+    "retention.codebase.list_directory": {
         "type": "function",
         "function": {
             "name": "list_directory",
@@ -85,7 +85,7 @@ CODEBASE_TOOLS: Dict[str, dict] = {
             },
         },
     },
-    "ta.codebase.file_tree": {
+    "retention.codebase.file_tree": {
         "type": "function",
         "function": {
             "name": "file_tree",
@@ -97,7 +97,7 @@ CODEBASE_TOOLS: Dict[str, dict] = {
             },
         },
     },
-    "ta.codebase.git_status": {
+    "retention.codebase.git_status": {
         "type": "function",
         "function": {
             "name": "git_status",
@@ -105,7 +105,7 @@ CODEBASE_TOOLS: Dict[str, dict] = {
             "parameters": {"type": "object", "properties": {}, "required": []},
         },
     },
-    "ta.codebase.exec_python": {
+    "retention.codebase.exec_python": {
         "type": "function",
         "function": {
             "name": "exec_python",
@@ -117,7 +117,7 @@ CODEBASE_TOOLS: Dict[str, dict] = {
             },
         },
     },
-    "ta.codebase.shell_command": {
+    "retention.codebase.shell_command": {
         "type": "function",
         "function": {
             "name": "shell_command",
@@ -129,7 +129,7 @@ CODEBASE_TOOLS: Dict[str, dict] = {
             },
         },
     },
-    "ta.codebase.write_file": {
+    "retention.codebase.write_file": {
         "type": "function",
         "function": {
             "name": "write_file",
@@ -144,7 +144,7 @@ CODEBASE_TOOLS: Dict[str, dict] = {
             },
         },
     },
-    "ta.codebase.run_tests": {
+    "retention.codebase.run_tests": {
         "type": "function",
         "function": {
             "name": "run_tests",
@@ -159,7 +159,7 @@ CODEBASE_TOOLS: Dict[str, dict] = {
             },
         },
     },
-    "ta.codebase.create_pull_request": {
+    "retention.codebase.create_pull_request": {
         "type": "function",
         "function": {
             "name": "create_pull_request",
@@ -176,7 +176,7 @@ CODEBASE_TOOLS: Dict[str, dict] = {
             },
         },
     },
-    "ta.codebase.merge_pull_request": {
+    "retention.codebase.merge_pull_request": {
         "type": "function",
         "function": {
             "name": "merge_pull_request",
@@ -191,7 +191,7 @@ CODEBASE_TOOLS: Dict[str, dict] = {
             },
         },
     },
-    "ta.codebase.create_github_issue": {
+    "retention.codebase.create_github_issue": {
         "type": "function",
         "function": {
             "name": "create_github_issue",
@@ -207,7 +207,7 @@ CODEBASE_TOOLS: Dict[str, dict] = {
             },
         },
     },
-    "ta.codebase.git_commit_and_push": {
+    "retention.codebase.git_commit_and_push": {
         "type": "function",
         "function": {
             "name": "git_commit_and_push",
@@ -846,9 +846,9 @@ FUNC_TO_MCP: Dict[str, str] = _build_func_to_mcp()
 
 # Also support short names used in the HTML frontend
 SHORT_NAME_MAP: Dict[str, str] = {
-    "get_recent_commits": "ta.codebase.recent_commits",
-    "get_commit_diff": "ta.codebase.commit_diff",
-    "search_codebase": "ta.codebase.search",
-    "list_directory": "ta.codebase.list_directory",
-    "get_file_tree": "ta.codebase.file_tree",
+    "get_recent_commits": "retention.codebase.recent_commits",
+    "get_commit_diff": "retention.codebase.commit_diff",
+    "search_codebase": "retention.codebase.search",
+    "list_directory": "retention.codebase.list_directory",
+    "get_file_tree": "retention.codebase.file_tree",
 }

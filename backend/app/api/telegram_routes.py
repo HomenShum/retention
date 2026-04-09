@@ -245,7 +245,7 @@ async def _handle_command(
                 token = os.getenv("RETENTION_MCP_TOKEN", "sk-ret-de55f65c")
                 r = await c.post(
                     "http://localhost:8000/mcp/tools/call",
-                    json={"tool": "ta.run_web_flow", "arguments": {"url": url, "app_name": "Telegram QA"}},
+                    json={"tool": "retention.run_web_flow", "arguments": {"url": url, "app_name": "Telegram QA"}},
                     headers={"Authorization": f"Bearer {token}"},
                 )
                 data = r.json().get("result", {})

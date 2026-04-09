@@ -4,7 +4,7 @@ Runs 1, 2, 5, 10 consecutive QA flows against a frozen app with planted bugs.
 Tracks: wall clock time, tool calls, pass rate, precision, recall.
 
 Usage (MCP):
-  ta.benchmark.qa_pipeline  { "app_url": "http://localhost:3000", "consecutive_counts": "1,2,5,10" }
+  retention.benchmark.qa_pipeline  { "app_url": "http://localhost:3000", "consecutive_counts": "1,2,5,10" }
 
 Usage (API):
   POST /api/benchmarks/qa-pipeline/run
@@ -175,7 +175,7 @@ async def run_qa_benchmark(
                 # Poll until complete (max 5 min)
                 for _ in range(60):
                     await asyncio.sleep(5)
-                    status = await dispatch_pipeline("ta.pipeline.status", {"run_id": run_id})
+                    status = await dispatch_pipeline("retention.pipeline.status", {"run_id": run_id})
                     if status.get("status") in ("complete", "error"):
                         break
 
@@ -305,8 +305,8 @@ def list_benchmarks() -> list[dict]:
 # ---------------------------------------------------------------------------
 
 async def dispatch_qa_benchmark(tool: str, args: dict) -> Any:
-    """Handle ta.benchmark.qa_pipeline tool calls."""
-    if tool == "ta.benchmark.qa_pipeline":
+    """Handle retention.benchmark.qa_pipeline tool calls."""
+    if tool == "retention.benchmark.qa_pipeline":
         app_url = args.get("app_url")
         if not app_url:
             return {"error": "app_url is required"}
@@ -355,7 +355,7 @@ async def dispatch_qa_benchmark(tool: str, args: dict) -> Any:
             "message": f"QA benchmark started. Will run {counts} consecutive batches against {app_url}.",
         }
 
-    if tool == "ta.benchmark.qa_pipeline.status":
+    if tool == "retention.benchmark.qa_pipeline.status":
         benchmark_id = args.get("benchmark_id")
         if not benchmark_id:
             return {"benchmarks": list_benchmarks()}

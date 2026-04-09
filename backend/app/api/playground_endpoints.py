@@ -868,7 +868,7 @@ print("Run again — retention.sh replays exploration from memory")
 # Project: {uc or 'Retention Demo'}
 
 ## What retention.sh does here
-Every MCP tool call (ta.crawl_url, ta.qa_check, etc.) is cached after the first run.
+Every MCP tool call (retention.crawl_url, retention.qa_check, etc.) is cached after the first run.
 Run 2 replays from memory — 85-95% fewer tokens.
 
 ## Install
@@ -878,14 +878,14 @@ curl -sL retention.sh/install.sh | bash
 ```
 
 ## Demo flow
-1. Run: `ta.qa_check(url='http://localhost:3000')`
+1. Run: `retention.qa_check(url='http://localhost:3000')`
 2. Note the token count
-3. Run it again: `ta.qa_check(url='http://localhost:3000')`
+3. Run it again: `retention.qa_check(url='http://localhost:3000')`
 4. Token count drops 85-95% — that's retention.sh memory
 
 ## Check savings
 ```
-ta.savings.compare
+retention.savings.compare
 ```
 """,
                 },
@@ -897,9 +897,9 @@ ta.savings.compare
 Paste this into Claude Code:
 
 ```
-1. Run ta.qa_check(url='http://localhost:3000') and note the token count
+1. Run retention.qa_check(url='http://localhost:3000') and note the token count
 2. Run the same command again
-3. Show me ta.savings.compare
+3. Show me retention.savings.compare
 ```
 
 The second run should cost 85-95% less. That's the demo.
@@ -1426,7 +1426,7 @@ async def _execute_tool(name: str, args: dict[str, Any]) -> str:
         app_name = args.get("app_name", "Web App")
         try:
             from .mcp_pipeline import dispatch_qa_verification
-            result = await dispatch_qa_verification("ta.run_web_flow", {
+            result = await dispatch_qa_verification("retention.run_web_flow", {
                 "url": url, "app_name": app_name, "mode": "playwright",
             })
             if isinstance(result, dict):
@@ -1451,7 +1451,7 @@ async def _execute_tool(name: str, args: dict[str, Any]) -> str:
         app_name = args.get("app_name", package_name)
         try:
             from .mcp_pipeline import dispatch_qa_verification
-            result = await dispatch_qa_verification("ta.run_android_flow", {
+            result = await dispatch_qa_verification("retention.run_android_flow", {
                 "app_package": package_name, "app_name": app_name,
             })
             if isinstance(result, dict):
@@ -1497,7 +1497,7 @@ async def _execute_tool(name: str, args: dict[str, Any]) -> str:
             return "No QA run in progress. Start one with run_web_qa or run_mobile_qa."
         try:
             from .mcp_pipeline import dispatch_pipeline
-            result = await dispatch_pipeline("ta.pipeline.status", {"run_id": run_id})
+            result = await dispatch_pipeline("retention.pipeline.status", {"run_id": run_id})
             if isinstance(result, dict):
                 status = result.get("status", "unknown")
                 stage = result.get("current_stage", "")
@@ -2366,7 +2366,7 @@ async def playground_qa_results(run_id: str):
     """Full QA results for a completed run."""
     try:
         from .mcp_pipeline import dispatch_pipeline
-        result = await dispatch_pipeline("ta.pipeline.results", {"run_id": run_id})
+        result = await dispatch_pipeline("retention.pipeline.results", {"run_id": run_id})
         return result
     except ImportError:
         return {"error": "Pipeline module not available"}
@@ -2565,7 +2565,7 @@ _INTEGRATION_CODE: dict[str, dict[str, str]] = {
     "claude-code": {
         "install": "curl -sL retention.sh/install.sh | bash",
         "integrate": "# Restart Claude Code — hook auto-installed\n# Every MCP tool call is now logged + cached",
-        "demo_cmd": "ta.qa_check(url='http://localhost:3000')",
+        "demo_cmd": "retention.qa_check(url='http://localhost:3000')",
     },
     "langchain": {
         "install": "pip install retention-sh",

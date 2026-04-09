@@ -45,7 +45,7 @@ One-command onboarding for retention.sh QA memory tools.
 7. **Team setup (optional)**
    If the user mentions teammates:
    ```
-   ta.team.invite
+   retention.team.invite
    ```
    This generates a ready-to-paste Slack message.
 

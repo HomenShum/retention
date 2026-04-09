@@ -146,13 +146,13 @@ retention.sh exposes itself as an MCP (Model Context Protocol) server, which mea
 
 | Tool | What it does |
 |------|-------------|
-| `ta.quickstart` | One-call QA: checks environment, runs full pipeline |
-| `ta.run_web_flow` | Full browser QA on any URL |
-| `ta.run_android_flow` | Full QA on a native Android app |
-| `ta.pipeline.failure_bundle` | Get a compact bug report (<200 tokens) |
-| `ta.pipeline.rerun_failures` | Re-run only failed tests after a fix (~10 seconds) |
-| `ta.compare_before_after` | Diff two runs to detect regressions |
-| `ta.emit_verdict` | Record a structured pass/fail verdict |
+| `retention.quickstart` | One-call QA: checks environment, runs full pipeline |
+| `retention.run_web_flow` | Full browser QA on any URL |
+| `retention.run_android_flow` | Full QA on a native Android app |
+| `retention.pipeline.failure_bundle` | Get a compact bug report (<200 tokens) |
+| `retention.pipeline.rerun_failures` | Re-run only failed tests after a fix (~10 seconds) |
+| `retention.compare_before_after` | Diff two runs to detect regressions |
+| `retention.emit_verdict` | Record a structured pass/fail verdict |
 
 ---
 

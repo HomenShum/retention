@@ -24,16 +24,16 @@ def _now_iso() -> str:
 
 
 def dispatch_audit(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
-    """Handle ta.audit.* tools."""
+    """Handle retention.audit.* tools."""
     _ensure_dir()
 
-    if tool == "ta.audit.validate_shortcut":
+    if tool == "retention.audit.validate_shortcut":
         return _handle_validate_shortcut(args)
-    if tool == "ta.audit.compare":
+    if tool == "retention.audit.compare":
         return _handle_compare(args)
-    if tool == "ta.audit.drift_report":
+    if tool == "retention.audit.drift_report":
         return _handle_drift_report(args)
-    if tool == "ta.audit.list":
+    if tool == "retention.audit.list":
         return _handle_list(args)
 
     return {"error": f"Unknown audit tool: {tool}"}
@@ -129,7 +129,7 @@ def _handle_validate_shortcut(args: Dict[str, Any]) -> Dict[str, Any]:
     audit_path = _AUDIT_DIR / f"{audit_result['audit_id']}.json"
     audit_path.write_text(json.dumps(audit_result, indent=2))
 
-    return {"tool": "ta.audit.validate_shortcut", "status": "ok", **audit_result}
+    return {"tool": "retention.audit.validate_shortcut", "status": "ok", **audit_result}
 
 
 def _handle_compare(args: Dict[str, Any]) -> Dict[str, Any]:
@@ -158,7 +158,7 @@ def _handle_compare(args: Dict[str, Any]) -> Dict[str, Any]:
             traj = json.loads(traj_path.read_text()) if traj_path.exists() else {}
 
             return {
-                "tool": "ta.audit.compare",
+                "tool": "retention.audit.compare",
                 "status": "ok",
                 "package_id": pkg_id,
                 "run": run,
@@ -180,7 +180,7 @@ def _handle_compare(args: Dict[str, Any]) -> Dict[str, Any]:
         return {"error": f"Shortcut run {shortcut_id} not found in run history"}
 
     return {
-        "tool": "ta.audit.compare",
+        "tool": "retention.audit.compare",
         "status": "ok",
         "baseline": {"run_id": baseline_id, **baseline},
         "shortcut": {"run_id": shortcut_id, **shortcut},
@@ -240,7 +240,7 @@ def _handle_drift_report(args: Dict[str, Any]) -> Dict[str, Any]:
     health = "healthy" if drift_score < 0.2 else ("degraded" if drift_score < 0.5 else "critical")
 
     return {
-        "tool": "ta.audit.drift_report",
+        "tool": "retention.audit.drift_report",
         "status": "ok",
         "trajectory_id": trajectory_id,
         "task_name": task_name,
@@ -279,4 +279,4 @@ def _handle_list(args: Dict[str, Any]) -> Dict[str, Any]:
                 except Exception:
                     pass
 
-    return {"tool": "ta.audit.list", "status": "ok", "audits": results, "total": len(results)}
+    return {"tool": "retention.audit.list", "status": "ok", "audits": results, "total": len(results)}

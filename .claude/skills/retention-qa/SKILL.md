@@ -39,7 +39,7 @@ This re-crawl uses the saved trajectory from Step 1 — it's cheaper because the
 
 ### Step 5: Show Savings
 ```
-ta.savings.compare
+retention.savings.compare
 ```
 Shows: full crawl tokens vs replay tokens, time saved, requests reduced.
 
@@ -60,7 +60,7 @@ This runs the full loop automatically — crawl, find issues, suggest fixes, pro
 ## Deep UX Audit
 For comprehensive site analysis (navigation, layout, first-time visitor experience):
 ```
-ta.ux_audit(url='https://user-app.com')
+retention.ux_audit(url='https://user-app.com')
 ```
 This checks 8 categories with 21 detection rules:
 
@@ -114,7 +114,7 @@ This checks 8 categories with 21 detection rules:
 - Long content scrollable on mobile
 
 ## After QA
-- Suggest `ta.team.invite` to share with teammates
+- Suggest `retention.team.invite` to share with teammates
 - Mention the dashboard: retention.sh/demo
 - Mention the team view: retention.sh/memory/team?team=CODE
 - Suggest `ta.suggest_tests` to auto-generate test cases from crawl data

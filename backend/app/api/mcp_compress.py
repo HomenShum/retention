@@ -24,16 +24,16 @@ def _now_iso() -> str:
 
 
 def dispatch_compress(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
-    """Handle ta.compress.* tools."""
+    """Handle retention.compress.* tools."""
     _ensure_dir()
 
-    if tool == "ta.compress.workflow":
+    if tool == "retention.compress.workflow":
         return _handle_compress(args)
-    if tool == "ta.compress.list":
+    if tool == "retention.compress.list":
         return _handle_list(args)
-    if tool == "ta.compress.stats":
+    if tool == "retention.compress.stats":
         return _handle_stats(args)
-    if tool == "ta.compress.rollback":
+    if tool == "retention.compress.rollback":
         return _handle_rollback(args)
 
     return {"error": f"Unknown compression tool: {tool}"}
@@ -145,7 +145,7 @@ def _handle_compress(args: Dict[str, Any]) -> Dict[str, Any]:
     result_path = _COMPRESS_DIR / f"compress_{trajectory_id}_{_now_iso().replace(':', '-')}.json"
     result_path.write_text(json.dumps(compression_result, indent=2))
 
-    return {"tool": "ta.compress.workflow", "status": "ok", **compression_result}
+    return {"tool": "retention.compress.workflow", "status": "ok", **compression_result}
 
 
 def _handle_list(args: Dict[str, Any]) -> Dict[str, Any]:
@@ -167,7 +167,7 @@ def _handle_list(args: Dict[str, Any]) -> Dict[str, Any]:
                 except Exception:
                     pass
 
-    return {"tool": "ta.compress.list", "status": "ok", "compressions": results, "total": len(results)}
+    return {"tool": "retention.compress.list", "status": "ok", "compressions": results, "total": len(results)}
 
 
 def _handle_stats(args: Dict[str, Any]) -> Dict[str, Any]:
@@ -191,14 +191,14 @@ def _handle_stats(args: Dict[str, Any]) -> Dict[str, Any]:
                     pass
 
     if not results:
-        return {"tool": "ta.compress.stats", "status": "ok", "message": "No compression results found", "total": 0}
+        return {"tool": "retention.compress.stats", "status": "ok", "message": "No compression results found", "total": 0}
 
     avg_savings = sum(r.get("token_savings_pct", 0) for r in results) / len(results)
     total_steps_saved = sum(r.get("steps_eliminated", 0) for r in results)
     avg_ratio = sum(r.get("compression_ratio", 1) for r in results) / len(results)
 
     return {
-        "tool": "ta.compress.stats",
+        "tool": "retention.compress.stats",
         "status": "ok",
         "total_compressions": len(results),
         "avg_token_savings_pct": round(avg_savings, 1),
@@ -219,7 +219,7 @@ def _handle_rollback(args: Dict[str, Any]) -> Dict[str, Any]:
         return {"error": "trajectory_id is required"}
 
     return {
-        "tool": "ta.compress.rollback",
+        "tool": "retention.compress.rollback",
         "status": "ok",
         "trajectory_id": trajectory_id,
         "message": "Rollback support is available — the original uncompressed trajectory is always preserved. Use ta.trajectory.replay with the original trajectory_id.",

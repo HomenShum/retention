@@ -251,7 +251,7 @@ except: print('    (could not parse tool list)')
 
 step_4_run_qa_flow() {
     banner 4 "Run QA Flow — retention.sh Executes Real App Workflow"
-    narration "Claude Code calls ta.run_web_flow with the local app URL."
+    narration "Claude Code calls retention.run_web_flow with the local app URL."
     narration "retention.sh crawls the app, generates tests, runs them, captures evidence."
     echo ""
 
@@ -259,7 +259,7 @@ step_4_run_qa_flow() {
     app_url="${1:-http://localhost:5173}"
 
     echo -e "  ${C_BLUE}Target app: ${app_url}${C_RESET}"
-    echo -e "  ${C_BLUE}MCP call: ta.run_web_flow${C_RESET}"
+    echo -e "  ${C_BLUE}MCP call: retention.run_web_flow${C_RESET}"
     echo ""
 
     # Simulate the MCP tool call
@@ -268,7 +268,7 @@ step_4_run_qa_flow() {
     result=$(curl -s -X POST "${RETENTION_URL}/mcp/tools/call" \
         -H "Content-Type: application/json" \
         -d "{
-            \"tool\": \"ta.run_web_flow\",
+            \"tool\": \"retention.run_web_flow\",
             \"arguments\": {
                 \"url\": \"${app_url}\",
                 \"test_count\": 5,
@@ -303,14 +303,14 @@ step_5_collect_evidence() {
 
     local run_id="${1:-latest}"
 
-    echo -e "  ${C_BLUE}MCP call: ta.collect_trace_bundle${C_RESET}"
+    echo -e "  ${C_BLUE}MCP call: retention.collect_trace_bundle${C_RESET}"
     echo ""
 
     local bundle
     bundle=$(curl -s -X POST "${RETENTION_URL}/mcp/tools/call" \
         -H "Content-Type: application/json" \
         -d "{
-            \"tool\": \"ta.collect_trace_bundle\",
+            \"tool\": \"retention.collect_trace_bundle\",
             \"arguments\": {
                 \"run_id\": \"${run_id}\"
             }
@@ -329,12 +329,12 @@ except: print(sys.stdin.read()[:500])
     echo ""
 
     # Get failure summary
-    echo -e "  ${C_BLUE}MCP call: ta.summarize_failure${C_RESET}"
+    echo -e "  ${C_BLUE}MCP call: retention.summarize_failure${C_RESET}"
     local summary
     summary=$(curl -s -X POST "${RETENTION_URL}/mcp/tools/call" \
         -H "Content-Type: application/json" \
         -d "{
-            \"tool\": \"ta.summarize_failure\",
+            \"tool\": \"retention.summarize_failure\",
             \"arguments\": {
                 \"run_id\": \"${run_id}\",
                 \"priority\": \"critical\"
@@ -368,14 +368,14 @@ step_6_fix_context() {
 
     local run_id="${1:-latest}"
 
-    echo -e "  ${C_BLUE}MCP call: ta.suggest_fix_context${C_RESET}"
+    echo -e "  ${C_BLUE}MCP call: retention.suggest_fix_context${C_RESET}"
     echo ""
 
     local fix
     fix=$(curl -s -X POST "${RETENTION_URL}/mcp/tools/call" \
         -H "Content-Type: application/json" \
         -d "{
-            \"tool\": \"ta.suggest_fix_context\",
+            \"tool\": \"retention.suggest_fix_context\",
             \"arguments\": {
                 \"run_id\": \"${run_id}\"
             }
@@ -408,14 +408,14 @@ step_7_verdict() {
 
     local run_id="${1:-latest}"
 
-    echo -e "  ${C_BLUE}MCP call: ta.emit_verdict${C_RESET}"
+    echo -e "  ${C_BLUE}MCP call: retention.emit_verdict${C_RESET}"
     echo ""
 
     local verdict
     verdict=$(curl -s -X POST "${RETENTION_URL}/mcp/tools/call" \
         -H "Content-Type: application/json" \
         -d "{
-            \"tool\": \"ta.emit_verdict\",
+            \"tool\": \"retention.emit_verdict\",
             \"arguments\": {
                 \"run_id\": \"${run_id}\",
                 \"pass_threshold\": 0.8
@@ -449,14 +449,14 @@ step_8_rerun_compare() {
     local baseline_id="${1:-baseline}"
     local current_id="${2:-current}"
 
-    echo -e "  ${C_BLUE}MCP call: ta.compare_before_after${C_RESET}"
+    echo -e "  ${C_BLUE}MCP call: retention.compare_before_after${C_RESET}"
     echo ""
 
     local compare
     compare=$(curl -s -X POST "${RETENTION_URL}/mcp/tools/call" \
         -H "Content-Type: application/json" \
         -d "{
-            \"tool\": \"ta.compare_before_after\",
+            \"tool\": \"retention.compare_before_after\",
             \"arguments\": {
                 \"baseline_run_id\": \"${baseline_id}\",
                 \"current_run_id\": \"${current_id}\"

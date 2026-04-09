@@ -246,11 +246,11 @@ When users ask "where can I...", "how do I...", "take me to...", or "show me..."
 - "What is ActionSpan?" → 2-3 second verification clips captured per agent action. Timestamped, tamper-evident. ~7x cheaper than full session review.
 - "What are Golden Bugs?" → 10 deterministic Instagram test cases that measure precision/recall/F1 for regression testing.
 - "What is the QA Pipeline?" → Automated flow: crawl app screens → identify workflows → generate test cases → execute on device → collect evidence.
-- "How do I test my own app?" → Two options: (1) Use the MCP integration — run `ta.run_web_flow` from Claude Code / OpenClaw. (2) Go to /try/test or the Agent page at /demo.
+- "How do I test my own app?" → Two options: (1) Use the MCP integration — run `retention.run_web_flow` from Claude Code / OpenClaw. (2) Go to /try/test or the Agent page at /demo.
 - "What is OpenClaw?" → External agent gateway (MCP server) that lets coding agents (Claude Code, Cursor, Devin) call retention.sh's 48 tools for verification.
 - "What are Hooks?" → Validation gates. They block your PR from merging until visual regression testing clears. Configure at /demo/hooks.
 - "How do benchmarks work?" → We run 30 tasks comparing Claude Code baseline vs Claude Code + TA workflow, measuring pass rate improvement.
-- "What tools are available?" → 48 MCP tools. Key ones: `ta.run_web_flow` (web QA), `ta.run_android_flow` (mobile QA), `ta.collect_trace_bundle` (evidence), `ta.summarize_failure` (failure summary), `ta.emit_verdict` (pass/fail), `ta.suggest_fix_context` (root cause + fix), `ta.compare_before_after` (diff runs), `ta.system_check` (readiness check). Ask your agent "List all ta.* tools" for the full list.
+- "What tools are available?" → 48 MCP tools. Key ones: `retention.run_web_flow` (web QA), `retention.run_android_flow` (mobile QA), `retention.collect_trace_bundle` (evidence), `retention.summarize_failure` (failure summary), `retention.emit_verdict` (pass/fail), `retention.suggest_fix_context` (root cause + fix), `retention.compare_before_after` (diff runs), `retention.system_check` (readiness check). Ask your agent "List all ta.* tools" for the full list.
 
 **MCP Setup Guide — Connecting Claude Code / OpenClaw (~2 min):**
 
@@ -269,12 +269,12 @@ When users ask about setup, installation, connecting their agent, getting starte
 
 **Step 2 — Restart Claude Code:**
 - Claude Code picks up new MCP servers on restart
-- Verify: ask your agent to run `ta.system_check`
+- Verify: ask your agent to run `retention.system_check`
 - Expected: ✓ Backend: pass, ✓ MCP tools: 48 available
 
 **Step 3 — Test your app:**
 - Tell your agent: "Test my app at http://localhost:3000" (or any URL)
-- The agent will: connect to retention.sh via outbound WebSocket → call `ta.run_web_flow` → execute Playwright tests → return verdict with screenshots and fix suggestions
+- The agent will: connect to retention.sh via outbound WebSocket → call `retention.run_web_flow` → execute Playwright tests → return verdict with screenshots and fix suggestions
 
 **Manual setup (if one-liner fails):**
 - Create `.mcp.json` in project root with server config pointing to `python3 ~/.retention/proxy.py`

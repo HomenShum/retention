@@ -4,7 +4,7 @@ Executes:
   1. Full QA pipeline run (crawl → workflow → testcase → execution)
   2. Records baseline metrics
   3. Simulates a fix (no actual code change needed — just reruns)
-  4. Runs ta.pipeline.rerun_failures (execution only, skip crawl/workflow/testcase)
+  4. Runs retention.pipeline.rerun_failures (execution only, skip crawl/workflow/testcase)
   5. Measures delta: time saved, tokens saved, stages skipped
 
 Usage:
@@ -49,7 +49,7 @@ async def _poll_until_done(run_id: str, timeout_s: int = 3600) -> dict:
     while time.monotonic() < deadline:
         await asyncio.sleep(10)
         try:
-            result = await _call_mcp("ta.pipeline.status", {"run_id": run_id})
+            result = await _call_mcp("retention.pipeline.status", {"run_id": run_id})
             status = result.get("result", {}).get("status", "")
             if status in ("complete", "error"):
                 return result.get("result", {})
@@ -112,7 +112,7 @@ async def run_rerun_benchmark(
         return results
 
     # Get failure bundle
-    bundle_result = await _call_mcp("ta.pipeline.failure_bundle", {"run_id": full_run_id}, token)
+    bundle_result = await _call_mcp("retention.pipeline.failure_bundle", {"run_id": full_run_id}, token)
     bundle = bundle_result.get("result", {})
     results["full_run"]["summary"] = bundle.get("summary", {})
     results["full_run"]["failure_count"] = len(bundle.get("failures", []))
@@ -127,7 +127,7 @@ async def run_rerun_benchmark(
     logger.info(f"[{benchmark_id}] Step 2: Rerunning {len(bundle['failures'])} failures from {full_run_id}")
     t1 = time.monotonic()
 
-    rerun_result = await _call_mcp("ta.pipeline.rerun_failures", {
+    rerun_result = await _call_mcp("retention.pipeline.rerun_failures", {
         "baseline_run_id": full_run_id,
         "failures_only": True,
     }, token)
@@ -143,7 +143,7 @@ async def run_rerun_benchmark(
     rerun_time = round(time.monotonic() - t1, 1)
 
     # Get rerun bundle
-    rerun_bundle_result = await _call_mcp("ta.pipeline.failure_bundle", {"run_id": rerun_run_id}, token)
+    rerun_bundle_result = await _call_mcp("retention.pipeline.failure_bundle", {"run_id": rerun_run_id}, token)
     rerun_bundle = rerun_bundle_result.get("result", {})
 
     results["rerun"] = {

@@ -13,7 +13,7 @@ I built retention.sh — an MCP tool that gives AI coding agents (Claude Code, C
 curl -sL retention.sh/install.sh | bash
 ```
 
-Then in Claude Code: `ta.qa_check(url='http://localhost:3000')`
+Then in Claude Code: `retention.qa_check(url='http://localhost:3000')`
 
 **What you get immediately:**
 - Instant QA findings (JS errors, a11y gaps, rendering issues)

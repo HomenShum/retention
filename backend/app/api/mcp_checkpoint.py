@@ -23,16 +23,16 @@ def _now_iso() -> str:
 
 
 def dispatch_checkpoint(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
-    """Handle ta.checkpoint.* tools."""
+    """Handle retention.checkpoint.* tools."""
     _ensure_dir()
 
-    if tool == "ta.checkpoint.list":
+    if tool == "retention.checkpoint.list":
         return _handle_list(args)
-    if tool == "ta.checkpoint.set":
+    if tool == "retention.checkpoint.set":
         return _handle_set(args)
-    if tool == "ta.checkpoint.verify":
+    if tool == "retention.checkpoint.verify":
         return _handle_verify(args)
-    if tool == "ta.checkpoint.drift_report":
+    if tool == "retention.checkpoint.drift_report":
         return _handle_drift_report(args)
 
     return {"error": f"Unknown checkpoint tool: {tool}"}
@@ -65,7 +65,7 @@ def _handle_list(args: Dict[str, Any]) -> Dict[str, Any]:
                         })
                     except Exception:
                         pass
-        return {"tool": "ta.checkpoint.list", "status": "ok", "checkpoints": checkpoints, "total": len(checkpoints)}
+        return {"tool": "retention.checkpoint.list", "status": "ok", "checkpoints": checkpoints, "total": len(checkpoints)}
 
     # Load trajectory and extract checkpoints
     try:
@@ -99,7 +99,7 @@ def _handle_list(args: Dict[str, Any]) -> Dict[str, Any]:
             })
 
         return {
-            "tool": "ta.checkpoint.list",
+            "tool": "retention.checkpoint.list",
             "status": "ok",
             "trajectory_id": trajectory_id,
             "checkpoints": checkpoints,
@@ -140,7 +140,7 @@ def _handle_set(args: Dict[str, Any]) -> Dict[str, Any]:
     cp_path = _CHECKPOINT_DIR / f"{checkpoint['checkpoint_id']}.json"
     cp_path.write_text(json.dumps(checkpoint, indent=2))
 
-    return {"tool": "ta.checkpoint.set", "status": "ok", **checkpoint}
+    return {"tool": "retention.checkpoint.set", "status": "ok", **checkpoint}
 
 
 def _handle_verify(args: Dict[str, Any]) -> Dict[str, Any]:
@@ -177,7 +177,7 @@ def _handle_verify(args: Dict[str, Any]) -> Dict[str, Any]:
 
     cp_path.write_text(json.dumps(checkpoint, indent=2))
 
-    return {"tool": "ta.checkpoint.verify", "status": "ok", **checkpoint}
+    return {"tool": "retention.checkpoint.verify", "status": "ok", **checkpoint}
 
 
 def _handle_drift_report(args: Dict[str, Any]) -> Dict[str, Any]:
@@ -206,7 +206,7 @@ def _handle_drift_report(args: Dict[str, Any]) -> Dict[str, Any]:
     pending = sum(1 for c in checkpoints if c.get("result") == "pending")
 
     return {
-        "tool": "ta.checkpoint.drift_report",
+        "tool": "retention.checkpoint.drift_report",
         "status": "ok",
         "trajectory_id": trajectory_id,
         "total": len(checkpoints),

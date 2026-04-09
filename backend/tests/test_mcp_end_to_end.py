@@ -64,10 +64,10 @@ def test_list_tools(client):
     assert isinstance(tools, list)
     names = {t["name"] for t in tools}
     # Core tools must be present
-    assert "ta.request_validation_gate" in names
-    assert "ta.get_hook_status" in names
-    assert "ta.smoke_test" in names
-    assert "ta.codebase.recent_commits" in names
+    assert "retention.request_validation_gate" in names
+    assert "retention.get_hook_status" in names
+    assert "retention.smoke_test" in names
+    assert "retention.codebase.recent_commits" in names
 
 
 # ---------------------------------------------------------------------------
@@ -78,7 +78,7 @@ def test_validation_gate_lifecycle(client):
     """Request → poll (pending) → release → poll (released)."""
     # 1. Request a gate
     resp = client.post("/mcp/tools/call", json={
-        "tool": "ta.request_validation_gate",
+        "tool": "retention.request_validation_gate",
         "arguments": {
             "agent_id": "test-agent",
             "task_description": "Integration test gate",
@@ -92,7 +92,7 @@ def test_validation_gate_lifecycle(client):
 
     # 2. Poll — should be pending
     resp = client.post("/mcp/tools/call", json={
-        "tool": "ta.get_hook_status",
+        "tool": "retention.get_hook_status",
         "arguments": {"hook_id": hook_id},
     })
     assert resp.status_code == 200
@@ -107,7 +107,7 @@ def test_validation_gate_lifecycle(client):
 
     # 4. Poll again — should be released
     resp = client.post("/mcp/tools/call", json={
-        "tool": "ta.get_hook_status",
+        "tool": "retention.get_hook_status",
         "arguments": {"hook_id": hook_id},
     })
     assert resp.status_code == 200
@@ -120,7 +120,7 @@ def test_validation_gate_lifecycle(client):
 
 def test_codebase_recent_commits(client):
     resp = client.post("/mcp/tools/call", json={
-        "tool": "ta.codebase.recent_commits",
+        "tool": "retention.codebase.recent_commits",
         "arguments": {"limit": 5},
     })
     assert resp.status_code == 200
@@ -135,7 +135,7 @@ def test_codebase_recent_commits(client):
 
 def test_codebase_git_status(client):
     resp = client.post("/mcp/tools/call", json={
-        "tool": "ta.codebase.git_status",
+        "tool": "retention.codebase.git_status",
         "arguments": {},
     })
     assert resp.status_code == 200
@@ -147,7 +147,7 @@ def test_codebase_git_status(client):
 
 def test_codebase_search(client):
     resp = client.post("/mcp/tools/call", json={
-        "tool": "ta.codebase.search",
+        "tool": "retention.codebase.search",
         "arguments": {"query": "ActionSpan"},
     })
     assert resp.status_code == 200
@@ -164,7 +164,7 @@ def test_codebase_search(client):
 def test_smoke_test_no_device(client):
     """smoke_test should return a clean JSON error, not crash, when no device is connected."""
     resp = client.post("/mcp/tools/call", json={
-        "tool": "ta.smoke_test",
+        "tool": "retention.smoke_test",
         "arguments": {},
     })
     assert resp.status_code == 200

@@ -28,11 +28,11 @@
 ### Pipeline Data Isolation
 - Every pipeline entry stamped with `owner_id` at creation (6 creation sites)
 - `_check_run_access(run_id, caller_id)` guard on every read path:
-  - `ta.pipeline.status`, `ta.pipeline.results`
-  - `ta.collect_trace_bundle`, `ta.summarize_failure`
-  - `ta.emit_verdict`, `ta.suggest_fix_context`
-  - `ta.compare_before_after`, `ta.rerun`
-- List endpoints (`ta.pipeline.results` without run_id) filter by owner
+  - `retention.pipeline.status`, `retention.pipeline.results`
+  - `retention.collect_trace_bundle`, `retention.summarize_failure`
+  - `retention.emit_verdict`, `retention.suggest_fix_context`
+  - `retention.compare_before_after`, `retention.rerun`
+- List endpoints (`retention.pipeline.results` without run_id) filter by owner
 - `_persist_result()` auto-includes `owner_id` in disk-persisted JSON
 
 ### Caller Identity Threading
@@ -59,8 +59,8 @@
 - `GET /r/{report_id}` — intentionally public (shareable short-URL for report viewing)
 
 ### Run Log Isolation
-- `ta.pipeline.run_log` (single): `_check_run_access` before disk read or `format_compact_bundle`
-- `ta.pipeline.run_log` (list): filters by `owner_id` matching caller before returning entries
+- `retention.pipeline.run_log` (single): `_check_run_access` before disk read or `format_compact_bundle`
+- `retention.pipeline.run_log` (list): filters by `owner_id` matching caller before returning entries
 
 ### Relay Status Isolation
 - `GET /api/relay/status` requires Bearer auth, returns only the caller's own sessions
@@ -80,7 +80,7 @@
 
 ### MCP Tool Allowlist/Denylist
 - **Allowlist**: 30+ explicitly permitted tools (fail-closed for unknown tools)
-- **Denylist**: `ta.codebase.shell_command`, `ta.admin.*` always blocked
+- **Denylist**: `retention.codebase.shell_command`, `ta.admin.*` always blocked
 - Checked before every tool dispatch
 
 ### Injection Pattern Detection

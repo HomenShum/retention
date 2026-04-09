@@ -71,11 +71,11 @@ Paste this into your Claude Code:
 I want to test my app for bugs. My app is at [YOUR_APP_URL].
 
 Use the retention.sh tools to:
-1. Run ta.run_web_flow with my app URL
-2. Wait for the pipeline to complete (poll ta.pipeline.status every 15s)
-3. When done, get the failure bundle with ta.pipeline.failure_bundle
+1. Run retention.run_web_flow with my app URL
+2. Wait for the pipeline to complete (poll retention.pipeline.status every 15s)
+3. When done, get the failure bundle with retention.pipeline.failure_bundle
 4. Show me all bugs found with steps to reproduce
-5. After I fix a bug, run ta.pipeline.rerun_failures to verify the fix
+5. After I fix a bug, run retention.pipeline.rerun_failures to verify the fix
 ```
 
 ## What Happens
@@ -89,7 +89,7 @@ Your Claude Code                    retention.sh Server
 │              │                   │    to your app URL    │
 │              │                   │                      │
 │ 3. Polls     │                   │ 4. BFS crawl:        │
-│ ta.pipeline. │◀── status ────────│    registers screens, │
+│ retention.pipeline. │◀── status ────────│    registers screens, │
 │ status       │                   │    discovers paths    │
 │              │                   │                      │
 │              │                   │ 5. Workflow analysis  │
@@ -105,7 +105,7 @@ Your Claude Code                    retention.sh Server
 │ the bug      │                   │                      │
 │              │                   │                      │
 │ 11. Calls    │                   │ 12. Re-executes      │
-│ ta.pipeline. │──── MCP ─────────▶│     tests only       │
+│ retention.pipeline. │──── MCP ─────────▶│     tests only       │
 │ rerun_       │                   │     (10s, ~$0)       │
 │ failures     │◀── result ────────│                      │
 └──────────────┘                   └──────────────────────┘
@@ -128,14 +128,14 @@ This shows:
 
 | Tool | What It Does |
 |------|-------------|
-| `ta.run_web_flow` | Full QA pipeline on a web app URL |
-| `ta.run_android_flow` | Full QA pipeline on a native Android app |
-| `ta.pipeline.status` | Check pipeline progress |
-| `ta.pipeline.failure_bundle` | Get compact bug report |
-| `ta.pipeline.rerun_failures` | Re-run only failed tests ($0, 10s) |
-| `ta.collect_trace_bundle` | Get screenshots + traces |
-| `ta.emit_verdict` | Get pass/fail verdict |
-| `ta.suggest_fix_context` | Get fix suggestions for failures |
+| `retention.run_web_flow` | Full QA pipeline on a web app URL |
+| `retention.run_android_flow` | Full QA pipeline on a native Android app |
+| `retention.pipeline.status` | Check pipeline progress |
+| `retention.pipeline.failure_bundle` | Get compact bug report |
+| `retention.pipeline.rerun_failures` | Re-run only failed tests ($0, 10s) |
+| `retention.collect_trace_bundle` | Get screenshots + traces |
+| `retention.emit_verdict` | Get pass/fail verdict |
+| `retention.suggest_fix_context` | Get fix suggestions for failures |
 
 ## Benchmark Your Own App
 

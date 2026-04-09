@@ -1,6 +1,6 @@
 """Savings forecast and ROI MCP tools.
 
-Extends the existing ta.savings.compare with forecast, ROI calculation,
+Extends the existing retention.savings.compare with forecast, ROI calculation,
 and per-stage cost breakdown capabilities.
 """
 
@@ -17,13 +17,13 @@ def _now_iso() -> str:
 
 
 def dispatch_savings(tool: str, args: Dict[str, Any]) -> Dict[str, Any]:
-    """Handle ta.savings.* extended tools."""
+    """Handle retention.savings.* extended tools."""
 
-    if tool == "ta.savings.forecast":
+    if tool == "retention.savings.forecast":
         return _handle_forecast(args)
-    if tool == "ta.savings.roi":
+    if tool == "retention.savings.roi":
         return _handle_roi(args)
-    if tool == "ta.savings.breakdown":
+    if tool == "retention.savings.breakdown":
         return _handle_breakdown(args)
 
     return {"error": f"Unknown savings tool: {tool}"}
@@ -95,7 +95,7 @@ def _handle_forecast(args: Dict[str, Any]) -> Dict[str, Any]:
     total_projected_savings = sum(f["projected_cost_saved_usd"] for f in forecasts)
 
     return {
-        "tool": "ta.savings.forecast",
+        "tool": "retention.savings.forecast",
         "status": "ok",
         "trajectory_id": trajectory_id,
         "task_name": task_name,
@@ -165,7 +165,7 @@ def _handle_roi(args: Dict[str, Any]) -> Dict[str, Any]:
     breakeven_runs = max(1, round(investment / savings_per_replay)) if savings_per_replay > 0 else float("inf")
 
     return {
-        "tool": "ta.savings.roi",
+        "tool": "retention.savings.roi",
         "status": "ok",
         "trajectory_id": trajectory_id,
         "task_name": task_name,
@@ -255,7 +255,7 @@ def _handle_breakdown(args: Dict[str, Any]) -> Dict[str, Any]:
         data["time_pct"] = round(data["ms"] / total_ms * 100, 1) if total_ms > 0 else 0
 
     return {
-        "tool": "ta.savings.breakdown",
+        "tool": "retention.savings.breakdown",
         "status": "ok",
         "trajectory_id": trajectory_id,
         "task_name": task_name,

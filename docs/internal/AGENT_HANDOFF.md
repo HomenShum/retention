@@ -10,7 +10,7 @@ Over the last two days, we successfully built and integrated the **Code-Aware Tr
 2. **Code Linker (`backend/app/services/code_linker.py`)**: Created an inference engine (`infer_screen_code_links`) to map arbitrary screen artifacts to highly probable TSX/Python anchors based on path, test-id, heading, and symbol similarities.
 3. **Graph Upgrades (`context_graph.py` & `linkage_graph.py`)**: Extended the DAG storage format to hold `CODE_SYMBOL` and `CODE_FILE` nodes, exposing new `link_symbol_to_feature` and `get_workflow_rerun_suggestions` methods.
 4. **API Layer (`code_linkage_routes.py`) & Workflow Registry (`workflow_registry.py`)**: Exposed the new logic uniformly over FastAPI (such as `POST /api/code-linkage/impact` taking a `files_changed` payload). Workflow registration now saves code anchors directly onto the graph.
-5. **UI & Agent Integration (`mcp_server.py`, `runner.py`, `stream-agent-to-slack.py`)**: Sub-agents now fetch test workflows based on file diffs (via `files_changed_agg` in `runner.py`). Moreover, Slack threads auto-inject `codebase anchor` URLs alongside screen captures using the new `ta.codebase.analyze_ui_impact` MCP mechanism.
+5. **UI & Agent Integration (`mcp_server.py`, `runner.py`, `stream-agent-to-slack.py`)**: Sub-agents now fetch test workflows based on file diffs (via `files_changed_agg` in `runner.py`). Moreover, Slack threads auto-inject `codebase anchor` URLs alongside screen captures using the new `retention.codebase.analyze_ui_impact` MCP mechanism.
 6. **Testing**: Implemented automated test suites in `backend/tests/test_code_indexer.py`, `test_linkage_graph_upgrade.py`, and `test_code_linkage_api.py`. They are all 100% passing.
 
 ---

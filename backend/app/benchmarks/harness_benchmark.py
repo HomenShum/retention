@@ -11,7 +11,7 @@ Usage (API):
   GET  /api/benchmarks/harness-compare/results
 
 Usage (MCP):
-  ta.benchmark.harness_compare { "app_url": "...", "models": ["gpt-5.4", "gpt-5.4-mini"] }
+  retention.benchmark.harness_compare { "app_url": "...", "models": ["gpt-5.4", "gpt-5.4-mini"] }
 """
 
 from __future__ import annotations
@@ -332,7 +332,7 @@ async def _run_ta_mode(
             resp = await client.post(
                 "http://localhost:8000/mcp/tools/call",
                 json={
-                    "tool": "ta.run_web_flow",
+                    "tool": "retention.run_web_flow",
                     "arguments": {
                         "url": app_url,
                         "test_focus": "Find all bugs",
@@ -359,7 +359,7 @@ async def _run_ta_mode(
                 status_resp = await client.post(
                     "http://localhost:8000/mcp/tools/call",
                     json={
-                        "tool": "ta.pipeline.status",
+                        "tool": "retention.pipeline.status",
                         "arguments": {"run_id": pipeline_run_id},
                     },
                     headers={"Authorization": "Bearer sk-ret-de55f65c"},
@@ -374,7 +374,7 @@ async def _run_ta_mode(
             results_resp = await client.post(
                 "http://localhost:8000/mcp/tools/call",
                 json={
-                    "tool": "ta.pipeline.results",
+                    "tool": "retention.pipeline.results",
                     "arguments": {"run_id": pipeline_run_id},
                 },
                 headers={"Authorization": "Bearer sk-ret-de55f65c"},

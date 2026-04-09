@@ -88,10 +88,10 @@ def call_mcp(backend: str, token: str, tool: str, args: dict) -> dict:
 
 
 def poll_pipeline(backend: str, token: str, run_id: str, timeout: int = 600) -> dict:
-    """Poll ta.pipeline.status until complete or timeout."""
+    """Poll retention.pipeline.status until complete or timeout."""
     start = time.time()
     while time.time() - start < timeout:
-        result = call_mcp(backend, token, "ta.pipeline.status", {"run_id": run_id})
+        result = call_mcp(backend, token, "retention.pipeline.status", {"run_id": run_id})
         if result.get("error"):
             return result
 
@@ -172,11 +172,11 @@ def run_failure_debug_loop(
     """Exercise the full judge/research/debug loop for a completed QA run.
 
     This intentionally goes beyond a single verdict:
-      1. ta.pipeline.failure_bundle
-      2. ta.suggest_fix_context
+      1. retention.pipeline.failure_bundle
+      2. retention.suggest_fix_context
       3. ta.feedback_package
-      4. ta.pipeline.rerun_failures
-      5. ta.compare_before_after
+      4. retention.pipeline.rerun_failures
+      5. retention.compare_before_after
 
     Returns a structured dict so callers can log or assert each stage.
     """
@@ -185,7 +185,7 @@ def run_failure_debug_loop(
         "status": "started",
     }
 
-    bundle = call_mcp(backend, token, "ta.pipeline.failure_bundle", {"run_id": baseline_run_id})
+    bundle = call_mcp(backend, token, "retention.pipeline.failure_bundle", {"run_id": baseline_run_id})
     result["bundle"] = bundle
     if bundle.get("error"):
         result["status"] = "error"
@@ -199,7 +199,7 @@ def run_failure_debug_loop(
         result["status"] = "no_failures"
         return result
 
-    fix_context = call_mcp(backend, token, "ta.suggest_fix_context", {"run_id": baseline_run_id})
+    fix_context = call_mcp(backend, token, "retention.suggest_fix_context", {"run_id": baseline_run_id})
     result["fix_context"] = fix_context
     if fix_context.get("error"):
         result["status"] = "error"
@@ -225,7 +225,7 @@ def run_failure_debug_loop(
     rerun_args = {"baseline_run_id": baseline_run_id, "failures_only": True}
     if app_url:
         rerun_args["app_url"] = app_url
-    rerun = call_mcp(backend, token, "ta.pipeline.rerun_failures", rerun_args)
+    rerun = call_mcp(backend, token, "retention.pipeline.rerun_failures", rerun_args)
     result["rerun"] = rerun
     if rerun.get("error"):
         result["status"] = "error"
@@ -249,7 +249,7 @@ def run_failure_debug_loop(
     comparison = call_mcp(
         backend,
         token,
-        "ta.compare_before_after",
+        "retention.compare_before_after",
         {
             "baseline_run_id": baseline_run_id,
             "current_run_id": rerun_run_id,
@@ -290,7 +290,7 @@ def main():
     parser.add_argument("--mode", choices=["mcp", "agent", "both"], default="both",
                         help="mcp=individual tools, agent=Coordinator, both=run both paths")
     parser.add_argument("--skip-rerun-loop", action="store_true",
-                        help="Stop after analysis tools; skip ta.pipeline.rerun_failures + compare")
+                        help="Stop after analysis tools; skip retention.pipeline.rerun_failures + compare")
     parser.add_argument("--pipeline-timeout", type=int, default=600, help="Seconds to wait for each pipeline run")
     parser.add_argument("--rerun-timeout", type=int, default=600, help="Seconds to wait for rerun verification")
     args = parser.parse_args()
@@ -345,8 +345,8 @@ def main():
         })
 
     # —— Step 3: System check ————————————————————————————————————————————————
-    log("3", "Running system check (ta.system_check)")
-    result = call_mcp(backend, token, "ta.system_check", {})
+    log("3", "Running system check (retention.system_check)")
+    result = call_mcp(backend, token, "retention.system_check", {})
     _require_success("3", result)
     log("3", "System check result", result)
 
@@ -408,15 +408,15 @@ def main():
 
     # —— Step 5: Run QA flow ————————————————————————————————————————————————
     if args.flow_type == "web":
-        log("5", f"Starting web QA flow (ta.run_web_flow) for {args.url}")
-        result = call_mcp(backend, token, "ta.run_web_flow", {
+        log("5", f"Starting web QA flow (retention.run_web_flow) for {args.url}")
+        result = call_mcp(backend, token, "retention.run_web_flow", {
             "url": args.url,
             "app_name": args.app_name,
             "timeout_seconds": 300,
         })
     else:
-        log("5", f"Starting android QA flow (ta.run_android_flow) for {args.app_package}")
-        result = call_mcp(backend, token, "ta.run_android_flow", {
+        log("5", f"Starting android QA flow (retention.run_android_flow) for {args.app_package}")
+        result = call_mcp(backend, token, "retention.run_android_flow", {
             "app_package": args.app_package,
             "app_name": args.app_name,
             "timeout_seconds": 300,
@@ -464,14 +464,14 @@ def main():
     })
 
     # —— Step 7: Collect trace bundle ————————————————————————————————————————
-    log("7", "Collecting trace bundle (ta.collect_trace_bundle)")
-    trace_bundle = call_mcp(backend, token, "ta.collect_trace_bundle", {"run_id": run_id})
+    log("7", "Collecting trace bundle (retention.collect_trace_bundle)")
+    trace_bundle = call_mcp(backend, token, "retention.collect_trace_bundle", {"run_id": run_id})
     _require_success("7", trace_bundle)
     log("7", "Trace bundle", trace_bundle)
 
     # —— Step 8: Emit verdict ————————————————————————————————————————————————
-    log("8", "Emitting verdict (ta.emit_verdict)")
-    verdict = call_mcp(backend, token, "ta.emit_verdict", {"run_id": run_id, "pass_threshold": 0.8})
+    log("8", "Emitting verdict (retention.emit_verdict)")
+    verdict = call_mcp(backend, token, "retention.emit_verdict", {"run_id": run_id, "pass_threshold": 0.8})
     _require_success("8", verdict)
     log("8", "Verdict", {
         "verdict": verdict.get("verdict"),
@@ -499,7 +499,7 @@ def main():
 
     failure_bundle = debug_loop.get("bundle", {})
     failure_count = debug_loop.get("failure_count", 0)
-    log("9", "Compact failure bundle (ta.pipeline.failure_bundle)", {
+    log("9", "Compact failure bundle (retention.pipeline.failure_bundle)", {
         "failure_count": failure_count,
         "summary": failure_bundle.get("summary"),
         "rerun_command": failure_bundle.get("rerun_command"),
@@ -507,7 +507,7 @@ def main():
 
     fix_context = debug_loop.get("fix_context")
     if fix_context:
-        log("10", "Fix research context (ta.suggest_fix_context)", {
+        log("10", "Fix research context (retention.suggest_fix_context)", {
             "failure_count": fix_context.get("failure_count"),
             "categories": fix_context.get("categories"),
             "suggestion_count": len(fix_context.get("suggestions", [])),
@@ -532,12 +532,12 @@ def main():
     elif debug_loop.get("status") == "rerun_not_started":
         log("12", "Rerun did not start", rerun or {"status": "unknown"})
     elif debug_loop.get("status") == "completed":
-        log("12", "Rerun completed (ta.pipeline.rerun_failures)", {
+        log("12", "Rerun completed (retention.pipeline.rerun_failures)", {
             "rerun_run_id": rerun.get("run_id") if rerun else None,
             "status": rerun_status.get("status") if rerun_status else None,
             "stage": rerun_status.get("current_stage") if rerun_status else None,
         })
-        log("13", "Before/after comparison (ta.compare_before_after)", {
+        log("13", "Before/after comparison (retention.compare_before_after)", {
             "fixes": comparison.get("fixes") if comparison else None,
             "regressions": comparison.get("regressions") if comparison else None,
             "metrics": comparison.get("metrics") if comparison else None,

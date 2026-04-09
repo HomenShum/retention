@@ -474,7 +474,7 @@ class NemoClawAgent:
 
 
 async def dispatch_nemoclaw_run(args: dict[str, Any]) -> dict[str, Any]:
-    """Entry point used by ta.nemoclaw.run."""
+    """Entry point used by retention.nemoclaw.run."""
     prompt = args.get("prompt", "")
     ta_endpoint = args.get("ta_endpoint", "")
     model_override = args.get("model", "")
@@ -515,13 +515,13 @@ async def dispatch_nemoclaw_run(args: dict[str, Any]) -> dict[str, Any]:
 
 
 async def dispatch_nemoclaw_telemetry() -> dict[str, Any]:
-    """Entry point used by ta.nemoclaw.telemetry."""
+    """Entry point used by retention.nemoclaw.telemetry."""
     from .openrouter_rotation import get_rotation
     return get_rotation().get_telemetry()
 
 
 async def dispatch_nemoclaw_refresh() -> dict[str, Any]:
-    """Entry point used by ta.nemoclaw.refresh — force re-scan free models."""
+    """Entry point used by retention.nemoclaw.refresh — force re-scan free models."""
     import asyncio
     from .openrouter_rotation import get_rotation
     rotation = get_rotation()

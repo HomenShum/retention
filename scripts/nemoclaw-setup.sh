@@ -111,11 +111,11 @@ run_test() {
     TA_URL="${TA_MCP_ENDPOINT:-http://localhost:8000/mcp}"
 
     # Test 1: NemoClaw status
-    info "Test 1: ta.nemoclaw.status"
+    info "Test 1: retention.nemoclaw.status"
     RESULT=$(curl -s -X POST "${TA_URL}/tools/call" \
         -H "Content-Type: application/json" \
         -H "Authorization: Bearer $TOKEN" \
-        -d '{"tool":"ta.nemoclaw.status","arguments":{}}' 2>/dev/null)
+        -d '{"tool":"retention.nemoclaw.status","arguments":{}}' 2>/dev/null)
     echo "  $RESULT"
 
     AVAILABLE=$(echo "$RESULT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('result',{}).get('available','?'))" 2>/dev/null || echo "error")
@@ -197,7 +197,7 @@ interactive_setup() {
     echo '  curl -X POST http://localhost:8000/mcp/tools/call \'
     echo '    -H "Content-Type: application/json" \'
     echo '    -H "Authorization: Bearer $(cat .claude/mcp-token)" \'
-    echo "    -d '{\"tool\":\"ta.nemoclaw.status\",\"arguments\":{}}'"
+    echo "    -d '{\"tool\":\"retention.nemoclaw.status\",\"arguments\":{}}'"
     echo ""
     echo '  # Via Python:'
     echo '  from app.integrations.nemoclaw import NemoClawAgent'

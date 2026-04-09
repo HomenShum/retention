@@ -4,7 +4,7 @@
 This script translates Claude Code's MCP protocol (JSON-RPC over stdio)
 into HTTP calls to the retention.sh backend via outbound WebSocket relay.
 
-Key feature: when you call ta.run_web_flow with a localhost URL, the proxy
+Key feature: when you call retention.run_web_flow with a localhost URL, the proxy
 automatically starts an outbound WebSocket relay so the remote emulator can
 reach your local app. No inbound ports or firewall changes needed.
 
@@ -191,11 +191,11 @@ def _http_post(path: str, body: dict):
 
 _CLIENT_TOOLS = [
     {
-        "name": "ta.expose_local_app",
+        "name": "retention.expose_local_app",
         "description": (
             "Expose your local development server to retention.sh's remote emulator. "
             "Starts an outbound WebSocket relay so the emulator can reach your localhost app. "
-            "Returns the public URL to use with ta.run_web_flow."
+            "Returns the public URL to use with retention.run_web_flow."
         ),
         "inputSchema": {
             "type": "object",
@@ -212,7 +212,7 @@ _CLIENT_TOOLS = [
         },
     },
     {
-        "name": "ta.stop_relay",
+        "name": "retention.stop_relay",
         "description": "Stop an active outbound relay for a local port.",
         "inputSchema": {
             "type": "object",
@@ -226,7 +226,7 @@ _CLIENT_TOOLS = [
         },
     },
     {
-        "name": "ta.list_relays",
+        "name": "retention.list_relays",
         "description": "List all active outbound relays exposing local apps to retention.sh.",
         "inputSchema": {"type": "object", "properties": {}},
     },
@@ -235,7 +235,7 @@ _CLIENT_TOOLS = [
 
 def _handle_client_tool(tool_name: str, arguments: dict) -> dict:
     """Handle tools that run on the client machine."""
-    if tool_name == "ta.expose_local_app":
+    if tool_name == "retention.expose_local_app":
         url = arguments.get("url", "")
         port = arguments.get("port")
         if url:
@@ -254,18 +254,18 @@ def _handle_client_tool(tool_name: str, arguments: dict) -> dict:
                 "public_url": relay_url,
                 "message": (
                     f"Your app is now accessible at {relay_url}. "
-                    f"Use this URL with ta.run_web_flow to test your app on the emulator."
+                    f"Use this URL with retention.run_web_flow to test your app on the emulator."
                 ),
             }
         except RuntimeError as e:
             return {"status": "error", "error": str(e)}
 
-    if tool_name == "ta.stop_relay":
+    if tool_name == "retention.stop_relay":
         port = int(arguments.get("port", 0))
         _stop_relay(port)
         return {"status": "ok", "message": f"Relay for port {port} stopped"}
 
-    if tool_name == "ta.list_relays":
+    if tool_name == "retention.list_relays":
         with _relay_lock:
             relays = [
                 {"port": p, "url": info["url"], "alive": info["process"].poll() is None}
@@ -282,7 +282,7 @@ _CLIENT_TOOL_NAMES = {t["name"] for t in _CLIENT_TOOLS}
 # Tools that need URL rewriting (auto-relay localhost)
 # ---------------------------------------------------------------------------
 
-_URL_REWRITE_TOOLS = {"ta.run_web_flow", "ta.pipeline.run"}
+_URL_REWRITE_TOOLS = {"retention.run_web_flow", "retention.pipeline.run"}
 _URL_PARAM_NAMES = {"url", "app_url"}
 
 

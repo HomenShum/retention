@@ -143,10 +143,10 @@ Inside a Claude Code session, check MCP servers are loaded:
 You should see `retention` in the list. Then verify the connection works:
 
 ```
-> Run ta.system_check to verify retention.sh is connected
+> Run retention.system_check to verify retention.sh is connected
 ```
 
-**Expected:** A response listing available tools (ta.run_web_flow, ta.run_android_flow, etc.) and confirming the backend is reachable.
+**Expected:** A response listing available tools (retention.run_web_flow, retention.run_android_flow, etc.) and confirming the backend is reachable.
 
 ### If you're an agent following this playbook
 
@@ -176,7 +176,7 @@ Or for localhost apps:
 > Test my app at http://localhost:3000
 ```
 
-The agent calls `ta.run_web_flow`, which runs real browser interactions, captures screenshots, and returns a structured pass/fail verdict with evidence.
+The agent calls `retention.run_web_flow`, which runs real browser interactions, captures screenshots, and returns a structured pass/fail verdict with evidence.
 
 ### Android testing (requires emulator)
 
@@ -184,7 +184,7 @@ The agent calls `ta.run_web_flow`, which runs real browser interactions, capture
 > Run an Android test flow on the Instagram app — verify the login screen loads
 ```
 
-The agent calls `ta.run_android_flow` to drive the emulator.
+The agent calls `retention.run_android_flow` to drive the emulator.
 
 ---
 
@@ -210,28 +210,28 @@ Once connected, your agent has these tools:
 
 | Tool | What it does |
 |---|---|
-| `ta.system_check` | Verify retention.sh connection and list capabilities |
-| `ta.run_web_flow` | Run a browser-based QA test on any URL |
-| `ta.run_android_flow` | Run an Android emulator test on a mobile app |
-| `ta.collect_trace_bundle` | Get ActionSpan evidence clips (2-3s video proof) |
-| `ta.summarize_failure` | AI-summarize a test failure with root cause |
-| `ta.suggest_fix_context` | Get fix suggestions scoped to your codebase |
-| `ta.emit_verdict` | Record a structured pass/fail verdict |
-| `ta.compare_before_after` | Compare two test runs to detect regressions |
+| `retention.system_check` | Verify retention.sh connection and list capabilities |
+| `retention.run_web_flow` | Run a browser-based QA test on any URL |
+| `retention.run_android_flow` | Run an Android emulator test on a mobile app |
+| `retention.collect_trace_bundle` | Get ActionSpan evidence clips (2-3s video proof) |
+| `retention.summarize_failure` | AI-summarize a test failure with root cause |
+| `retention.suggest_fix_context` | Get fix suggestions scoped to your codebase |
+| `retention.emit_verdict` | Record a structured pass/fail verdict |
+| `retention.compare_before_after` | Compare two test runs to detect regressions |
 
 **Validation gates (pre-merge QA blocks):**
 
 | Tool | What it does |
 |---|---|
-| `ta.request_validation_gate` | Open a validation gate — blocks merge until QA passes |
-| `ta.get_hook_status` | Poll a gate's status (pending / running / released / blocked) |
+| `retention.request_validation_gate` | Open a validation gate — blocks merge until QA passes |
+| `retention.get_hook_status` | Poll a gate's status (pending / running / released / blocked) |
 
 **Device & relay management:**
 
 | Tool | What it does |
 |---|---|
-| `ta.device.list` | List available Android emulators |
-| `ta.device.lease` | Lease an emulator for testing |
+| `retention.device.list` | List available Android emulators |
+| `retention.device.lease` | Lease an emulator for testing |
 | `ta.relay.status` | Check outbound WebSocket relay connection status |
 | `ta.relay.reconnect` | Force reconnect the outbound relay |
 
@@ -239,12 +239,12 @@ Once connected, your agent has these tools:
 
 | Tool | What it does |
 |---|---|
-| `ta.codebase.read_file` | Read a file from the repo |
-| `ta.codebase.search` | Search codebase for a pattern |
-| `ta.codebase.git_status` | Get current git status |
-| `ta.codebase.recent_commits` | List recent commits |
+| `retention.codebase.read_file` | Read a file from the repo |
+| `retention.codebase.search` | Search codebase for a pattern |
+| `retention.codebase.git_status` | Get current git status |
+| `retention.codebase.recent_commits` | List recent commits |
 
-Run `ta.system_check` to see the full list of 51 available tools.
+Run `retention.system_check` to see the full list of 51 available tools.
 
 ---
 
@@ -305,8 +305,8 @@ After testing, share:
 
 1. **Token generation** — Did Step 0 return a token?
 2. **Install** — Did `curl | bash` complete without errors?
-3. **Connection** — Did `ta.system_check` pass?
-4. **Test run** — Did `ta.run_web_flow` return a verdict?
+3. **Connection** — Did `retention.system_check` pass?
+4. **Test run** — Did `retention.run_web_flow` return a verdict?
 5. **Friction** — Anything confusing, slow, or broken?
 
 Paste full error output — it helps.

@@ -636,7 +636,7 @@ async def run_benchmark(
     """Run the complete benchmark loop:
     1. Build the app (APK or web bundle)
     2. Install on emulator (APK) or serve locally (web)
-    3. Run ta.run_web_flow or ta.run_android_flow
+    3. Run retention.run_web_flow or retention.run_android_flow
     4. Wait for completion
     5. Score against planted bug manifest (precision/recall/F1)
     6. Persist lineage
@@ -722,7 +722,7 @@ async def run_benchmark(
     emulator_base = "http://10.0.2.2:8000"  # Android emulator → host machine
 
     if build_type == "apk":
-        # APK is installed — use package name for ta.run_android_flow
+        # APK is installed — use package name for retention.run_android_flow
         app_url = None
         app_package = manifest.get("package_name") or f"com.benchmark.{case_id.replace('-', '_')}"
     elif build_type == "web":
@@ -747,7 +747,7 @@ async def run_benchmark(
 
         if app_url:
             qa_result = await dispatch_qa_verification(
-                "ta.run_web_flow",
+                "retention.run_web_flow",
                 {
                     "url": app_url.replace("10.0.2.2", "localhost"),  # dispatch validates then rewrites
                     "app_name": manifest.get("app_name", case_id),
@@ -756,7 +756,7 @@ async def run_benchmark(
             )
         elif app_package:
             qa_result = await dispatch_qa_verification(
-                "ta.run_android_flow",
+                "retention.run_android_flow",
                 {
                     "app_package": app_package,
                     "app_name": manifest.get("app_name", case_id),
@@ -1086,9 +1086,9 @@ document.querySelectorAll('.screen').forEach((s, i) => {{ if (i > 0) s.style.dis
 # ---------------------------------------------------------------------------
 
 async def dispatch_benchmark_gen(tool: str, args: Dict[str, Any]) -> Any:
-    """Handle ta.benchmark.generate_app and related tools."""
+    """Handle retention.benchmark.generate_app and related tools."""
 
-    if tool == "ta.benchmark.generate_app":
+    if tool == "retention.benchmark.generate_app":
         template = args.get("template", "ecommerce")
         difficulty = args.get("difficulty", "medium")
         num_bugs = int(args.get("num_bugs", 5))
@@ -1112,11 +1112,11 @@ async def dispatch_benchmark_gen(tool: str, args: Dict[str, Any]) -> Any:
             "status": case.status,
             "message": (
                 f"Generated {case.app_name} with {len(case.planted_bugs)} planted bugs "
-                f"({case.difficulty} difficulty). Use ta.benchmark.run_case to start the QA benchmark."
+                f"({case.difficulty} difficulty). Use retention.benchmark.run_case to start the QA benchmark."
             ),
         }
 
-    if tool == "ta.benchmark.list_templates":
+    if tool == "retention.benchmark.list_templates":
         return {
             "templates": [
                 {"id": k, "name": v["name"], "description": v["description"],
@@ -1126,11 +1126,11 @@ async def dispatch_benchmark_gen(tool: str, args: Dict[str, Any]) -> Any:
             "difficulty_levels": list(BUG_PROFILES.keys()) + ["mixed"],
         }
 
-    if tool == "ta.benchmark.list_cases":
+    if tool == "retention.benchmark.list_cases":
         cases = _load_cases()
         return {"cases": cases, "count": len(cases)}
 
-    if tool == "ta.benchmark.run_case":
+    if tool == "retention.benchmark.run_case":
         case_id = args.get("case_id")
         if not case_id:
             return {"error": "case_id is required"}
@@ -1138,13 +1138,13 @@ async def dispatch_benchmark_gen(tool: str, args: Dict[str, Any]) -> Any:
         run = await run_benchmark(case_id, thread_mode=thread_mode)
         return run.to_dict()
 
-    if tool == "ta.benchmark.score":
+    if tool == "retention.benchmark.score":
         run_id = args.get("run_id")
         if not run_id:
             return {"error": "run_id is required"}
         return score_benchmark(run_id)
 
-    if tool == "ta.benchmark.run_history":
+    if tool == "retention.benchmark.run_history":
         runs = _load_runs()
         return {"runs": runs, "count": len(runs)}
 

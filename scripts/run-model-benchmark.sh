@@ -56,7 +56,7 @@ RESULT=$(eval curl -s "$BASE_URL/mcp/tools/call" \
   -X POST \
   -H "'Content-Type: application/json'" \
   ${AUTH_HEADER:+-H "'Authorization: Bearer $TOKEN'"} \
-  -d "'$(echo "{\"tool\":\"ta.benchmark.model_compare\",\"arguments\":$BODY}")'")
+  -d "'$(echo "{\"tool\":\"retention.benchmark.model_compare\",\"arguments\":$BODY}")'")
 
 RUN_ID=$(echo "$RESULT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('result',{}).get('run_id',''))" 2>/dev/null || echo "")
 
@@ -78,7 +78,7 @@ while true; do
     -X POST \
     -H "Content-Type: application/json" \
     ${TOKEN:+-H "Authorization: Bearer $TOKEN"} \
-    -d "{\"tool\":\"ta.benchmark.model_compare_status\",\"arguments\":{\"run_id\":\"$RUN_ID\"}}")
+    -d "{\"tool\":\"retention.benchmark.model_compare_status\",\"arguments\":{\"run_id\":\"$RUN_ID\"}}")
 
   RUN_STATUS=$(echo "$STATUS" | python3 -c "import sys,json; print(json.load(sys.stdin).get('result',{}).get('status',''))" 2>/dev/null)
   PROGRESS=$(echo "$STATUS" | python3 -c "import sys,json; print(json.load(sys.stdin).get('result',{}).get('progress',''))" 2>/dev/null)

@@ -2,13 +2,13 @@
 name: qa-runner
 description: Runs QA verification flows against web and Android apps, captures evidence, and returns compact failure bundles
 tools:
-  - mcp__retention__ta.run_web_flow
-  - mcp__retention__ta.run_android_flow
-  - mcp__retention__ta.collect_trace_bundle
-  - mcp__retention__ta.summarize_failure
-  - mcp__retention__ta.emit_verdict
-  - mcp__retention__ta.suggest_fix_context
-  - mcp__retention__ta.compare_before_after
+  - mcp__retention__retention.run_web_flow
+  - mcp__retention__retention.run_android_flow
+  - mcp__retention__retention.collect_trace_bundle
+  - mcp__retention__retention.summarize_failure
+  - mcp__retention__retention.emit_verdict
+  - mcp__retention__retention.suggest_fix_context
+  - mcp__retention__retention.compare_before_after
   - Read
   - Grep
   - Glob
@@ -25,12 +25,12 @@ You are the QA Runner agent for retention.sh. Your job is to:
 
 When asked to verify a change or test an app:
 
-1. Determine if this is a web flow (`ta.run_web_flow`) or Android flow (`ta.run_android_flow`)
+1. Determine if this is a web flow (`retention.run_web_flow`) or Android flow (`retention.run_android_flow`)
 2. Execute the flow and wait for completion
-3. Collect the trace bundle (`ta.collect_trace_bundle`)
-4. If any failures, summarize them (`ta.summarize_failure`)
-5. Emit final verdict (`ta.emit_verdict`)
-6. If failed, suggest fix context (`ta.suggest_fix_context`)
+3. Collect the trace bundle (`retention.collect_trace_bundle`)
+4. If any failures, summarize them (`retention.summarize_failure`)
+5. Emit final verdict (`retention.emit_verdict`)
+6. If failed, suggest fix context (`retention.suggest_fix_context`)
 
 ## Evidence Format
 

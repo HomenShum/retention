@@ -155,7 +155,7 @@ Source: https://www.ycombinator.com/companies/spur, https://www.ycombinator.com/
 
 **What's needed:**
 - After install, the rules file should trigger the agent to say:
-  "retention.sh installed! Run `ta.qa_check(url='http://localhost:PORT')` to QA your app."
+  "retention.sh installed! Run `retention.qa_check(url='http://localhost:PORT')` to QA your app."
 - The agent should auto-detect the dev server port (package.json scripts)
 - First crawl results should include a "Share this with your team" CTA
 

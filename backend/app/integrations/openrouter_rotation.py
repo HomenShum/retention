@@ -11,7 +11,7 @@ Key behaviors:
   - On rate limit (429) or timeout, rotates to the next model instantly
   - Tracks per-model telemetry: latency, tokens/sec, error rate, rate limits
   - Falls back to OPENAI_API_KEY models if all free models are exhausted
-  - Reports status via ta.nemoclaw.status MCP tool
+  - Reports status via retention.nemoclaw.status MCP tool
 
 Env vars:
   OPENROUTER_API_KEY  — Required for free tier access

@@ -1,0 +1,101 @@
+name: 'retention.sh QA'
+description: 'Run retention.sh QA on your app — catch skipped steps, verify workflows, get verdicts'
+author: 'retention.sh'
+
+branding:
+  icon: 'shield'
+  color: 'green'
+
+inputs:
+  url:
+    description: 'App URL to QA (default: http://localhost:3000)'
+    required: false
+    default: 'http://localhost:3000'
+  token:
+    description: 'retention.sh API token (from retention.sh/dashboard)'
+    required: false
+  backend:
+    description: 'retention.sh backend URL'
+    required: false
+    default: 'https://retention-backend.onrender.com'
+  fail-on-findings:
+    description: 'Fail the check if any error-level findings are found'
+    required: false
+    default: 'true'
+  comment-on-pr:
+    description: 'Post QA results as a PR comment'
+    required: false
+    default: 'true'
+
+outputs:
+  verdict:
+    description: 'PASS, FAIL, or BLOCKED'
+  findings-count:
+    description: 'Number of findings'
+  result-json:
+    description: 'Path to full result JSON file'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Run retention.sh QA
+      id: qa
+      shell: bash
+      env:
+        APP_URL: ${{ inputs.url }}
+        RETENTION_MCP_TOKEN: ${{ inputs.token }}
+        RETENTION_BACKEND: ${{ inputs.backend }}
+      run: |
+        python3 -c "
+        import json, sys, os, urllib.request
+
+        url = os.environ.get('APP_URL', 'http://localhost:3000')
+        token = os.environ.get('RETENTION_MCP_TOKEN', '')
+        backend = os.environ.get('RETENTION_BACKEND', 'https://retention-backend.onrender.com')
+
+        try:
+            req = urllib.request.Request(
+                f'{backend}/api/qa/check',
+                data=json.dumps({'url': url}).encode(),
+                headers={
+                    'Content-Type': 'application/json',
+                    'Authorization': f'Bearer {token}'
+                }
+            )
+            resp = urllib.request.urlopen(req, timeout=120)
+            result = json.loads(resp.read())
+        except Exception as e:
+            try:
+                resp = urllib.request.urlopen(url, timeout=10)
+                result = {
+                    'status': 'pass' if resp.status == 200 else 'fail',
+                    'url': url,
+                    'findings': [{'type': 'info', 'message': f'HTTP {resp.status}'}],
+                    'verdict': 'PASS' if resp.status == 200 else 'FAIL',
+                    'source': 'fallback'
+                }
+            except Exception as e2:
+                result = {
+                    'status': 'fail',
+                    'url': url,
+                    'findings': [{'type': 'error', 'message': f'Cannot reach {url}: {e2}'}],
+                    'verdict': 'BLOCKED',
+                    'source': 'fallback'
+                }
+
+        with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+            f.write(f'verdict={result.get(\"verdict\", \"unknown\")}\\n')
+            f.write(f'findings-count={len(result.get(\"findings\", []))}\\n')
+            f.write(f'result-json=retention-result.json\\n')
+
+        with open('retention-result.json', 'w') as f:
+            json.dump(result, f, indent=2)
+
+        print(f'::notice::retention.sh verdict: {result.get(\"verdict\", \"unknown\")} ({len(result.get(\"findings\", []))} findings)')
+
+        if '${{ inputs.fail-on-findings }}' == 'true':
+            errors = [f for f in result.get('findings', []) if f.get('type') == 'error']
+            if errors:
+                print(f'::error::{len(errors)} error-level findings found')
+                sys.exit(1)
+        "

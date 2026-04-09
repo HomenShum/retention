@@ -309,7 +309,7 @@ import sys, json
 q = sys.stdin.read().strip()
 print(json.dumps({
     'prompt': 'You are the retention.sh AI assistant answering a Slack question. Be concise (under 300 words). Question: ' + q,
-    'tools': ['ta.codebase.search', 'ta.codebase.read_file', 'ta.codebase.recent_commits', 'ta.codebase.git_status'],
+    'tools': ['retention.codebase.search', 'retention.codebase.read_file', 'retention.codebase.recent_commits', 'retention.codebase.git_status'],
     'max_turns': 3
 }))
 " 2>/dev/null)

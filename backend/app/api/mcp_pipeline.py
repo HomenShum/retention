@@ -1,9 +1,9 @@
 """MCP Pipeline tools — async QA pipeline runner, feedback/annotations, device proxy.
 
 Provides dispatchers called from mcp_server.py for:
-  ta.pipeline.*   — run/status/results/list_apps/run_catalog
-  ta.feedback.*   — annotate/list/summary
-  ta.device.*     — list/lease
+  retention.pipeline.*   — run/status/results/list_apps/run_catalog
+  retention.feedback.*   — annotate/list/summary
+  retention.device.*     — list/lease
   ta.meta.*       — connection_info
 """
 
@@ -1022,11 +1022,11 @@ async def _run_pipeline_background(run_id: str, *, app_url: str = None,
 # ---------------------------------------------------------------------------
 
 async def dispatch_pipeline(tool: str, args: Dict[str, Any]) -> Any:
-    """Handle ta.pipeline.* tools."""
+    """Handle retention.pipeline.* tools."""
     caller_id = args.pop("_caller_id", "anonymous")
 
-    # ── ta.pipeline.replay_gif ──────────────────────────────────────────
-    if tool == "ta.pipeline.replay_gif":
+    # ── retention.pipeline.replay_gif ──────────────────────────────────────────
+    if tool == "retention.pipeline.replay_gif":
         run_id = args.get("run_id")
         if not run_id:
             return {"error": "run_id is required"}
@@ -1056,8 +1056,8 @@ async def dispatch_pipeline(tool: str, args: Dict[str, Any]) -> Any:
             logger.exception(f"Failed to generate replay GIF for {run_id}")
             return {"error": f"GIF generation failed: {e}"}
 
-    # ── ta.pipeline.failure_bundle ─────────────────────────────────────
-    if tool == "ta.pipeline.failure_bundle":
+    # ── retention.pipeline.failure_bundle ─────────────────────────────────────
+    if tool == "retention.pipeline.failure_bundle":
         run_id = args.get("run_id")
         if not run_id:
             return {"error": "run_id is required"}
@@ -1079,8 +1079,8 @@ async def dispatch_pipeline(tool: str, args: Dict[str, Any]) -> Any:
             _persist_run_log(run_id, bundle)
         return bundle
 
-    # ── ta.pipeline.run_log ────────────────────────────────────────────
-    if tool == "ta.pipeline.run_log":
+    # ── retention.pipeline.run_log ────────────────────────────────────────────
+    if tool == "retention.pipeline.run_log":
         run_id = args.get("run_id")
         if not run_id:
             logs = []
@@ -1111,7 +1111,7 @@ async def dispatch_pipeline(tool: str, args: Dict[str, Any]) -> Any:
             return bundle
         return {"error": f"No run log for run_id: {run_id}"}
 
-    if tool == "ta.pipeline.list_apps":
+    if tool == "retention.pipeline.list_apps":
         catalog = _load_demo_apps()
         return [
             {
@@ -1125,7 +1125,7 @@ async def dispatch_pipeline(tool: str, args: Dict[str, Any]) -> Any:
             for app_id, meta in catalog.items()
         ]
 
-    if tool == "ta.pipeline.run":
+    if tool == "retention.pipeline.run":
         if not _qa_pipeline_service:
             return {"error": "Pipeline service not initialized (no emulator connected)"}
         if _count_running() >= MAX_CONCURRENT_PIPELINES:
@@ -1186,10 +1186,10 @@ async def dispatch_pipeline(tool: str, args: Dict[str, Any]) -> Any:
             "status": "running",
             "view_url": _view_url(run_id),
             "stream_url": f"/api/demo/pipeline-stream/{run_id}",
-            "message": "Pipeline started. Open view_url in a browser to watch live. Poll ta.pipeline.status for progress.",
+            "message": "Pipeline started. Open view_url in a browser to watch live. Poll retention.pipeline.status for progress.",
         }
 
-    if tool == "ta.pipeline.run_catalog":
+    if tool == "retention.pipeline.run_catalog":
         if not _qa_pipeline_service:
             return {"error": "Pipeline service not initialized (no emulator connected)"}
         if _count_running() >= MAX_CONCURRENT_PIPELINES:
@@ -1226,10 +1226,10 @@ async def dispatch_pipeline(tool: str, args: Dict[str, Any]) -> Any:
             "app_id": app_id,
             "view_url": _view_url(run_id),
             "stream_url": f"/api/demo/pipeline-stream/{run_id}",
-            "message": "Pipeline started. Open view_url in a browser to watch live. Poll ta.pipeline.status for progress.",
+            "message": "Pipeline started. Open view_url in a browser to watch live. Poll retention.pipeline.status for progress.",
         }
 
-    if tool == "ta.pipeline.status":
+    if tool == "retention.pipeline.status":
         run_id = args.get("run_id")
         if not run_id:
             return {"error": "run_id is required"}
@@ -1285,7 +1285,7 @@ async def dispatch_pipeline(tool: str, args: Dict[str, Any]) -> Any:
             resp["exploration_memory"] = memory_info
         return resp
 
-    if tool == "ta.pipeline.results":
+    if tool == "retention.pipeline.results":
         run_id = args.get("run_id")
         if run_id:
             access_err = _check_run_access(run_id, caller_id)
@@ -1378,7 +1378,7 @@ async def dispatch_pipeline(tool: str, args: Dict[str, Any]) -> Any:
                 pass
             return {"results": all_results, "count": len(all_results)}
 
-    if tool == "ta.pipeline.screenshot":
+    if tool == "retention.pipeline.screenshot":
         device_id = args.get("device_id")
         run_id = args.get("run_id")
 
@@ -1431,7 +1431,7 @@ async def dispatch_pipeline(tool: str, args: Dict[str, Any]) -> Any:
         except Exception as exc:
             return {"error": f"Screenshot failed: {exc}"}
 
-    if tool == "ta.pipeline.rerun_failures":
+    if tool == "retention.pipeline.rerun_failures":
         if not _qa_pipeline_service:
             return {"error": "Pipeline service not initialized"}
         if _count_running() >= MAX_CONCURRENT_PIPELINES:
@@ -1607,10 +1607,10 @@ async def dispatch_pipeline(tool: str, args: Dict[str, Any]) -> Any:
 # ---------------------------------------------------------------------------
 
 async def dispatch_feedback(tool: str, args: Dict[str, Any]) -> Any:
-    """Handle ta.feedback.* tools."""
+    """Handle retention.feedback.* tools."""
     args.pop("_caller_id", None)
 
-    if tool == "ta.feedback.annotate":
+    if tool == "retention.feedback.annotate":
         run_id = args.get("run_id")
         if not run_id:
             return {"error": "run_id is required"}
@@ -1641,7 +1641,7 @@ async def dispatch_feedback(tool: str, args: Dict[str, Any]) -> Any:
 
         return {"annotation_id": annotation["annotation_id"], "status": "saved"}
 
-    if tool == "ta.feedback.list":
+    if tool == "retention.feedback.list":
         run_id = args.get("run_id")
         if not run_id:
             return {"error": "run_id is required"}
@@ -1657,7 +1657,7 @@ async def dispatch_feedback(tool: str, args: Dict[str, Any]) -> Any:
 
         return {"run_id": run_id, "annotations": annotations, "count": len(annotations)}
 
-    if tool == "ta.feedback.summary":
+    if tool == "retention.feedback.summary":
         run_id = args.get("run_id")
         if not run_id:
             return {"error": "run_id is required"}
@@ -1686,17 +1686,17 @@ async def dispatch_feedback(tool: str, args: Dict[str, Any]) -> Any:
 # ---------------------------------------------------------------------------
 
 async def dispatch_device(tool: str, args: Dict[str, Any]) -> Any:
-    """Handle ta.device.* tools — thin proxy to device_leasing endpoints."""
+    """Handle retention.device.* tools — thin proxy to device_leasing endpoints."""
     args.pop("_caller_id", None)
 
-    if tool == "ta.device.list":
+    if tool == "retention.device.list":
         try:
             from .device_leasing import list_available_devices
             return await list_available_devices()
         except Exception as exc:
             return {"error": f"Failed to list devices: {exc}"}
 
-    if tool == "ta.device.lease":
+    if tool == "retention.device.lease":
         device_id = args.get("device_id")
         if not device_id:
             return {"error": "device_id is required"}
@@ -2084,7 +2084,7 @@ def format_compact_bundle(run_id: str) -> dict:
     if token_metrics and token_metrics.get("total_tokens", 0) > 0:
         bundle["token_metrics"] = token_metrics
     if failures:
-        bundle["rerun_command"] = f'ta.pipeline.rerun_failures(baseline_run_id="{run_id}", failures_only=true)'
+        bundle["rerun_command"] = f'retention.pipeline.rerun_failures(baseline_run_id="{run_id}", failures_only=true)'
     return bundle
 
 
@@ -2261,9 +2261,9 @@ async def build_handoff_md(run_id: str) -> Optional[str]:
     lines.append("## Next Steps")
     lines.append("")
     lines.append(f"1. Fix the bugs listed above in your codebase")
-    lines.append(f"2. Re-verify: call `ta.rerun` with run_id `{run_id}`")
-    lines.append(f"3. Compare: call `ta.compare_before_after` with baseline `{run_id}` and the new run_id")
-    lines.append(f"4. Final verdict: call `ta.emit_verdict` on the new run_id")
+    lines.append(f"2. Re-verify: call `retention.rerun` with run_id `{run_id}`")
+    lines.append(f"3. Compare: call `retention.compare_before_after` with baseline `{run_id}` and the new run_id")
+    lines.append(f"4. Final verdict: call `retention.emit_verdict` on the new run_id")
     lines.append("")
 
     report = "\n".join(lines)
@@ -2280,13 +2280,13 @@ async def build_handoff_md(run_id: str) -> Optional[str]:
 
 
 async def dispatch_qa_verification(tool: str, args: Dict[str, Any]) -> Any:
-    """Handle ta.run_web_flow, ta.run_android_flow, ta.collect_trace_bundle,
-    ta.summarize_failure, ta.compare_before_after, ta.emit_verdict,
-    ta.suggest_fix_context tools."""
+    """Handle retention.run_web_flow, retention.run_android_flow, retention.collect_trace_bundle,
+    retention.summarize_failure, retention.compare_before_after, retention.emit_verdict,
+    retention.suggest_fix_context tools."""
     caller_id = args.pop("_caller_id", "anonymous")
 
-    # ── ta.run_web_flow ─────────────────────────────────────────────────
-    if tool == "ta.run_web_flow":
+    # ── retention.run_web_flow ─────────────────────────────────────────────────
+    if tool == "retention.run_web_flow":
         url = args.get("url")
         if not url:
             return {"error": "url is required"}
@@ -2349,7 +2349,7 @@ async def dispatch_qa_verification(tool: str, args: Dict[str, Any]) -> Any:
                 "flow_type": "playwright",
                 "engine": "playwright",
                 "view_url": _view_url(run_id),
-                "message": f"Web QA started for {app_name} (Playwright mode — no emulator needed). Poll ta.pipeline.status for progress.",
+                "message": f"Web QA started for {app_name} (Playwright mode — no emulator needed). Poll retention.pipeline.status for progress.",
             }
 
         if has_emulator:
@@ -2391,7 +2391,7 @@ async def dispatch_qa_verification(tool: str, args: Dict[str, Any]) -> Any:
                 "engine": "emulator",
                 "view_url": _view_url(run_id),
                 "stream_url": f"/api/demo/pipeline-stream/{run_id}",
-                "message": f"Web QA flow started for {app_name} (emulator mode). Poll ta.pipeline.status for progress.",
+                "message": f"Web QA flow started for {app_name} (emulator mode). Poll retention.pipeline.status for progress.",
             }
         else:
             # ── No emulator: return setup guidance ──────────────────────
@@ -2458,15 +2458,15 @@ async def dispatch_qa_verification(tool: str, args: Dict[str, Any]) -> Any:
                     {
                         "step": 7,
                         "title": "Retry QA flow",
-                        "command": f'ta.run_web_flow(url="{url}", app_name="{app_name}")',
+                        "command": f'retention.run_web_flow(url="{url}", app_name="{app_name}")',
                     },
                 ],
                 "app_url": url,
                 "app_name": app_name,
             }
 
-    # ── ta.run_android_flow ─────────────────────────────────────────────
-    if tool == "ta.run_android_flow":
+    # ── retention.run_android_flow ─────────────────────────────────────────────
+    if tool == "retention.run_android_flow":
         if not _qa_pipeline_service:
             app_package = args.get("app_package", "")
             return {
@@ -2475,7 +2475,7 @@ async def dispatch_qa_verification(tool: str, args: Dict[str, Any]) -> Any:
                 "requires": "android_emulator",
                 "message": (
                     "No Android emulator detected. Use ta.agent.run for guided setup, "
-                    "or follow the manual steps in the setup_required response from ta.run_web_flow."
+                    "or follow the manual steps in the setup_required response from retention.run_web_flow."
                 ),
                 "guided_setup": {
                     "tool": "ta.agent.run",
@@ -2512,8 +2512,8 @@ async def dispatch_qa_verification(tool: str, args: Dict[str, Any]) -> Any:
                     "1. Call ta.setup.status to check what's installed and get fix commands",
                     "2. Run the fix commands to install missing components",
                     "3. Call ta.setup.launch_emulator to start an AVD",
-                    "4. Wait ~30s for boot, then call ta.system_check to verify",
-                    "5. Retry ta.run_android_flow",
+                    "4. Wait ~30s for boot, then call retention.system_check to verify",
+                    "5. Retry retention.run_android_flow",
                 ],
                 "quick_fix": "If AVDs exist: call ta.setup.launch_emulator. If not: run ./scripts/setup-macos.sh",
             }
@@ -2550,11 +2550,11 @@ async def dispatch_qa_verification(tool: str, args: Dict[str, Any]) -> Any:
             "device_id": device_id,
             "view_url": _view_url(run_id),
             "stream_url": f"/api/demo/pipeline-stream/{run_id}",
-            "message": f"Android QA flow started for {app_name}. Open view_url in a browser to watch live. Poll ta.pipeline.status for progress.",
+            "message": f"Android QA flow started for {app_name}. Open view_url in a browser to watch live. Poll retention.pipeline.status for progress.",
         }
 
-    # ── ta.rerun ────────────────────────────────────────────────────────
-    if tool == "ta.rerun":
+    # ── retention.rerun ────────────────────────────────────────────────────────
+    if tool == "retention.rerun":
         baseline_run_id = args.get("run_id")
         if not baseline_run_id:
             return {"error": "run_id is required (the prior run to rerun)"}
@@ -2834,11 +2834,11 @@ async def dispatch_qa_verification(tool: str, args: Dict[str, Any]) -> Any:
             "skipped_stages": ["CRAWL", "WORKFLOW", "TESTCASE"],
             "view_url": _view_url(run_id),
             "stream_url": f"/api/demo/pipeline-stream/{run_id}",
-            "message": f"Rerun started: {len(test_cases)} tests from {baseline_run_id} (skipping crawl/workflow/testcase). Poll ta.pipeline.status for progress.",
+            "message": f"Rerun started: {len(test_cases)} tests from {baseline_run_id} (skipping crawl/workflow/testcase). Poll retention.pipeline.status for progress.",
         }
 
-    # ── ta.collect_trace_bundle ─────────────────────────────────────────
-    if tool == "ta.collect_trace_bundle":
+    # ── retention.collect_trace_bundle ─────────────────────────────────────────
+    if tool == "retention.collect_trace_bundle":
         run_id = args.get("run_id")
         if not run_id:
             return {"error": "run_id is required"}
@@ -2932,8 +2932,8 @@ async def dispatch_qa_verification(tool: str, args: Dict[str, Any]) -> Any:
         bundle["view_url"] = _view_url(run_id)
         return bundle
 
-    # ── ta.summarize_failure ────────────────────────────────────────────
-    if tool == "ta.summarize_failure":
+    # ── retention.summarize_failure ────────────────────────────────────────────
+    if tool == "retention.summarize_failure":
         run_id = args.get("run_id")
         if not run_id:
             return {"error": "run_id is required"}
@@ -3075,8 +3075,8 @@ async def dispatch_qa_verification(tool: str, args: Dict[str, Any]) -> Any:
             "view_url": _view_url(run_id),
         }
 
-    # ── ta.compare_before_after ─────────────────────────────────────────
-    if tool == "ta.compare_before_after":
+    # ── retention.compare_before_after ─────────────────────────────────────────
+    if tool == "retention.compare_before_after":
         baseline_run_id = args.get("baseline_run_id")
         current_run_id = args.get("current_run_id")
         if not baseline_run_id or not current_run_id:
@@ -3347,8 +3347,8 @@ async def dispatch_qa_verification(tool: str, args: Dict[str, Any]) -> Any:
 
         return diff
 
-    # ── ta.emit_verdict ─────────────────────────────────────────────────
-    if tool == "ta.emit_verdict":
+    # ── retention.emit_verdict ─────────────────────────────────────────────────
+    if tool == "retention.emit_verdict":
         run_id = args.get("run_id")
         if not run_id:
             return {"error": "run_id is required"}
@@ -3450,8 +3450,8 @@ async def dispatch_qa_verification(tool: str, args: Dict[str, Any]) -> Any:
                 verdict_result["stage_timings"] = entry["stage_timings"]
         return verdict_result
 
-    # ── ta.suggest_fix_context ──────────────────────────────────────────
-    if tool == "ta.suggest_fix_context":
+    # ── retention.suggest_fix_context ──────────────────────────────────────────
+    if tool == "retention.suggest_fix_context":
         run_id = args.get("run_id")
         if not run_id:
             return {"error": "run_id is required"}
@@ -3600,12 +3600,12 @@ async def run_qa_benchmark(
                 # Start a QA flow
                 if flow_type == "web":
                     result = await dispatch_qa_verification(
-                        "ta.run_web_flow",
+                        "retention.run_web_flow",
                         {"url": target, "app_name": app_name, "timeout_seconds": timeout_per_run},
                     )
                 else:
                     result = await dispatch_qa_verification(
-                        "ta.run_android_flow",
+                        "retention.run_android_flow",
                         {
                             "app_package": target,
                             "app_name": app_name,
@@ -3640,7 +3640,7 @@ async def run_qa_benchmark(
 
                 # Get verdict
                 verdict = await dispatch_qa_verification(
-                    "ta.emit_verdict", {"run_id": run_id, "pass_threshold": 0.8}
+                    "retention.emit_verdict", {"run_id": run_id, "pass_threshold": 0.8}
                 )
 
                 run_record = {

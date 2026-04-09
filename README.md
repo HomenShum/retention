@@ -55,7 +55,7 @@ Full trace of every tool call, with screenshots, evidence, and per-step cost. Sh
 
 ```bash
 curl -sL retention.sh/install.sh | bash
-# Then: ta.qa_check(url='http://localhost:3000')
+# Then: retention.qa_check(url='http://localhost:3000')
 ```
 
 ### Python SDK (any provider)
@@ -115,11 +115,11 @@ Sensitive data is auto-scrubbed: API keys, tokens, passwords, file paths. You ge
 
 | Tool | What it does |
 |------|-------------|
-| `ta.qa_check(url)` | Instant QA scan -- JS errors, a11y, rendering |
-| `ta.sitemap(url)` | Interactive site map with screenshots |
-| `ta.diff_crawl(url)` | Before/after comparison |
-| `ta.start_workflow(url)` | Smart start -- replays saved trajectory if available |
-| `ta.team.invite` | Share workflow memory across your team |
+| `retention.qa_check(url)` | Instant QA scan -- JS errors, a11y, rendering |
+| `retention.sitemap(url)` | Interactive site map with screenshots |
+| `retention.diff_crawl(url)` | Before/after comparison |
+| `retention.start_workflow(url)` | Smart start -- replays saved trajectory if available |
+| `retention.team.invite` | Share workflow memory across your team |
 
 ## Measured, not promised
 
@@ -135,7 +135,7 @@ Every number is from real API calls, verified by an independent LLM judge.
 ## Team setup
 
 ```bash
-ta.team.invite              # Person A creates team -> code: K7XM2P
+retention.team.invite              # Person A creates team -> code: K7XM2P
 RETENTION_TEAM=K7XM2P curl -sL retention.sh/install.sh | bash  # Person B joins
 ```
 

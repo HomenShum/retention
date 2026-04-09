@@ -32,7 +32,7 @@ def test_call_mcp_uses_tools_call_endpoint_and_unwraps_result(monkeypatch):
         captured["json"] = json
         captured["timeout"] = timeout
         return _DummyResponse(payload={
-            "tool": "ta.system_check",
+            "tool": "retention.system_check",
             "status": "ok",
             "result": {"ready": True, "summary": "ok"},
             "error": None,
@@ -41,11 +41,11 @@ def test_call_mcp_uses_tools_call_endpoint_and_unwraps_result(monkeypatch):
 
     monkeypatch.setattr(module.requests, "post", fake_post)
 
-    result = module.call_mcp("http://localhost:8000", "secret-token", "ta.system_check", {"foo": "bar"})
+    result = module.call_mcp("http://localhost:8000", "secret-token", "retention.system_check", {"foo": "bar"})
 
     assert captured["url"] == "http://localhost:8000/mcp/tools/call"
     assert captured["headers"]["Authorization"] == "Bearer secret-token"
-    assert captured["json"] == {"tool": "ta.system_check", "arguments": {"foo": "bar"}}
+    assert captured["json"] == {"tool": "retention.system_check", "arguments": {"foo": "bar"}}
     assert result == {"ready": True, "summary": "ok"}
 
 
@@ -54,7 +54,7 @@ def test_call_mcp_surfaces_top_level_mcp_errors(monkeypatch):
 
     def fake_post(url, headers, json, timeout):
         return _DummyResponse(payload={
-            "tool": "ta.system_check",
+            "tool": "retention.system_check",
             "status": "error",
             "error": "Missing Authorization",
             "result": None,
@@ -62,7 +62,7 @@ def test_call_mcp_surfaces_top_level_mcp_errors(monkeypatch):
 
     monkeypatch.setattr(module.requests, "post", fake_post)
 
-    result = module.call_mcp("http://localhost:8000", "", "ta.system_check", {})
+    result = module.call_mcp("http://localhost:8000", "", "retention.system_check", {})
 
     assert result == {"error": "Missing Authorization"}
 
@@ -86,7 +86,7 @@ def test_poll_pipeline_accepts_completed_status(monkeypatch):
 
     assert result["status"] == "completed"
     assert len(calls) == 2
-    assert all(tool == "ta.pipeline.status" for _, _, tool, _ in calls)
+    assert all(tool == "retention.pipeline.status" for _, _, tool, _ in calls)
 
 
 def test_signup_for_token_uses_configured_identity(monkeypatch):
@@ -133,12 +133,12 @@ def test_run_failure_debug_loop_executes_full_fix_verify_path(monkeypatch):
     def fake_call(backend, token, tool, args):
         tool_calls.append((tool, args))
         responses = {
-            "ta.pipeline.failure_bundle": {
+            "retention.pipeline.failure_bundle": {
                 "summary": {"failed": 2},
                 "failures": [{"test_id": "BUG-1"}, {"test_id": "BUG-2"}],
-                "rerun_command": 'ta.pipeline.rerun_failures(baseline_run_id="run-123", failures_only=true)',
+                "rerun_command": 'retention.pipeline.rerun_failures(baseline_run_id="run-123", failures_only=true)',
             },
-            "ta.suggest_fix_context": {
+            "retention.suggest_fix_context": {
                 "failure_count": 2,
                 "categories": ["ui_rendering"],
                 "suggestions": [{"investigation": "Check button handlers"}],
@@ -148,11 +148,11 @@ def test_run_failure_debug_loop_executes_full_fix_verify_path(monkeypatch):
                 "suggested_files": ["src/App.tsx"],
                 "prompt": "Fix the broken button and rerun QA.",
             },
-            "ta.pipeline.rerun_failures": {
+            "retention.pipeline.rerun_failures": {
                 "run_id": "rerun-456",
                 "status": "running",
             },
-            "ta.compare_before_after": {
+            "retention.compare_before_after": {
                 "fixes": ["Delete button works"],
                 "regressions": [],
                 "metrics": {"fix_count": 1, "regression_count": 0},
@@ -180,11 +180,11 @@ def test_run_failure_debug_loop_executes_full_fix_verify_path(monkeypatch):
     assert result["rerun"]["run_id"] == "rerun-456"
     assert result["comparison"]["fixes"] == ["Delete button works"]
     assert [tool for tool, _args in tool_calls] == [
-        "ta.pipeline.failure_bundle",
-        "ta.suggest_fix_context",
+        "retention.pipeline.failure_bundle",
+        "retention.suggest_fix_context",
         "ta.feedback_package",
-        "ta.pipeline.rerun_failures",
-        "ta.compare_before_after",
+        "retention.pipeline.rerun_failures",
+        "retention.compare_before_after",
     ]
 
 
@@ -206,4 +206,4 @@ def test_run_failure_debug_loop_stops_cleanly_when_no_failures(monkeypatch):
     )
 
     assert result["status"] == "no_failures"
-    assert tool_calls == ["ta.pipeline.failure_bundle"]
+    assert tool_calls == ["retention.pipeline.failure_bundle"]

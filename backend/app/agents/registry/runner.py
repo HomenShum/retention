@@ -823,7 +823,7 @@ class AgentRunner:
 
     async def _dispatch_tool(self, mcp_name: str, args: Dict[str, Any]) -> Any:
         """Route a tool call to the appropriate MCP dispatcher."""
-        if mcp_name.startswith("ta.codebase."):
+        if mcp_name.startswith("retention.codebase."):
             from ...api.mcp_server import _dispatch_codebase
             return await _dispatch_codebase(mcp_name, args)
 

@@ -14,10 +14,10 @@ Each agent role has explicit tool permissions. Tools not listed are denied by de
 - `slack.search_messages` — Search across channels
 
 ### Codebase Operations (Engineering Lead, Design Steward, Security Auditor)
-- `ta.codebase.search` — Full-text search across codebase
-- `ta.codebase.read_file` — Read file contents
-- `ta.codebase.recent_commits` — Last N commits with messages
-- `ta.codebase.git_status` — Current working tree status
+- `retention.codebase.search` — Full-text search across codebase
+- `retention.codebase.read_file` — Read file contents
+- `retention.codebase.recent_commits` — Last N commits with messages
+- `retention.codebase.git_status` — Current working tree status
 
 ### Investor Brief Operations (Strategy Architect only)
 - `ta.investor_brief.get_state` — Read current brief state

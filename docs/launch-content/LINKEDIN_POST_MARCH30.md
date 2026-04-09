@@ -31,7 +31,7 @@ Colin Lee reminded everyone to test release builds on real hardware — emulator
 We just shipped this — 60-second install, works with Claude Code and Cursor:
 curl -sL retention.sh/install.sh | bash
 
-Then: ta.qa_check(url='http://localhost:3000')
+Then: retention.qa_check(url='http://localhost:3000')
 
 No signup. No API key. No cloud dependency. It just works.
 

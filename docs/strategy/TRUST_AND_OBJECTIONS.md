@@ -28,7 +28,7 @@ Multi-step AI agent workflows often move data through multiple model providers a
 
 ### Our Mitigation
 - **Local-first architecture.** TCWP bundles are generated and stored locally by default. The MCP tools run in the customer's own Claude Code environment.
-- **Explicit upload.** Data only moves to retention.sh Cloud when the customer explicitly exports with `ta.tcwp.export_profile`. Nothing is phoned home automatically.
+- **Explicit upload.** Data only moves to retention.sh Cloud when the customer explicitly exports with `retention.tcwp.export_profile`. Nothing is phoned home automatically.
 - **Permissions schema.** Every TCWP bundle has a `permissions.json` with `visibility`, `export_allowed`, `training_allowed`, and `redaction_rules`.
 - **Export profiles.** `ops` mode keeps data internal. `sales` mode redacts before sharing. `training` mode requires explicit `allowed_for_training: true` on every record.
 - **Provenance chain.** `provenance.json` tracks every action taken on the data — who created it, who exported it, when, and where.
@@ -121,7 +121,7 @@ Enterprise buyers have been burned by vendor lock-in. They want assurance that t
 ### Our Mitigation
 - **TCWP is vendor-neutral.** The canonical package format uses standard JSON/JSONL with no proprietary binary formats. Any system can read it.
 - **Open schemas.** All 20 TCWP schemas are published, versioned, and use JSON Schema 2020-12. The spec is public.
-- **Full export always available.** `ta.tcwp.export` produces a single self-contained JSON file that works without retention.sh.
+- **Full export always available.** `retention.tcwp.export` produces a single self-contained JSON file that works without retention.sh.
 - **Local-first storage.** TCWP bundles live on the customer's filesystem. They don't disappear if retention.sh Cloud goes down.
 - **Vendor extensions are separate.** Provider-specific data (Anthropic hooks, OpenAI traces) is in `extensions/`, not in the core package. The core works without them.
 
@@ -169,7 +169,7 @@ Customers building on agent workflows worry about model version changes breaking
 - **Vendor-neutral core.** The TCWP core works with any model. Provider specifics are in `extensions/`.
 - **Trajectory replay is model-agnostic.** The saved path is a sequence of actions and checkpoints, not model prompts. A different model can replay the same trajectory.
 - **Drift detection catches model-induced breakage.** If a new model version produces different behavior, checkpoint validation catches it before it causes damage.
-- **Multi-model benchmarking.** `ta.benchmark.model_compare` tests the same workflow across different models to measure robustness.
+- **Multi-model benchmarking.** `retention.benchmark.model_compare` tests the same workflow across different models to measure robustness.
 
 ### What We Ship
 - Model version tracking in all TCWP bundles
@@ -219,15 +219,15 @@ SOX, HIPAA, and financial regulations require audit trails for automated actions
 
 | Concern | TCWP Feature | MCP Tool |
 |---------|-------------|----------|
-| Data sovereignty | Local-first storage, explicit export | `ta.tcwp.export_profile` |
+| Data sovereignty | Local-first storage, explicit export | `retention.tcwp.export_profile` |
 | PII protection | Redaction rules, fingerprints | Redaction pipeline |
-| Training consent | Per-record opt-in, training profile | `ta.tcwp.export_profile profile=training` |
-| Agent safety | Checkpoints, policy labels, drift detection | `ta.checkpoint.verify`, `ta.audit.drift_report` |
-| Vendor lock-in | Open TCWP spec, full export | `ta.tcwp.export` |
-| Reproducibility | N=1/5/10 methodology, TCWP proof | `ta.savings.compare`, benchmarks |
-| Model dependency | Model tracking, cross-model benchmarks | `ta.benchmark.model_compare` |
+| Training consent | Per-record opt-in, training profile | `retention.tcwp.export_profile profile=training` |
+| Agent safety | Checkpoints, policy labels, drift detection | `retention.checkpoint.verify`, `retention.audit.drift_report` |
+| Vendor lock-in | Open TCWP spec, full export | `retention.tcwp.export` |
+| Reproducibility | N=1/5/10 methodology, TCWP proof | `retention.savings.compare`, benchmarks |
+| Model dependency | Model tracking, cross-model benchmarks | `retention.benchmark.model_compare` |
 | Audit trail | Append-only events, provenance, hashes | Full TCWP bundle |
-| Startup risk | Self-contained packages, open spec | `ta.tcwp.list`, `ta.tcwp.export` |
+| Startup risk | Self-contained packages, open spec | `retention.tcwp.list`, `retention.tcwp.export` |
 
 **One-line answer:** Every concern maps to a concrete schema field, export control, or MCP tool. Trust is not a slide — it is built into the data architecture.
 

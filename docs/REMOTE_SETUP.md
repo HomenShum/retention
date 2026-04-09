@@ -21,7 +21,7 @@ This downloads the MCP proxy and configures your agent to connect to retention.s
 Restart Claude Code or OpenClaw to pick up the new MCP server. Then verify:
 
 ```
-> Run ta.system_check to verify everything works
+> Run retention.system_check to verify everything works
 ```
 
 ## Step 3: Test Your App
@@ -81,61 +81,61 @@ chmod +x ~/.retention/proxy.py
 ### Core QA
 | Tool | Description |
 |------|-------------|
-| `ta.run_web_flow` | Run full QA verification on a web app URL |
-| `ta.run_android_flow` | Run QA on an Android app via emulator |
-| `ta.collect_trace_bundle` | Get compact evidence bundle for a run |
-| `ta.summarize_failure` | Token-efficient failure summary with root-cause hints |
-| `ta.emit_verdict` | Final pass/fail/blocked verdict |
-| `ta.suggest_fix_context` | Root cause analysis + files to patch |
-| `ta.compare_before_after` | Diff baseline vs current run |
+| `retention.run_web_flow` | Run full QA verification on a web app URL |
+| `retention.run_android_flow` | Run QA on an Android app via emulator |
+| `retention.collect_trace_bundle` | Get compact evidence bundle for a run |
+| `retention.summarize_failure` | Token-efficient failure summary with root-cause hints |
+| `retention.emit_verdict` | Final pass/fail/blocked verdict |
+| `retention.suggest_fix_context` | Root cause analysis + files to patch |
+| `retention.compare_before_after` | Diff baseline vs current run |
 
 ### Pipeline
 | Tool | Description |
 |------|-------------|
-| `ta.pipeline.list_apps` | List demo app catalog |
-| `ta.pipeline.run` | Start pipeline on any URL |
-| `ta.pipeline.run_catalog` | Start pipeline for catalog app |
-| `ta.pipeline.status` | Poll running pipeline |
-| `ta.pipeline.results` | Get completed results |
+| `retention.pipeline.list_apps` | List demo app catalog |
+| `retention.pipeline.run` | Start pipeline on any URL |
+| `retention.pipeline.run_catalog` | Start pipeline for catalog app |
+| `retention.pipeline.status` | Poll running pipeline |
+| `retention.pipeline.results` | Get completed results |
 
 ### Feedback
 | Tool | Description |
 |------|-------------|
-| `ta.feedback.annotate` | Flag issues, suggest improvements, approve/reject |
-| `ta.feedback.list` | List annotations |
-| `ta.feedback.summary` | Summary of all feedback |
+| `retention.feedback.annotate` | Flag issues, suggest improvements, approve/reject |
+| `retention.feedback.list` | List annotations |
+| `retention.feedback.summary` | Summary of all feedback |
 
 ### Device
 | Tool | Description |
 |------|-------------|
-| `ta.device.list` | List emulators/devices |
-| `ta.device.lease` | Lease device for exclusive use |
-| `ta.smoke_test` | Quick ADB connectivity check |
+| `retention.device.list` | List emulators/devices |
+| `retention.device.lease` | Lease device for exclusive use |
+| `retention.smoke_test` | Quick ADB connectivity check |
 
 ### System
 | Tool | Description |
 |------|-------------|
-| `ta.system_check` | Full readiness check |
+| `retention.system_check` | Full readiness check |
 | `ta.meta.connection_info` | Server status + relay connection |
 
 ## Parallel Subagent Patterns
 
 ### Fan-out analysis on results
 ```
-1. ta.pipeline.run → get run_id
-2. Poll ta.pipeline.status until complete
-3. ta.pipeline.results → get test cases
+1. retention.pipeline.run → get run_id
+2. Poll retention.pipeline.status until complete
+3. retention.pipeline.results → get test cases
 4. Spawn parallel agents:
-   - Agent 1: UI review → ta.feedback.annotate (flag UI issues)
-   - Agent 2: Security → ta.feedback.annotate (flag vulnerabilities)
-   - Agent 3: Coverage → ta.feedback.annotate (suggest missing tests)
-5. ta.feedback.summary → compile report
+   - Agent 1: UI review → retention.feedback.annotate (flag UI issues)
+   - Agent 2: Security → retention.feedback.annotate (flag vulnerabilities)
+   - Agent 3: Coverage → retention.feedback.annotate (suggest missing tests)
+5. retention.feedback.summary → compile report
 ```
 
 ### Multi-URL comparison
 ```
-1. ta.pipeline.run on URL-A → run_id_a
-2. ta.pipeline.run on URL-B → run_id_b
+1. retention.pipeline.run on URL-A → run_id_a
+2. retention.pipeline.run on URL-B → run_id_b
 3. Poll both until complete
 4. Compare test suites, identify gaps
 ```

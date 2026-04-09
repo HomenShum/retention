@@ -167,7 +167,7 @@ async def run_drift_check() -> DriftResult:
         # Fetch recent commits
         try:
             from ..api.mcp_server import _dispatch_codebase
-            result = await _dispatch_codebase("ta.codebase.recent_commits", {"limit": 30})
+            result = await _dispatch_codebase("retention.codebase.recent_commits", {"limit": 30})
             commits = json.loads(result) if isinstance(result, str) else (result if isinstance(result, list) else [])
         except Exception as e:
             logger.warning("Failed to fetch commits for drift: %s", e)

@@ -175,7 +175,7 @@ $output
             result=$(curl -s -X POST "http://localhost:8000/mcp/tools/call" \
                 -H "Authorization: Bearer ${RETENTION_MCP_TOKEN:-sk-ret-de55f65c}" \
                 -H "Content-Type: application/json" \
-                -d "{\"tool\":\"ta.run_web_flow\",\"arguments\":{\"url\":\"$url\",\"app_name\":\"Telegram QA\"}}")
+                -d "{\"tool\":\"retention.run_web_flow\",\"arguments\":{\"url\":\"$url\",\"app_name\":\"Telegram QA\"}}")
             local run_id
             run_id=$(echo "$result" | python3 -c "import sys,json; print(json.load(sys.stdin).get('result',{}).get('run_id','unknown'))" 2>/dev/null)
             send_message "$chat_id" "Pipeline started: \`$run_id\`" "$message_id"

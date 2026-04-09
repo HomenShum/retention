@@ -146,7 +146,7 @@ Compatible with Claude Agent SDK, OpenAI Agents SDK, Gemini Interactions API, an
 
 ## Export Profiles
 
-TCWP supports three export modes via `ta.tcwp.export_profile`:
+TCWP supports three export modes via `retention.tcwp.export_profile`:
 
 | Profile | Purpose | Includes | Consent Required |
 |---------|---------|----------|-----------------|

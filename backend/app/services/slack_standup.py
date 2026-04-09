@@ -33,7 +33,7 @@ class StandupResult:
 async def _fetch_recent_commits(limit: int = 20) -> list[dict]:
     try:
         from ..api.mcp_server import _dispatch_codebase
-        result = await _dispatch_codebase("ta.codebase.recent_commits", {"limit": limit})
+        result = await _dispatch_codebase("retention.codebase.recent_commits", {"limit": limit})
         if isinstance(result, str):
             return json.loads(result)
         elif isinstance(result, list):

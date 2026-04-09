@@ -787,22 +787,22 @@ Crawl (discover screens)
 
 | Category | Key Tools |
 |----------|-----------|
-| Setup | `ta.system_check`, `ta.setup.status`, `ta.setup.launch_emulator` |
-| Pipeline | `ta.run_web_flow`, `ta.run_android_flow`, `ta.pipeline.status`, `ta.pipeline.results` |
-| Analysis | `ta.pipeline.failure_bundle`, `ta.suggest_fix_context`, `ta.emit_verdict` |
-| Rerun | `ta.rerun`, `ta.pipeline.rerun_failures`, `ta.compare_before_after` |
-| Evidence | `ta.collect_trace_bundle`, `ta.pipeline.screenshot` |
-| Benchmark | `ta.benchmark.run_suite`, `ta.benchmark.scorecard`, `ta.benchmark.generate_app` |
-| NemoClaw | `ta.nemoclaw.run` (autonomous QA via free models) |
+| Setup | `retention.system_check`, `ta.setup.status`, `ta.setup.launch_emulator` |
+| Pipeline | `retention.run_web_flow`, `retention.run_android_flow`, `retention.pipeline.status`, `retention.pipeline.results` |
+| Analysis | `retention.pipeline.failure_bundle`, `retention.suggest_fix_context`, `retention.emit_verdict` |
+| Rerun | `retention.rerun`, `retention.pipeline.rerun_failures`, `retention.compare_before_after` |
+| Evidence | `retention.collect_trace_bundle`, `retention.pipeline.screenshot` |
+| Benchmark | `retention.benchmark.run_suite`, `retention.benchmark.scorecard`, `retention.benchmark.generate_app` |
+| NemoClaw | `retention.nemoclaw.run` (autonomous QA via free models) |
 
 ### Fix-Verify Loop
 
 ```
-1. ta.run_web_flow(url) → run_id
-2. ta.pipeline.failure_bundle(run_id) → failures + suggested files
+1. retention.run_web_flow(url) → run_id
+2. retention.pipeline.failure_bundle(run_id) → failures + suggested files
 3. Fix code based on suggestions
-4. ta.rerun(run_id, failures_only=true) → rerun_id
-5. ta.compare_before_after(run_id, rerun_id) → delta
+4. retention.rerun(run_id, failures_only=true) → rerun_id
+5. retention.compare_before_after(run_id, rerun_id) → delta
 ```
 
 **Measured performance**: Full run 505s → Rerun 10s = **98% time savings**
@@ -1098,7 +1098,7 @@ cloudflared tunnel --url http://localhost:3000
 # Returns: https://random-words.trycloudflare.com
 
 # Or use MCP tool:
-# ta.expose_local_app(port=3000)
+# retention.expose_local_app(port=3000)
 ```
 
 ---
@@ -1275,7 +1275,7 @@ while ($true) {
 # Install NemoClaw agent
 pip install langchain-openai langgraph
 
-# Or use ta.nemoclaw.run MCP tool:
+# Or use retention.nemoclaw.run MCP tool:
 # It auto-rotates best free model on OpenRouter
 ```
 

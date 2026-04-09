@@ -162,10 +162,10 @@ ENGINEERING_LEAD = AgencyRole(
     opportunity_types=["A", "C", "D"],  # Direct Question, Incident, Blocker
     channels=["claw-communications"],
     tools=[
-        "ta.codebase.search",
-        "ta.codebase.read_file",
-        "ta.codebase.recent_commits",
-        "ta.codebase.git_status",
+        "retention.codebase.search",
+        "retention.codebase.read_file",
+        "retention.codebase.recent_commits",
+        "retention.codebase.git_status",
     ],
 )
 
@@ -201,7 +201,7 @@ DESIGN_STEWARD = AgencyRole(
     ],
     opportunity_types=["A", "F"],  # Direct Question, Knowledge Surfacing
     channels=["claw-communications"],
-    tools=["ta.codebase.search", "ta.codebase.read_file"],
+    tools=["retention.codebase.search", "retention.codebase.read_file"],
 )
 
 SECURITY_AUDITOR = AgencyRole(
@@ -237,7 +237,7 @@ SECURITY_AUDITOR = AgencyRole(
     ],
     opportunity_types=["C", "D"],  # Incident, Blocker
     channels=["claw-communications"],
-    tools=["ta.codebase.search", "ta.codebase.read_file"],
+    tools=["retention.codebase.search", "retention.codebase.read_file"],
 )
 
 OPS_COORDINATOR = AgencyRole(
@@ -302,7 +302,7 @@ DEVOPS_AUTOMATOR = AgencyRole(
     success_metrics=["Deploy frequency", "MTTR < 30 min", "Zero failed deploys"],
     opportunity_types=["C", "D"],
     channels=["claw-communications"],
-    tools=["ta.codebase.search", "ta.codebase.git_status", "ta.codebase.recent_commits"],
+    tools=["retention.codebase.search", "retention.codebase.git_status", "retention.codebase.recent_commits"],
     tool_categories=["codebase", "web_search", "spawn"],
 )
 
@@ -326,7 +326,7 @@ AI_ENGINEER = AgencyRole(
     success_metrics=["Cost per API call reduction", "Eval pass rate > 90%", "Latency p95"],
     opportunity_types=["A", "F"],
     channels=["claw-communications"],
-    tools=["ta.codebase.search", "ta.codebase.read_file"],
+    tools=["retention.codebase.search", "retention.codebase.read_file"],
     tool_categories=["codebase", "web_search", "investor_brief", "spawn"],
 )
 
@@ -398,7 +398,7 @@ SRE = AgencyRole(
     success_metrics=["Uptime > 99.9%", "MTTR < 30 min", "Toil hours reduced"],
     opportunity_types=["C"],
     channels=["claw-communications"],
-    tools=["ta.codebase.search", "ta.codebase.git_status"],
+    tools=["retention.codebase.search", "retention.codebase.git_status"],
     tool_categories=["codebase", "web_search", "spawn"],
 )
 
@@ -423,7 +423,7 @@ MCP_BUILDER = AgencyRole(
     success_metrics=["Tool adoption rate", "Agent task completion improvement"],
     opportunity_types=["A", "F"],
     channels=["claw-communications"],
-    tools=["ta.codebase.search", "ta.codebase.read_file"],
+    tools=["retention.codebase.search", "retention.codebase.read_file"],
     tool_categories=["codebase", "web_search", "spawn"],
 )
 
@@ -495,7 +495,7 @@ SALES_ENGINEER = AgencyRole(
     success_metrics=["POC conversion rate", "Demo-to-close ratio"],
     opportunity_types=["E"],
     channels=["claw-communications"],
-    tools=["ta.codebase.search"],
+    tools=["retention.codebase.search"],
     tool_categories=["codebase", "investor_brief", "web_search", "slack", "spawn"],
 )
 
@@ -519,7 +519,7 @@ SUPPORT_RESPONDER = AgencyRole(
     success_metrics=["Resolution time", "Customer satisfaction", "Repeat issue rate"],
     opportunity_types=["A", "C"],
     channels=["claw-communications"],
-    tools=["ta.codebase.search", "ta.codebase.read_file"],
+    tools=["retention.codebase.search", "retention.codebase.read_file"],
     tool_categories=["codebase", "slack", "web_search", "spawn"],
 )
 
@@ -543,7 +543,7 @@ QA_TESTER = AgencyRole(
     success_metrics=["Test coverage > 80%", "Regression catch rate", "False positive rate < 5%"],
     opportunity_types=["C", "D"],
     channels=["claw-communications"],
-    tools=["ta.codebase.search", "ta.codebase.read_file", "ta.codebase.recent_commits"],
+    tools=["retention.codebase.search", "retention.codebase.read_file", "retention.codebase.recent_commits"],
     tool_categories=["codebase", "spawn"],
 )
 
@@ -567,7 +567,7 @@ PERFORMANCE_BENCHMARKER = AgencyRole(
     success_metrics=["API p95 latency", "Throughput under load", "Memory/CPU efficiency"],
     opportunity_types=["C"],
     channels=["claw-communications"],
-    tools=["ta.codebase.search"],
+    tools=["retention.codebase.search"],
     tool_categories=["codebase", "web_search", "spawn"],
 )
 
@@ -591,7 +591,7 @@ TECHNICAL_WRITER = AgencyRole(
     success_metrics=["Doc coverage", "Time-to-first-success for new devs"],
     opportunity_types=["A", "F"],
     channels=["claw-communications"],
-    tools=["ta.codebase.search", "ta.codebase.read_file"],
+    tools=["retention.codebase.search", "retention.codebase.read_file"],
     tool_categories=["codebase", "slack", "spawn"],
 )
 
@@ -639,7 +639,7 @@ DATA_ENGINEER = AgencyRole(
     success_metrics=["Data freshness", "Schema migration success rate", "Query performance"],
     opportunity_types=["A", "D"],
     channels=["claw-communications"],
-    tools=["ta.codebase.search", "ta.codebase.read_file"],
+    tools=["retention.codebase.search", "retention.codebase.read_file"],
     tool_categories=["codebase", "spawn"],
 )
 
@@ -663,7 +663,7 @@ COMPLIANCE_AUDITOR = AgencyRole(
     success_metrics=["Compliance readiness score", "Gap closure rate"],
     opportunity_types=["D"],
     channels=["claw-communications"],
-    tools=["ta.codebase.search"],
+    tools=["retention.codebase.search"],
     tool_categories=["codebase", "web_search", "spawn"],
 )
 

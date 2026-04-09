@@ -42,7 +42,7 @@ Then restart Claude Code.
 ### First QA check:
 
 ```
-ta.qa_check(url='http://localhost:3000')
+retention.qa_check(url='http://localhost:3000')
 ```
 
 You get back:
@@ -55,7 +55,7 @@ You get back:
 ### The magic — re-run after fixing:
 
 ```
-ta.diff_crawl(url='http://localhost:3000')
+retention.diff_crawl(url='http://localhost:3000')
 ```
 
 This uses the saved trajectory. Instead of 31,000 tokens → **1,400 tokens**. Instead of 254 seconds → **11 seconds**.
@@ -76,7 +76,7 @@ The best part: trajectories are shared across your team.
 
 ```bash
 # You create a team
-ta.team.invite
+retention.team.invite
 → Invite code: K7XM2P
 
 # Teammate joins
@@ -98,7 +98,7 @@ We used retention.sh to QA retention.sh itself. Found 21 issues:
 5. **Theme toggle** — present in one layout, missing in the other
 6. **QA Pipeline unclear** — "Generate a Test App" didn't explain what it does
 
-...and 15 more. Every one became an automated diagnostic rule in `ta.ux_audit`.
+...and 15 more. Every one became an automated diagnostic rule in `retention.ux_audit`.
 
 ## Try It
 
@@ -106,7 +106,7 @@ We used retention.sh to QA retention.sh itself. Found 21 issues:
 curl -sL retention.sh/install.sh | bash
 ```
 
-Then: `ta.qa_check(url='http://localhost:3000')`
+Then: `retention.qa_check(url='http://localhost:3000')`
 
 Or try the live demo: [retention.sh/demo](https://retention.sh/demo) — enter any URL.
 

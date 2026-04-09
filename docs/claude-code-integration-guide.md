@@ -72,7 +72,7 @@ Your agent handles this. Just tell it:
 Your agent will:
 1. Start an Android emulator (if mobile testing is needed)
 2. Connect outbound to retention.sh server via WebSocket so it can reach your localhost app
-3. Verify connectivity with `ta.system_check`
+3. Verify connectivity with `retention.system_check`
 
 If your app is already deployed (not localhost), skip this — retention.sh can reach it directly.
 
@@ -81,20 +81,20 @@ If your app is already deployed (not localhost), skip this — retention.sh can 
 Claude Code picks up new MCP servers on restart. After restarting, verify:
 
 ```
-> Run ta.system_check to verify everything works
+> Run retention.system_check to verify everything works
 ```
 
 You should see retention.sh tools available:
 
 ```
 I have access to these retention.sh tools:
-- ta.run_web_flow       — Run QA verification on a web app
-- ta.run_android_flow   — Run QA on an Android app
-- ta.collect_trace_bundle — Get compact evidence bundle
-- ta.summarize_failure  — Token-efficient failure summary
-- ta.emit_verdict       — Pass/fail/blocked verdict
-- ta.suggest_fix_context — Root cause + file suggestions
-- ta.compare_before_after — Diff baseline vs current run
+- retention.run_web_flow       — Run QA verification on a web app
+- retention.run_android_flow   — Run QA on an Android app
+- retention.collect_trace_bundle — Get compact evidence bundle
+- retention.summarize_failure  — Token-efficient failure summary
+- retention.emit_verdict       — Pass/fail/blocked verdict
+- retention.suggest_fix_context — Root cause + file suggestions
+- retention.compare_before_after — Diff baseline vs current run
 ...
 ```
 
@@ -104,7 +104,7 @@ I have access to these retention.sh tools:
 > Test my app at http://localhost:3000
 ```
 
-Claude Code will call `ta.run_web_flow`, capture evidence, and return a verdict with failure details if anything breaks.
+Claude Code will call `retention.run_web_flow`, capture evidence, and return a verdict with failure details if anything breaks.
 
 View full results at [test-studio-xi.vercel.app](https://test-studio-xi.vercel.app).
 
@@ -151,7 +151,7 @@ chmod +x ~/.retention/proxy.py
 Claude Code automatically (or when prompted) calls:
 
 ```
-ta.run_web_flow(url="http://localhost:5173", test_count=5)
+retention.run_web_flow(url="http://localhost:5173", test_count=5)
 ```
 
 The proxy connects outbound via WebSocket if the URL is localhost, so retention.sh's execution surface can reach your local app.
@@ -200,7 +200,7 @@ Claude Code can patch the right code instead of guessing.
 ### 6. Rerun and compare
 
 ```
-ta.compare_before_after(baseline_run_id="abc123", current_run_id="def456")
+retention.compare_before_after(baseline_run_id="abc123", current_run_id="def456")
 ```
 
 Returns a diff showing what improved, what regressed, and the final verdict.
@@ -209,7 +209,7 @@ Returns a diff showing what improved, what regressed, and the final verdict.
 
 ## Outbound WebSocket Relay (Zero Config)
 
-When you call `ta.run_web_flow` with a `localhost` URL, the MCP proxy automatically:
+When you call `retention.run_web_flow` with a `localhost` URL, the MCP proxy automatically:
 
 1. Detects the localhost URL
 2. Connects outbound to TA server via WebSocket
@@ -226,43 +226,43 @@ When you call `ta.run_web_flow` with a `localhost` URL, the MCP proxy automatica
 
 | Tool | Purpose | Key Args |
 |------|---------|----------|
-| `ta.run_web_flow` | Run full QA flow on web app | `url`, `test_count`, `include_trace` |
-| `ta.run_android_flow` | Run QA on Android app | `app_package`, `device_id`, `workflow` |
-| `ta.collect_trace_bundle` | Get compact evidence | `run_id` |
-| `ta.summarize_failure` | Token-efficient summary | `run_id`, `priority`, `max_tokens` |
-| `ta.emit_verdict` | Final pass/fail | `run_id`, `pass_threshold` |
-| `ta.suggest_fix_context` | Root cause + files | `run_id` |
-| `ta.compare_before_after` | Before/after diff | `baseline_run_id`, `current_run_id` |
+| `retention.run_web_flow` | Run full QA flow on web app | `url`, `test_count`, `include_trace` |
+| `retention.run_android_flow` | Run QA on Android app | `app_package`, `device_id`, `workflow` |
+| `retention.collect_trace_bundle` | Get compact evidence | `run_id` |
+| `retention.summarize_failure` | Token-efficient summary | `run_id`, `priority`, `max_tokens` |
+| `retention.emit_verdict` | Final pass/fail | `run_id`, `pass_threshold` |
+| `retention.suggest_fix_context` | Root cause + files | `run_id` |
+| `retention.compare_before_after` | Before/after diff | `baseline_run_id`, `current_run_id` |
 
 ### System Tools
 
 | Tool | Purpose |
 |------|---------|
-| `ta.system_check` | Full readiness check — backend, emulator, playwright, relay |
-| `ta.smoke_test` | Quick ADB connectivity check |
+| `retention.system_check` | Full readiness check — backend, emulator, playwright, relay |
+| `retention.smoke_test` | Quick ADB connectivity check |
 
 ### Benchmark Tools
 
 | Tool | Purpose |
 |------|---------|
-| `ta.benchmark.run_suite` | Run baseline vs TA-assisted comparison |
-| `ta.benchmark.scorecard` | Get latest benchmark metrics |
+| `retention.benchmark.run_suite` | Run baseline vs TA-assisted comparison |
+| `retention.benchmark.scorecard` | Get latest benchmark metrics |
 
 ### Device Tools
 
 | Tool | Purpose |
 |------|---------|
-| `ta.device.list` | List connected emulators |
-| `ta.device.lease` | Lease a device for exclusive use |
+| `retention.device.list` | List connected emulators |
+| `retention.device.lease` | Lease a device for exclusive use |
 
 ### Codebase Tools
 
 | Tool | Purpose |
 |------|---------|
-| `ta.codebase.recent_commits` | Recent git history |
-| `ta.codebase.search` | Search code/files |
-| `ta.codebase.read_file` | Read repo files |
-| `ta.codebase.git_status` | Current git state |
+| `retention.codebase.recent_commits` | Recent git history |
+| `retention.codebase.search` | Search code/files |
+| `retention.codebase.read_file` | Read repo files |
+| `retention.codebase.git_status` | Current git state |
 
 ---
 
