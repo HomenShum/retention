@@ -18,8 +18,13 @@ import {
   Gauge,
   ClipboardCheck,
   Zap,
+  ExternalLink,
+  TrendingUp,
+  MessageSquareQuote,
 } from 'lucide-react'
 import { useState } from 'react'
+import { SOCIAL_PROOF, FEATURE_LABELS, type SocialProofEntry } from '../lib/social-proof'
+import { COMPETITORS, FEATURE_MATRIX_COLUMNS, MARKET_DATA } from '../lib/competitor-data'
 
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */
@@ -49,14 +54,46 @@ const REPLAY_BADGES = [
   'checkpoint-pruning',
 ]
 
+/** Hand-picked pain quotes: 2 done_too_early, 2 skipped_steps, 1 token_waste, 1 no_visibility */
+const PAIN_QUOTES: SocialProofEntry[] = [
+  ...SOCIAL_PROOF.filter((e) => e.pain_category === 'done_too_early').slice(0, 2),
+  ...SOCIAL_PROOF.filter((e) => e.pain_category === 'skipped_steps').slice(0, 2),
+  ...SOCIAL_PROOF.filter((e) => e.pain_category === 'token_waste').slice(0, 1),
+  ...SOCIAL_PROOF.filter((e) => e.pain_category === 'no_visibility').slice(0, 1),
+]
+
+/** Top 5 competitors for the matrix */
+const MATRIX_COMPETITORS = COMPETITORS.filter((c) =>
+  ['Supermemory', 'Mem0', 'Claude Code (Anthropic)', 'OpenAI Codex', 'Cursor'].includes(c.name),
+)
+
+/** 3 market stats for the validation section */
+const MARKET_STATS = [
+  MARKET_DATA.find((d) => d.metric.includes('AI Agents Market'))!,
+  MARKET_DATA.find((d) => d.metric.includes('Agentic AI VC'))!,
+  MARKET_DATA.find((d) => d.metric.includes('MCP SDK'))!,
+]
+
+const PLATFORM_ICONS: Record<string, string> = {
+  github: 'GH',
+  twitter: 'X',
+  cursor_forum: 'CF',
+  devto: 'DEV',
+  medium: 'M',
+  hn: 'HN',
+  reddit: 'R',
+  trustpilot: 'TP',
+  venturebeat: 'VB',
+}
+
 /* ------------------------------------------------------------------ */
 /*  Shared components                                                  */
 /* ------------------------------------------------------------------ */
 
-function SectionLabel({ n }: { n: number }) {
+function SectionLabel({ n, of = 10 }: { n: number; of?: number }) {
   return (
     <p className="text-[11px] uppercase tracking-[0.2em] text-text-muted mb-3 font-mono">
-      [{n}/8]
+      [{n}/{of}]
     </p>
   )
 }
@@ -94,10 +131,10 @@ function CopyButton({ text }: { text: string }) {
   )
 }
 
-function ComparisonIcon({ value }: { value: 'yes' | 'no' | 'partial' }) {
-  if (value === 'yes')
+function ComparisonIcon({ value }: { value: boolean | 'partial' }) {
+  if (value === true)
     return <Check className="w-4 h-4 text-accent mx-auto" />
-  if (value === 'no')
+  if (value === false)
     return <X className="w-4 h-4 text-danger mx-auto" />
   return <Minus className="w-4 h-4 text-warning mx-auto" />
 }
@@ -139,7 +176,7 @@ export function Landing() {
       </header>
 
       {/* ============================================================ */}
-      {/* [1/8] HERO                                                   */}
+      {/* [1/10] HERO                                                  */}
       {/* ============================================================ */}
       <section className="pt-32 pb-20 px-6">
         <div className="max-w-3xl mx-auto text-center">
@@ -183,7 +220,7 @@ export function Landing() {
       </section>
 
       {/* ============================================================ */}
-      {/* [2/8] PRODUCT IN ONE SCREEN                                  */}
+      {/* [2/10] PRODUCT IN ONE SCREEN                                 */}
       {/* ============================================================ */}
       <section className="py-20 px-6 border-t border-border-subtle">
         <div className="max-w-5xl mx-auto">
@@ -263,12 +300,64 @@ export function Landing() {
       </section>
 
       {/* ============================================================ */}
-      {/* [3/8] HOW IT WORKS                                           */}
+      {/* [3/10] REAL DEVELOPER PAIN                                   */}
+      {/* ============================================================ */}
+      <section className="py-20 px-6 border-t border-border-subtle">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <SectionLabel n={3} />
+            <h2 className="text-2xl sm:text-3xl font-bold">
+              Real problems. Real developers. Real solutions.
+            </h2>
+            <p className="text-text-muted text-sm mt-2">
+              Every quote sourced from public GitHub issues, forums, and developer blogs.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {PAIN_QUOTES.map((entry, i) => (
+              <div
+                key={i}
+                className="p-5 rounded-xl bg-bg-card border border-border-subtle flex flex-col gap-3"
+              >
+                <MessageSquareQuote className="w-4 h-4 text-danger shrink-0" />
+                <p className="text-sm text-text-secondary leading-relaxed flex-1">
+                  &ldquo;{entry.quote.length > 120
+                    ? entry.quote.slice(0, 117) + '...'
+                    : entry.quote}&rdquo;
+                </p>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-xs text-text-muted truncate max-w-[140px]">
+                    {entry.author}
+                  </span>
+                  <a
+                    href={entry.source_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-white/[0.06] text-[10px] font-mono text-text-muted hover:text-text-secondary transition-colors no-underline shrink-0"
+                  >
+                    {PLATFORM_ICONS[entry.platform] ?? entry.platform}
+                    <ExternalLink className="w-2.5 h-2.5" />
+                  </a>
+                </div>
+                <div className="pt-2 border-t border-border-subtle">
+                  <span className="text-[10px] uppercase tracking-wider text-accent font-medium">
+                    Fix: {FEATURE_LABELS[entry.retention_feature]}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* [4/10] HOW IT WORKS                                          */}
       {/* ============================================================ */}
       <section id="how" className="py-20 px-6 border-t border-border-subtle">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
-            <SectionLabel n={3} />
+            <SectionLabel n={4} />
             <h2 className="text-2xl sm:text-3xl font-bold">How it works</h2>
             <p className="text-text-muted text-sm mt-2">
               Three stages. No config required.
@@ -332,12 +421,12 @@ export function Landing() {
       </section>
 
       {/* ============================================================ */}
-      {/* [4/8] COMPETITIVE MATRIX                                     */}
+      {/* [5/10] COMPETITIVE MATRIX                                    */}
       {/* ============================================================ */}
       <section className="py-20 px-6 border-t border-border-subtle">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <SectionLabel n={4} />
+            <SectionLabel n={5} />
             <h2 className="text-2xl sm:text-3xl font-bold">
               Why not just use memory?
             </h2>
@@ -353,52 +442,48 @@ export function Landing() {
                   <th className="text-left p-4 text-text-muted font-medium text-xs uppercase tracking-wider">
                     Feature
                   </th>
-                  <th className="p-4 text-center text-text-muted font-medium text-xs uppercase tracking-wider">
-                    Claude Memory
-                  </th>
-                  <th className="p-4 text-center text-text-muted font-medium text-xs uppercase tracking-wider">
-                    Supermemory
-                  </th>
-                  <th className="p-4 text-center text-text-muted font-medium text-xs uppercase tracking-wider">
-                    OpenAI Codex
-                  </th>
+                  {MATRIX_COMPETITORS.map((c) => (
+                    <th
+                      key={c.name}
+                      className="p-4 text-center text-text-muted font-medium text-xs uppercase tracking-wider"
+                    >
+                      {c.name.replace(' (Anthropic)', '')}
+                    </th>
+                  ))}
                   <th className="p-4 text-center text-accent font-semibold text-xs uppercase tracking-wider border-l border-accent/20">
                     retention.sh
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border-subtle">
-                {(
-                  [
-                    ['Cross-session memory', 'partial', 'yes', 'no', 'yes'],
-                    ['Workflow detection', 'no', 'no', 'no', 'yes'],
-                    ['Step tracking', 'no', 'no', 'no', 'yes'],
-                    ['Block incomplete work', 'no', 'no', 'no', 'yes'],
-                    ['Learn from corrections', 'no', 'no', 'no', 'yes'],
-                    ['Cheaper replay', 'no', 'no', 'no', 'yes'],
-                    ['Runtime agnostic', 'no', 'partial', 'no', 'yes'],
-                    ['Self-improving judge', 'no', 'no', 'no', 'yes'],
-                  ] as const
-                ).map(([feature, claude, supermem, codex, retention]) => (
+                {FEATURE_MATRIX_COLUMNS.map(({ key, label }) => (
                   <tr
-                    key={feature}
+                    key={key}
                     className="hover:bg-white/[0.02] transition-colors"
                   >
-                    <td className="p-4 text-text-secondary">{feature}</td>
-                    <td className="p-4 text-center">
-                      <ComparisonIcon value={claude} />
-                    </td>
-                    <td className="p-4 text-center">
-                      <ComparisonIcon value={supermem} />
-                    </td>
-                    <td className="p-4 text-center">
-                      <ComparisonIcon value={codex} />
-                    </td>
+                    <td className="p-4 text-text-secondary">{label}</td>
+                    {MATRIX_COMPETITORS.map((c) => (
+                      <td key={c.name} className="p-4 text-center">
+                        <ComparisonIcon value={c.features[key as keyof typeof c.features]} />
+                      </td>
+                    ))}
                     <td className="p-4 text-center border-l border-accent/10">
-                      <ComparisonIcon value={retention} />
+                      <ComparisonIcon value={true} />
                     </td>
                   </tr>
                 ))}
+                {/* Pricing row */}
+                <tr className="hover:bg-white/[0.02] transition-colors bg-bg-card/50">
+                  <td className="p-4 text-text-secondary font-medium">Pricing</td>
+                  {MATRIX_COMPETITORS.map((c) => (
+                    <td key={c.name} className="p-4 text-center text-xs text-text-muted">
+                      {c.pricing}
+                    </td>
+                  ))}
+                  <td className="p-4 text-center border-l border-accent/10 text-xs text-accent font-medium">
+                    Free / Open Source
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -406,18 +491,17 @@ export function Landing() {
       </section>
 
       {/* ============================================================ */}
-      {/* [5/8] REAL BENCHMARK                                         */}
+      {/* [6/10] REAL BENCHMARK                                        */}
       {/* ============================================================ */}
       <section id="proof" className="py-20 px-6 border-t border-border-subtle">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <SectionLabel n={5} />
+            <SectionLabel n={6} />
             <h2 className="text-2xl sm:text-3xl font-bold">
               Measured, not promised
             </h2>
             <p className="text-text-muted text-sm mt-2">
-              All numbers from real API calls. Independent LLM judge. N=15 CSP
-              runs.
+              All numbers from real API calls verified by independent LLM judge. N=15 CSP runs.
             </p>
           </div>
 
@@ -491,12 +575,52 @@ export function Landing() {
       </section>
 
       {/* ============================================================ */}
-      {/* [6/8] WHO IT'S FOR                                           */}
+      {/* [7/10] MARKET VALIDATION                                     */}
       {/* ============================================================ */}
       <section className="py-20 px-6 border-t border-border-subtle">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <SectionLabel n={6} />
+            <SectionLabel n={7} />
+            <h2 className="text-2xl sm:text-3xl font-bold">
+              The market agrees
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {MARKET_STATS.map((stat) => (
+              <div
+                key={stat.metric}
+                className="p-6 rounded-xl bg-bg-card border border-border-subtle text-center flex flex-col"
+              >
+                <TrendingUp className="w-5 h-5 text-accent mx-auto mb-4" />
+                <div className="text-xl sm:text-2xl font-bold text-text-primary mb-1">
+                  {stat.value}
+                </div>
+                <div className="text-sm text-text-secondary flex-1 mb-3">
+                  {stat.metric}
+                </div>
+                <a
+                  href={stat.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-1 text-[10px] text-text-muted hover:text-text-secondary transition-colors no-underline"
+                >
+                  {stat.source}
+                  <ExternalLink className="w-2.5 h-2.5" />
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* [8/10] WHO IT'S FOR                                          */}
+      {/* ============================================================ */}
+      <section className="py-20 px-6 border-t border-border-subtle">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <SectionLabel n={8} />
             <h2 className="text-2xl sm:text-3xl font-bold">
               Built for people who use AI agents daily
             </h2>
@@ -545,12 +669,12 @@ export function Landing() {
       </section>
 
       {/* ============================================================ */}
-      {/* [7/8] UNDER THE HOOD                                         */}
+      {/* [9/10] UNDER THE HOOD                                        */}
       {/* ============================================================ */}
       <section className="py-20 px-6 border-t border-border-subtle">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <SectionLabel n={7} />
+            <SectionLabel n={9} />
             <h2 className="text-2xl sm:text-3xl font-bold">Under the hood</h2>
           </div>
 
@@ -629,11 +753,11 @@ export function Landing() {
       </section>
 
       {/* ============================================================ */}
-      {/* [8/8] TRY IT                                                 */}
+      {/* [10/10] TRY IT                                               */}
       {/* ============================================================ */}
       <section id="start" className="py-20 px-6 border-t border-border-subtle">
         <div className="max-w-3xl mx-auto text-center">
-          <SectionLabel n={8} />
+          <SectionLabel n={10} />
           <h2 className="text-2xl sm:text-3xl font-bold mb-2">
             Stop correcting. Start shipping.
           </h2>
