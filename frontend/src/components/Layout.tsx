@@ -1,16 +1,17 @@
 import { Outlet, Link, useLocation } from 'react-router-dom'
-import { LayoutDashboard, Map, History, Users, Settings, Terminal } from 'lucide-react'
+import { LayoutDashboard, GitBranch, ShieldCheck, Eye, BarChart3, GitCompareArrows, Settings, Terminal } from 'lucide-react'
 
 const nav = [
   { to: '/dashboard', label: 'QA Results', icon: LayoutDashboard },
-  { to: '/dashboard?tab=sitemap', label: 'Site Map', icon: Map },
-  { to: '/dashboard?tab=history', label: 'History', icon: History },
-  { to: '/dashboard?tab=team', label: 'Team', icon: Users },
+  { to: '/workflows', label: 'Workflows', icon: GitBranch },
+  { to: '/judge', label: 'Judge', icon: ShieldCheck },
+  { to: '/anatomy', label: 'Run Anatomy', icon: Eye },
+  { to: '/benchmark', label: 'Benchmark', icon: BarChart3 },
+  { to: '/compare', label: 'Compare', icon: GitCompareArrows },
 ]
 
 export function Layout() {
-  const { pathname, search } = useLocation()
-  const full = pathname + search
+  const { pathname } = useLocation()
 
   return (
     <div className="flex min-h-screen">
@@ -21,7 +22,7 @@ export function Layout() {
         </Link>
         <nav className="flex-1 px-2 space-y-0.5">
           {nav.map(({ to, label, icon: Icon }) => {
-            const active = full === to || (to === '/dashboard' && pathname === '/dashboard' && !search)
+            const active = pathname === to
             return (
               <Link
                 key={to}

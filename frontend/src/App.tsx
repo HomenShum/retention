@@ -1,6 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Landing } from './pages/Landing'
 import { Dashboard } from './pages/Dashboard'
+import { Workflows } from './pages/Workflows'
+import { Judge } from './pages/Judge'
+import { Anatomy } from './pages/Anatomy'
+import { Benchmark } from './pages/Benchmark'
+import { Compare } from './pages/Compare'
 import { Layout } from './components/Layout'
 
 export default function App() {
@@ -10,6 +15,11 @@ export default function App() {
         <Route path="/" element={<Landing />} />
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/workflows" element={<Workflows />} />
+          <Route path="/judge" element={<Judge />} />
+          <Route path="/anatomy" element={<Anatomy />} />
+          <Route path="/benchmark" element={<Benchmark />} />
+          <Route path="/compare" element={<Compare />} />
         </Route>
       </Routes>
     </BrowserRouter>
