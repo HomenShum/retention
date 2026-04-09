@@ -42,7 +42,7 @@ Any MCP-compatible agent (Claude Code, Cursor, Devin, OpenClaw) can connect with
       "command": "python3",
       "args": ["~/.retention/proxy.py"],
       "env": {
-        "TA_STUDIO_URL": "https://YOUR_TA_BACKEND",
+        "RETENTION_URL": "https://YOUR_TA_BACKEND",
         "RETENTION_MCP_TOKEN": "your-token"
       }
     }
@@ -276,14 +276,14 @@ import json
 import httpx
 from agents import Agent, Runner, function_tool
 
-TA_STUDIO_URL = "https://YOUR_TA_BACKEND"
+RETENTION_URL = "https://YOUR_TA_BACKEND"
 TA_TOKEN = "your-token"
 
 async def _call_ta(tool: str, **kwargs) -> dict:
     """Call a retention.sh tool via REST API."""
     async with httpx.AsyncClient(timeout=300) as client:
         resp = await client.post(
-            f"{TA_STUDIO_URL}/mcp/tools/call",
+            f"{RETENTION_URL}/mcp/tools/call",
             headers={"Authorization": f"Bearer {TA_TOKEN}"},
             json={"tool": tool, "arguments": kwargs},
         )

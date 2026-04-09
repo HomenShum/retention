@@ -1552,7 +1552,7 @@ async def mcp_setup(request: Request):
                 "command": "python3",
                 "args": ["~/.retention/proxy.py"],
                 "env": {
-                    "TA_STUDIO_URL": server_url,
+                    "RETENTION_URL": server_url,
                     "RETENTION_MCP_TOKEN": token,
                 },
             }
@@ -1628,7 +1628,7 @@ d.setdefault('mcpServers', {{}})['retention'] = {{
     'command': 'python3',
     'args': [os.path.expanduser('~/.retention/proxy.py')],
     'env': {{
-        'TA_STUDIO_URL': '{server_url}',
+        'RETENTION_URL': '{server_url}',
         'RETENTION_MCP_TOKEN': '{token}'
     }}
 }}
@@ -1738,7 +1738,7 @@ d.setdefault('mcpServers', {{}})['retention'] = {{
     'command': 'python3',
     'args': [os.path.expanduser('~/.retention/proxy.py')],
     'env': {{
-        'TA_STUDIO_URL': '{server_url}',
+        'RETENTION_URL': '{server_url}',
         'RETENTION_MCP_TOKEN': '$TOKEN'
     }}
 }}
@@ -1844,7 +1844,7 @@ $config = @{{
             command = "python"
             args = @($proxyPath)
             env = @{{
-                TA_STUDIO_URL = "{server_url}"
+                RETENTION_URL = "{server_url}"
                 RETENTION_MCP_TOKEN = $token
             }}
         }}
@@ -1920,7 +1920,7 @@ ACTION: Ask the user for their app URL, then call ta.run_web_flow to start QA te
 NOTE: If the URL is localhost, the proxy connects outbound via WebSocket so retention.sh can reach it.
 """
 
-    instructions = f"""TA_STUDIO_AGENT_SETUP_V2
+    instructions = f"""RETENTION_AGENT_SETUP_V2
 ========================
 retention.sh — AI-powered QA automation for mobile and web apps.
 Your agent connects to retention.sh's hosted infrastructure via a lightweight MCP proxy.
@@ -1960,7 +1960,7 @@ import json, os
 config = {{'mcpServers': {{'retention': {{
     'command': 'python3',
     'args': [os.path.expanduser('~/.retention/proxy.py')],
-    'env': {{'TA_STUDIO_URL': '{backend_url}', 'RETENTION_MCP_TOKEN': 'TOKEN_FROM_STEP_1'}}
+    'env': {{'RETENTION_URL': '{backend_url}', 'RETENTION_MCP_TOKEN': 'TOKEN_FROM_STEP_1'}}
 }}}}}}
 json.dump(config, open('{mcp_file}', 'w'), indent=2)
 print('Wrote {mcp_file}')

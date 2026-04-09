@@ -161,7 +161,7 @@ def _clean_room_install(email: str, platform: str) -> Dict[str, Any]:
             proc.returncode == 0
             and config_exists
             and proxy_exists
-            and env_block.get("TA_STUDIO_URL") == BACKEND_URL
+            and env_block.get("RETENTION_URL") == BACKEND_URL
             and bool(config_token)
             and bool(args)
             and str(args[0]).endswith("/.retention/proxy.py")
@@ -174,7 +174,7 @@ def _clean_room_install(email: str, platform: str) -> Dict[str, Any]:
             "config_exists": config_exists,
             "proxy_exists": proxy_exists,
             "proxy_path": str(proxy_path),
-            "retention_url": env_block.get("TA_STUDIO_URL", ""),
+            "retention_url": env_block.get("RETENTION_URL", ""),
             "token_preview": _redact_token(config_token),
             "args": args,
         }

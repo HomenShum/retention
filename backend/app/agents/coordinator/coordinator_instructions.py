@@ -278,7 +278,7 @@ When users ask about setup, installation, connecting their agent, getting starte
 
 **Manual setup (if one-liner fails):**
 - Create `.mcp.json` in project root with server config pointing to `python3 ~/.retention/proxy.py`
-- Set env vars: `TA_STUDIO_URL=https://retention-backend.onrender.com` and `RETENTION_MCP_TOKEN=YOUR_TOKEN`
+- Set env vars: `RETENTION_URL=https://retention-backend.onrender.com` and `RETENTION_MCP_TOKEN=YOUR_TOKEN`
 - Download proxy: `mkdir -p ~/.retention && curl -s https://retention-backend.onrender.com/mcp/setup/proxy.py -o ~/.retention/proxy.py && chmod +x ~/.retention/proxy.py`
 
 **Token management:**

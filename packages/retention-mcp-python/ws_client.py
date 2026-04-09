@@ -21,7 +21,7 @@ from typing import Any, Callable, Coroutine, Optional
 
 logger = logging.getLogger(__name__)
 
-# Default server endpoint — overridden by TA_STUDIO_URL env var
+# Default server endpoint — overridden by RETENTION_URL env var
 DEFAULT_SERVER_URL = "wss://retention-backend.onrender.com/ws/agent-relay"
 
 # Reconnect parameters

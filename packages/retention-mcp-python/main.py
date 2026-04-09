@@ -41,7 +41,7 @@ logger = logging.getLogger("retention-mcp")
 
 async def main() -> None:
     """Start the thin relay — connect out to retention.sh server."""
-    server_url = os.getenv("TA_STUDIO_URL", "").rstrip("/")
+    server_url = os.getenv("RETENTION_URL", "").rstrip("/")
     if server_url:
         # Convert HTTP URL to WebSocket URL
         ws_url = server_url.replace("https://", "wss://").replace("http://", "ws://")

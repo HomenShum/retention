@@ -121,7 +121,7 @@ If you prefer to configure manually, add to `~/.claude/mcp.json`:
       "command": "python3",
       "args": ["~/.retention/proxy.py"],
       "env": {
-        "TA_STUDIO_URL": "https://retention-backend.onrender.com",
+        "RETENTION_URL": "https://retention-backend.onrender.com",
         "RETENTION_MCP_TOKEN": ""
       }
     }

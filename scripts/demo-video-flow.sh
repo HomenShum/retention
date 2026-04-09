@@ -77,7 +77,7 @@ wait_for_port() {
 }
 
 # retention.sh hosted endpoint
-TA_STUDIO_URL="${TA_STUDIO_URL:-https://retention-backend.onrender.com}"
+RETENTION_URL="${RETENTION_URL:-https://retention-backend.onrender.com}"
 
 # ───────────────────────────────────────────────────────────────────────────
 # STEP 1: Environment Setup
@@ -178,7 +178,7 @@ MCPEOF
     fi
 
     echo ""
-    echo -e "  ${C_MAGENTA}retention.sh: ${TA_STUDIO_URL}${C_RESET}"
+    echo -e "  ${C_MAGENTA}retention.sh: ${RETENTION_URL}${C_RESET}"
     echo -e "  ${C_MAGENTA}Connection: Outbound WebSocket (no exposed ports)${C_RESET}"
 }
 
@@ -194,7 +194,7 @@ step_3_connect_mcp() {
 
     echo -e "  ${C_BLUE}Install command (one-liner):${C_RESET}"
     echo ""
-    echo -e "    ${C_BOLD}curl -s ${TA_STUDIO_URL}/mcp/setup/install.sh | bash${C_RESET}"
+    echo -e "    ${C_BOLD}curl -s ${RETENTION_URL}/mcp/setup/install.sh | bash${C_RESET}"
     echo ""
 
     echo -e "  ${C_BLUE}Or manual MCP config (~/.claude/mcp.json):${C_RESET}"
@@ -206,7 +206,7 @@ step_3_connect_mcp() {
           "command": "python3",
           "args": ["~/.retention/proxy.py"],
           "env": {
-            "TA_STUDIO_URL": "${TA_STUDIO_URL}",
+            "RETENTION_URL": "${RETENTION_URL}",
             "RETENTION_MCP_TOKEN": ""
           }
         }
@@ -218,7 +218,7 @@ EOF
     # Verify MCP health
     echo -e "  ${C_BLUE}Verifying MCP endpoint...${C_RESET}"
     local health
-    health=$(curl -s "${TA_STUDIO_URL}/mcp/health" 2>/dev/null || echo "{}")
+    health=$(curl -s "${RETENTION_URL}/mcp/health" 2>/dev/null || echo "{}")
     if echo "$health" | grep -q "ok"; then
         status "MCP endpoint healthy"
     else
@@ -229,7 +229,7 @@ EOF
     echo ""
     echo -e "  ${C_BLUE}Available MCP tools:${C_RESET}"
     local tools
-    tools=$(curl -s "${TA_STUDIO_URL}/mcp/tools" 2>/dev/null || echo "[]")
+    tools=$(curl -s "${RETENTION_URL}/mcp/tools" 2>/dev/null || echo "[]")
     echo "$tools" | python3 -c "
 import json, sys
 try:
@@ -265,7 +265,7 @@ step_4_run_qa_flow() {
     # Simulate the MCP tool call
     echo -e "  ${C_DIM}Calling retention.sh MCP...${C_RESET}"
     local result
-    result=$(curl -s -X POST "${TA_STUDIO_URL}/mcp/tools/call" \
+    result=$(curl -s -X POST "${RETENTION_URL}/mcp/tools/call" \
         -H "Content-Type: application/json" \
         -d "{
             \"tool\": \"ta.run_web_flow\",
@@ -307,7 +307,7 @@ step_5_collect_evidence() {
     echo ""
 
     local bundle
-    bundle=$(curl -s -X POST "${TA_STUDIO_URL}/mcp/tools/call" \
+    bundle=$(curl -s -X POST "${RETENTION_URL}/mcp/tools/call" \
         -H "Content-Type: application/json" \
         -d "{
             \"tool\": \"ta.collect_trace_bundle\",
@@ -331,7 +331,7 @@ except: print(sys.stdin.read()[:500])
     # Get failure summary
     echo -e "  ${C_BLUE}MCP call: ta.summarize_failure${C_RESET}"
     local summary
-    summary=$(curl -s -X POST "${TA_STUDIO_URL}/mcp/tools/call" \
+    summary=$(curl -s -X POST "${RETENTION_URL}/mcp/tools/call" \
         -H "Content-Type: application/json" \
         -d "{
             \"tool\": \"ta.summarize_failure\",
@@ -372,7 +372,7 @@ step_6_fix_context() {
     echo ""
 
     local fix
-    fix=$(curl -s -X POST "${TA_STUDIO_URL}/mcp/tools/call" \
+    fix=$(curl -s -X POST "${RETENTION_URL}/mcp/tools/call" \
         -H "Content-Type: application/json" \
         -d "{
             \"tool\": \"ta.suggest_fix_context\",
@@ -412,7 +412,7 @@ step_7_verdict() {
     echo ""
 
     local verdict
-    verdict=$(curl -s -X POST "${TA_STUDIO_URL}/mcp/tools/call" \
+    verdict=$(curl -s -X POST "${RETENTION_URL}/mcp/tools/call" \
         -H "Content-Type: application/json" \
         -d "{
             \"tool\": \"ta.emit_verdict\",
@@ -453,7 +453,7 @@ step_8_rerun_compare() {
     echo ""
 
     local compare
-    compare=$(curl -s -X POST "${TA_STUDIO_URL}/mcp/tools/call" \
+    compare=$(curl -s -X POST "${RETENTION_URL}/mcp/tools/call" \
         -H "Content-Type: application/json" \
         -d "{
             \"tool\": \"ta.compare_before_after\",

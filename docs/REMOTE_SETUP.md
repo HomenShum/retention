@@ -44,7 +44,7 @@ If the one-liner doesn't work, create the config manually:
       "command": "python3",
       "args": ["~/.retention/proxy.py"],
       "env": {
-        "TA_STUDIO_URL": "https://retention-backend.onrender.com",
+        "RETENTION_URL": "https://retention-backend.onrender.com",
         "RETENTION_MCP_TOKEN": ""
       }
     }
@@ -60,7 +60,7 @@ If the one-liner doesn't work, create the config manually:
       "command": "python3",
       "args": ["~/.retention/proxy.py"],
       "env": {
-        "TA_STUDIO_URL": "https://retention-backend.onrender.com",
+        "RETENTION_URL": "https://retention-backend.onrender.com",
         "RETENTION_MCP_TOKEN": ""
       },
       "description": "retention.sh QA automation — 45 MCP tools"

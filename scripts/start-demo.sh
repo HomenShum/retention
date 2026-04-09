@@ -76,7 +76,7 @@ echo ""
 echo -e "${BLUE}[2/2] Starting Outbound WebSocket Relay...${NC}"
 cd "$PROJECT_ROOT"
 
-SERVER_URL="${TA_STUDIO_URL:-https://retention-backend.onrender.com}"
+SERVER_URL="${RETENTION_URL:-https://retention-backend.onrender.com}"
 
 echo ""
 echo -e "${GREEN}╔══════════════════════════════════════════════════════════╗${NC}"

@@ -10,7 +10,7 @@ reach your local app. No inbound ports or firewall changes needed.
 
 Setup:
   1. Copy this script to your remote machine
-  2. Set env vars: TA_STUDIO_URL, RETENTION_MCP_TOKEN
+  2. Set env vars: RETENTION_URL, RETENTION_MCP_TOKEN
   3. Add to your Claude Code MCP config:
      {
        "mcpServers": {
@@ -18,7 +18,7 @@ Setup:
            "command": "python3",
            "args": ["/path/to/remote_mcp_proxy.py"],
            "env": {
-             "TA_STUDIO_URL": "https://<your-server>",
+             "RETENTION_URL": "https://<your-server>",
              "RETENTION_MCP_TOKEN": "<token>"
            }
          }
@@ -40,7 +40,7 @@ import time
 import urllib.request
 import urllib.error
 
-BASE_URL = os.environ.get("TA_STUDIO_URL", "").rstrip("/")
+BASE_URL = os.environ.get("RETENTION_URL", "").rstrip("/")
 TOKEN = os.environ.get("RETENTION_MCP_TOKEN", "")
 
 # ---------------------------------------------------------------------------
@@ -398,10 +398,10 @@ def handle_request(msg: dict) -> dict:
 
 def main():
     if not BASE_URL:
-        print("Error: TA_STUDIO_URL environment variable not set", file=sys.stderr)
+        print("Error: RETENTION_URL environment variable not set", file=sys.stderr)
         print("", file=sys.stderr)
         print("Quick setup:", file=sys.stderr)
-        print("  export TA_STUDIO_URL='https://<your-server>'", file=sys.stderr)
+        print("  export RETENTION_URL='https://<your-server>'", file=sys.stderr)
         print("  export RETENTION_MCP_TOKEN='<token>'", file=sys.stderr)
         print("", file=sys.stderr)
         print("Or add to Claude Code MCP config (.mcp.json):", file=sys.stderr)
@@ -411,7 +411,7 @@ def main():
                     "command": "python3",
                     "args": [os.path.abspath(__file__)],
                     "env": {
-                        "TA_STUDIO_URL": "https://<your-server>",
+                        "RETENTION_URL": "https://<your-server>",
                         "RETENTION_MCP_TOKEN": "<token>",
                     },
                 }

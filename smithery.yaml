@@ -35,4 +35,4 @@ server:
   args:
     - "$HOME/.retention/proxy.py"
   env:
-    TA_STUDIO_URL: https://retention-backend.onrender.com
+    RETENTION_URL: https://retention-backend.onrender.com

@@ -99,7 +99,7 @@ Then write the config (replace `/Users/yourname/` with your actual home director
       "command": "python3",
       "args": ["/Users/yourname/.retention/proxy.py"],
       "env": {
-        "TA_STUDIO_URL": "https://retention-backend.onrender.com",
+        "RETENTION_URL": "https://retention-backend.onrender.com",
         "RETENTION_MCP_TOKEN": "YOUR_TOKEN_HERE"
       }
     }
@@ -115,7 +115,7 @@ import json, os
 config = {'mcpServers': {'retention': {
     'command': 'python3',
     'args': [os.path.expanduser('~/.retention/proxy.py')],
-    'env': {'TA_STUDIO_URL': 'https://retention-backend.onrender.com', 'RETENTION_MCP_TOKEN': 'YOUR_TOKEN_HERE'}
+    'env': {'RETENTION_URL': 'https://retention-backend.onrender.com', 'RETENTION_MCP_TOKEN': 'YOUR_TOKEN_HERE'}
 }}}
 json.dump(config, open('.mcp.json', 'w'), indent=2)
 print('Wrote .mcp.json')
@@ -154,7 +154,7 @@ You can verify the proxy works without restarting by sending a JSON-RPC initiali
 
 ```bash
 echo '{"jsonrpc":"2.0","method":"initialize","id":1,"params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"test","version":"1.0"}}}' | \
-  TA_STUDIO_URL="https://retention-backend.onrender.com" RETENTION_MCP_TOKEN="YOUR_TOKEN_HERE" \
+  RETENTION_URL="https://retention-backend.onrender.com" RETENTION_MCP_TOKEN="YOUR_TOKEN_HERE" \
   python3 ~/.retention/proxy.py
 ```
 
@@ -293,7 +293,7 @@ python3 -c "import py_compile, os; py_compile.compile(os.path.expanduser('~/.ret
 
 Or test it end-to-end with env vars:
 ```bash
-echo '{}' | TA_STUDIO_URL="https://retention-backend.onrender.com" RETENTION_MCP_TOKEN="YOUR_TOKEN" python3 ~/.retention/proxy.py 2>&1 | head -5
+echo '{}' | RETENTION_URL="https://retention-backend.onrender.com" RETENTION_MCP_TOKEN="YOUR_TOKEN" python3 ~/.retention/proxy.py 2>&1 | head -5
 ```
 You should see `[ta-proxy] Connected to retention.sh` on stderr.
 

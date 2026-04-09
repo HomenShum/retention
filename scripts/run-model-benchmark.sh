@@ -9,7 +9,7 @@
 #
 set -euo pipefail
 
-BASE_URL="${TA_STUDIO_URL:-http://localhost:8000}"
+BASE_URL="${RETENTION_URL:-http://localhost:8000}"
 TOKEN="${RETENTION_MCP_TOKEN:-$(cat "$(dirname "$0")/../.claude/mcp-token" 2>/dev/null || echo "")}"
 POLL_INTERVAL=5
 
