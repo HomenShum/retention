@@ -14,7 +14,7 @@ import https from "node:https";
 import http from "node:http";
 
 const BACKEND =
-  process.env.RETENTION_BACKEND || "https://retention-backend.onrender.com";
+  process.env.RETENTION_BACKEND || "https://retention-backend.run.app";
 const TOKEN = process.env.RETENTION_MCP_TOKEN || "";
 
 interface Finding {

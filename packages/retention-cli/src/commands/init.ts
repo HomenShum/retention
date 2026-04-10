@@ -42,7 +42,7 @@ function buildConfig(): MCPConfig {
         env: {
           RETENTION_BACKEND:
             process.env.RETENTION_BACKEND ||
-            "https://retention-backend.onrender.com",
+            "https://retention-backend.run.app",
         },
       },
     },

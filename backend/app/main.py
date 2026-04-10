@@ -150,11 +150,13 @@ else:
 	# Add Vercel production domain by default
 	origins = default_origins + [
 		"https://test-studio-xi.vercel.app",
+		"https://retention.sh",
+		"https://www.retention.sh",
 	]
 
 # Starlette CORS supports regex matching for origins.
 # Note: Starlette uses regex fullmatch on the incoming Origin.
-vercel_origin_regex = os.getenv("ALLOWED_ORIGIN_REGEX", r"https://.*\\.vercel\\.app")
+vercel_origin_regex = os.getenv("ALLOWED_ORIGIN_REGEX", r"https://(.*\\.vercel\\.app|.*\\.run\\.app)")
 if vercel_origin_regex.strip() == "":
 	vercel_origin_regex = None
 
