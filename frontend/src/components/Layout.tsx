@@ -1,5 +1,6 @@
 import { Outlet, Link, useLocation } from 'react-router-dom'
-import { LayoutDashboard, GitBranch, ShieldCheck, Eye, BarChart3, GitCompareArrows, Settings, Terminal } from 'lucide-react'
+import { LayoutDashboard, GitBranch, ShieldCheck, Eye, BarChart3, GitCompareArrows, Settings, Terminal, MessageSquare } from 'lucide-react'
+import { useChat } from '../contexts/ChatContext'
 
 const nav = [
   { to: '/dashboard', label: 'QA Results', icon: LayoutDashboard },
@@ -12,6 +13,7 @@ const nav = [
 
 export function Layout() {
   const { pathname } = useLocation()
+  const { togglePanel, isOpen } = useChat()
 
   return (
     <div className="flex min-h-screen">
@@ -39,8 +41,19 @@ export function Layout() {
             )
           })}
         </nav>
-        <div className="p-4 border-t border-border-subtle">
-          <button className="flex items-center gap-2 text-text-muted text-xs hover:text-text-secondary transition-colors">
+        <div className="p-4 border-t border-border-subtle space-y-2">
+          <button
+            onClick={togglePanel}
+            className={`flex items-center gap-2 text-xs transition-colors w-full cursor-pointer bg-transparent border-none p-0 ${
+              isOpen
+                ? 'text-accent'
+                : 'text-text-muted hover:text-text-secondary'
+            }`}
+          >
+            <MessageSquare className="w-3.5 h-3.5" />
+            Ask Agent
+          </button>
+          <button className="flex items-center gap-2 text-text-muted text-xs hover:text-text-secondary transition-colors cursor-pointer bg-transparent border-none p-0 w-full">
             <Settings className="w-3.5 h-3.5" />
             Settings
           </button>

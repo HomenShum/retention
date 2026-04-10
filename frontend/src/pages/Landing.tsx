@@ -25,6 +25,7 @@ import {
 import { useState } from 'react'
 import { SOCIAL_PROOF, FEATURE_LABELS, type SocialProofEntry } from '../lib/social-proof'
 import { COMPETITORS, FEATURE_MATRIX_COLUMNS, MARKET_DATA } from '../lib/competitor-data'
+import { TryItNow } from '../components/TryItNow'
 
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */
@@ -761,19 +762,15 @@ export function Landing() {
           <h2 className="text-2xl sm:text-3xl font-bold mb-2">
             Stop correcting. Start shipping.
           </h2>
-          <p className="text-text-muted text-sm mb-8">
-            60 seconds to install. The agent gets better every run.
+          <p className="text-text-muted text-sm mb-10">
+            Paste a URL and see what your agent missed — no signup, no install.
           </p>
 
-          {/* Install block */}
-          <div className="inline-flex items-center gap-3 px-5 py-3.5 rounded-xl bg-bg-card border border-border-muted font-mono text-sm">
-            <span className="text-accent">$</span>
-            <code className="text-text-primary">{INSTALL_CMD}</code>
-            <CopyButton text={INSTALL_CMD} />
-          </div>
+          {/* TryItNow widget */}
+          <TryItNow />
 
           {/* Provider badges */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-10">
             {PROVIDERS.map((p) => (
               <Badge key={p}>{p}</Badge>
             ))}

@@ -7,23 +7,30 @@ import { Anatomy } from './pages/Anatomy'
 import { Benchmark } from './pages/Benchmark'
 import { Compare } from './pages/Compare'
 import { Proof } from './pages/Proof'
+import { Run } from './pages/Run'
 import { Layout } from './components/Layout'
+import { ChatProvider } from './contexts/ChatContext'
+import { ChatPanel } from './components/ChatPanel'
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/proof" element={<Proof />} />
-        <Route element={<Layout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/workflows" element={<Workflows />} />
-          <Route path="/judge" element={<Judge />} />
-          <Route path="/anatomy" element={<Anatomy />} />
-          <Route path="/benchmark" element={<Benchmark />} />
-          <Route path="/compare" element={<Compare />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <ChatProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/proof" element={<Proof />} />
+          <Route path="/run/:id" element={<Run />} />
+          <Route element={<Layout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/workflows" element={<Workflows />} />
+            <Route path="/judge" element={<Judge />} />
+            <Route path="/anatomy" element={<Anatomy />} />
+            <Route path="/benchmark" element={<Benchmark />} />
+            <Route path="/compare" element={<Compare />} />
+          </Route>
+        </Routes>
+        <ChatPanel />
+      </BrowserRouter>
+    </ChatProvider>
   )
 }

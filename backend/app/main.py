@@ -446,6 +446,8 @@ if figma_access_token:
 else:
     figma_router.set_figma_service(None)
 
+from app.api import chat_routes as chat_router
+app.include_router(chat_router.router)
 app.include_router(health_router.router)
 app.include_router(vector_search_router.router)
 app.include_router(ai_agent_router.router)
