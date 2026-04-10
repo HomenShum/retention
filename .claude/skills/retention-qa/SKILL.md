@@ -15,7 +15,7 @@ CRAWL → FINDINGS → FIX → RE-CRAWL → SAVINGS → REPEAT
 
 ### Step 1: Crawl
 ```
-ta.crawl.url(url='https://user-app.com')
+retention.crawl.url(url='https://user-app.com')
 ```
 Returns: screenshots, interactive elements, JS errors, rendering issues, a11y gaps.
 
@@ -33,7 +33,7 @@ For each finding, suggest:
 
 ### Step 4: Re-crawl After Fix
 ```
-ta.crawl.url(url='https://user-app.com')
+retention.crawl.url(url='https://user-app.com')
 ```
 This re-crawl uses the saved trajectory from Step 1 — it's cheaper because the navigation path is already known.
 

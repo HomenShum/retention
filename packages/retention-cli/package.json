@@ -1,7 +1,7 @@
 {
   "name": "retention",
   "version": "0.1.0",
-  "description": "See your agent spend in 30 seconds. Reads Claude Code logs, detects waste, estimates savings.",
+  "description": "retention.sh CLI — scan any URL for QA issues, analyze agent spend, generate MCP configs.",
   "bin": {
     "retention": "./dist/cli.js"
   },

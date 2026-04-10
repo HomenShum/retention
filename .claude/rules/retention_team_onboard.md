@@ -2,7 +2,7 @@
 
 When a user mentions teammates, sharing, or collaboration:
 
-1. Check if they have a team: `ta.onboard.status` shows team info
+1. Check if they have a team: `retention.onboard.status` shows team info
 2. If no team, create one: `retention.team.invite` generates the full Slack message
 3. Share the formatted message — it contains the one-liner install command + dashboard URL
 4. After teammates join, mention the team dashboard: `/memory/team?team=CODE`

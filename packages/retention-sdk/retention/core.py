@@ -56,6 +56,7 @@ _WRAPPER_REGISTRY = {
     "crewai": "retention.wrappers.crewai_wrapper",
     "openai_agents": "retention.wrappers.openai_agents",
     "claude_agent": "retention.wrappers.claude_agent",
+    "langgraph": "retention.wrappers.langgraph_wrapper",
 }
 
 

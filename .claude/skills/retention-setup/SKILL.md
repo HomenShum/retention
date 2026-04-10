@@ -10,7 +10,7 @@ One-command onboarding for retention.sh QA memory tools.
 ## Flow
 
 1. **Check prerequisites**
-   Run `ta.onboard.status` to see what's working and what's missing.
+   Run `retention.onboard.status` to see what's working and what's missing.
 
 2. **Install if needed**
    If MCP tools aren't connected, run the installer:
@@ -22,7 +22,7 @@ One-command onboarding for retention.sh QA memory tools.
 3. **First crawl**
    Ask the user for their app URL (localhost or deployed), then:
    ```
-   ta.crawl.url(url='https://their-app.com')
+   retention.crawl.url(url='https://their-app.com')
    ```
 
 4. **Show findings**
@@ -38,7 +38,7 @@ One-command onboarding for retention.sh QA memory tools.
 6. **Re-crawl after fix**
    After the user fixes something:
    ```
-   ta.crawl.url(url='https://their-app.com')
+   retention.crawl.url(url='https://their-app.com')
    ```
    Show that the re-crawl used trajectory replay and was cheaper.
 
