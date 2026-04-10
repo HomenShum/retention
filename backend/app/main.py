@@ -863,6 +863,12 @@ app.include_router(remote_control_router.router)
 from .api import telegram_routes as telegram_router
 app.include_router(telegram_router.router)
 
+from .api import auth_routes as auth_router
+app.include_router(auth_router.router)
+
+from .api import admin_routes as admin_router
+app.include_router(admin_router.router)
+
 
 # ── WebSocket: Live Playwright browser stream ─────────────────
 

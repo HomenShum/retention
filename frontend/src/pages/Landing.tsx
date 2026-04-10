@@ -163,14 +163,23 @@ export function Landing() {
             <a href="#proof" className="hover:text-text-primary transition-colors no-underline">
               Proof
             </a>
-            <a href="#start" className="hover:text-text-primary transition-colors no-underline">
-              Try it
-            </a>
+            <Link
+              to="/pricing"
+              className="hover:text-text-primary transition-colors no-underline"
+            >
+              Pricing
+            </Link>
             <Link
               to="/dashboard"
-              className="px-3 py-1.5 rounded-lg bg-accent text-black font-medium hover:bg-accent-muted transition-colors no-underline text-sm"
+              className="hover:text-text-primary transition-colors no-underline"
             >
               Dashboard
+            </Link>
+            <Link
+              to="/auth?tab=signin"
+              className="px-3 py-1.5 rounded-lg bg-accent text-black font-medium hover:bg-accent-muted transition-colors no-underline text-sm"
+            >
+              Sign In
             </Link>
           </nav>
         </div>
@@ -787,6 +796,12 @@ export function Landing() {
               GitHub
             </a>
             <Link
+              to="/pricing"
+              className="text-text-secondary hover:text-text-primary transition-colors no-underline"
+            >
+              Pricing
+            </Link>
+            <Link
               to="/dashboard"
               className="text-text-secondary hover:text-text-primary transition-colors no-underline"
             >
@@ -819,6 +834,12 @@ export function Landing() {
             >
               GitHub
             </a>
+            <Link
+              to="/pricing"
+              className="hover:text-text-secondary transition-colors no-underline"
+            >
+              Pricing
+            </Link>
             <Link
               to="/dashboard"
               className="hover:text-text-secondary transition-colors no-underline"

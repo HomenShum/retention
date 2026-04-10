@@ -1,6 +1,7 @@
 import { Outlet, Link, useLocation } from 'react-router-dom'
-import { LayoutDashboard, GitBranch, ShieldCheck, Eye, BarChart3, GitCompareArrows, Settings, Terminal, MessageSquare } from 'lucide-react'
+import { LayoutDashboard, GitBranch, ShieldCheck, Eye, BarChart3, GitCompareArrows, Settings, Terminal, MessageSquare, Shield, LogOut, User } from 'lucide-react'
 import { useChat } from '../contexts/ChatContext'
+import { useAuth } from '../contexts/AuthContext'
 
 const nav = [
   { to: '/dashboard', label: 'QA Results', icon: LayoutDashboard },
@@ -14,6 +15,8 @@ const nav = [
 export function Layout() {
   const { pathname } = useLocation()
   const { togglePanel, isOpen } = useChat()
+  const { user, isAuthenticated, logout } = useAuth()
+  const isAdmin = user?.role === 'admin' || user?.email?.startsWith('hshum@')
 
   return (
     <div className="flex min-h-screen">
@@ -57,6 +60,36 @@ export function Layout() {
             <Settings className="w-3.5 h-3.5" />
             Settings
           </button>
+          {isAdmin && (
+            <Link
+              to="/admin"
+              className={`flex items-center gap-2 text-xs no-underline transition-colors ${
+                pathname === '/admin'
+                  ? 'text-danger'
+                  : 'text-text-muted hover:text-text-secondary'
+              }`}
+            >
+              <Shield className="w-3.5 h-3.5" />
+              Admin
+            </Link>
+          )}
+          {isAuthenticated ? (
+            <button
+              onClick={logout}
+              className="flex items-center gap-2 text-text-muted text-xs hover:text-text-secondary transition-colors cursor-pointer bg-transparent border-none p-0 w-full"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              Sign Out
+            </button>
+          ) : (
+            <Link
+              to="/auth?tab=signin"
+              className="flex items-center gap-2 text-text-muted text-xs hover:text-text-secondary transition-colors no-underline"
+            >
+              <User className="w-3.5 h-3.5" />
+              Sign In
+            </Link>
+          )}
         </div>
       </aside>
       <main className="flex-1 overflow-auto">
